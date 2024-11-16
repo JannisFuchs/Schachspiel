@@ -3,9 +3,14 @@
  */
 package de.dhbw.schachspiel;
 
-import java.io.IOException;
-
 public class App {
+  public static final String ANSI_WHITE_BACKGROUND = "\u001B[48;2;255;255;255m";
+  public static final String ANSI_BlACK_BACKGROUND = "\u001B[48;2;77;51;25m";
+  public static final String ANSI_BLACK = "\u001B[30m";
+
+  static String whitePieces = "♖♘♗♕♔♗♘♖";
+  static String blackPieces = "♚♛♜♝♞♟";
+
   public int add(int a, int b) {
     return a + b;
   }
@@ -15,7 +20,9 @@ public class App {
   }
 
   public static void main(String[] args) {
-    System.out.println(new App().getGreeting());
+    System.out.println(ANSI_WHITE_BACKGROUND + ANSI_BLACK + new App().getGreeting());
+    System.out.println(whitePieces);
+    System.out.println(ANSI_BlACK_BACKGROUND + blackPieces);
   }
 
 }
