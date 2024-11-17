@@ -1,9 +1,8 @@
 package de.dhbw.schachspiel.Interfaces;
 
 public interface AbstractGame {
-  void addPlayer(AbstractPlayer player);
 
-  void init(int numberOfPlayers);
+  void init();
 
   boolean checkForLegalMove();
 

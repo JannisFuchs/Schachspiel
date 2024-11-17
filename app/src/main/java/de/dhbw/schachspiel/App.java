@@ -3,11 +3,9 @@
  */
 package de.dhbw.schachspiel;
 
-public class App {
-  public static final String ANSI_WHITE_BACKGROUND = "\u001B[48;2;255;255;255m";
-  public static final String ANSI_BlACK_BACKGROUND = "\u001B[48;2;77;51;25m";
-  public static final String ANSI_BLACK = "\u001B[30m";
+import de.dhbw.schachspiel.Classes.Color;
 
+public class App {
   static String whitePieces = "♖♘♗♕♔♗♘♖";
   static String blackPieces = "♚♛♜♝♞♟";
 
@@ -20,9 +18,10 @@ public class App {
   }
 
   public static void main(String[] args) {
-    System.out.println(ANSI_WHITE_BACKGROUND + ANSI_BLACK + new App().getGreeting());
-    System.out.println(whitePieces);
-    System.out.println(ANSI_BlACK_BACKGROUND + blackPieces);
+
+    System.out.println(Color.BLACK.backGround + Color.BLACK.foreGround + blackPieces);
+    System.out.println(Color.WHITE.backGround + Color.WHITE.foreGround + blackPieces);
+
   }
 
 }

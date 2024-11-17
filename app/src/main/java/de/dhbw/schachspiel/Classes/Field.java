@@ -7,8 +7,5 @@ public class Field {
 
   public int X;
   public int Y;
-  public color c;
-  public enum color {
-    BLACK, WHITE
-  }
+  public Color c;
 }

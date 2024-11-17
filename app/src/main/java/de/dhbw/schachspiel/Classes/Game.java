@@ -1,22 +1,14 @@
 package de.dhbw.schachspiel.Classes;
 
 import de.dhbw.schachspiel.Interfaces.AbstractGame;
-import de.dhbw.schachspiel.Interfaces.AbstractPlayer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Game implements AbstractGame {
-  List<AbstractPlayer> players;
   int currentPlayer = 0;
-
+  Player[] players = new Player[2];
   @Override
-  public void init(int numberOfPlayers) {
-    players = new ArrayList<>();
-    for (int i = 0; i < numberOfPlayers; i++) {
-      addPlayer(new Player());
-    }
-
+  public void init() {
+    players[0] = new Player();
+    players[1] = new Player();
   }
 
   @Override
@@ -34,8 +26,4 @@ public class Game implements AbstractGame {
     return false;
   }
 
-  @Override
-  public void addPlayer(AbstractPlayer player) {
-    players.add(player);
-  }
 }
