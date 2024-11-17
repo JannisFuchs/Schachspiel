@@ -4,24 +4,12 @@
 package de.dhbw.schachspiel;
 
 import de.dhbw.schachspiel.Classes.Color;
+import de.dhbw.schachspiel.Classes.Game;
 
 public class App {
-  static String whitePieces = "♖♘♗♕♔♗♘♖";
-  static String blackPieces = "♚♛♜♝♞♟";
-
-  public int add(int a, int b) {
-    return a + b;
-  }
-
-  public String getGreeting() {
-    return "Hello World!";
-  }
 
   public static void main(String[] args) {
-
-    System.out.println(Color.BLACK.backGround + Color.BLACK.foreGround + blackPieces);
-    System.out.println(Color.WHITE.backGround + Color.WHITE.foreGround + blackPieces);
+    new Game();
 
   }
-
 }
