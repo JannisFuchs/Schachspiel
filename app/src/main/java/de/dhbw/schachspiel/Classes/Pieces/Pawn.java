@@ -1,7 +1,7 @@
 package de.dhbw.schachspiel.Classes.Pieces;
 
 import de.dhbw.schachspiel.Classes.Color;
-import de.dhbw.schachspiel.Classes.Position;
+import de.dhbw.schachspiel.Classes.Field;
 import de.dhbw.schachspiel.Interfaces.AbstractPiece;
 
 import java.util.ArrayList;
@@ -10,11 +10,11 @@ import java.util.List;
 public class Pawn implements AbstractPiece {
     private Color color;
     @Override
-    public List<Position> getStartingPosition() {
-        List<Position> result = new ArrayList<>();
+    public List<Field> getStartingPosition() {
+        List<Field> result = new ArrayList<>();
         for (int i = 0; i < 8; i++) {
-            result.add(new Position(1, i));
-            result.add(new Position(6, i));
+            result.add(new Field(1, i));
+            result.add(new Field(6, i));
         }
         return result;
     }

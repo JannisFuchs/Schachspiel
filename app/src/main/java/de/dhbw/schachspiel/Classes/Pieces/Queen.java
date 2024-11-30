@@ -1,7 +1,7 @@
 package de.dhbw.schachspiel.Classes.Pieces;
 
 import de.dhbw.schachspiel.Classes.Color;
-import de.dhbw.schachspiel.Classes.Position;
+import de.dhbw.schachspiel.Classes.Field;
 import de.dhbw.schachspiel.Interfaces.AbstractPiece;
 
 import java.util.List;
@@ -14,10 +14,10 @@ public class Queen implements AbstractPiece {
     }
 
     @Override
-    public List<Position> getStartingPosition() {
+    public List<Field> getStartingPosition() {
         return List.of(
-                new Position(0, 3),
-                new Position(7, 3)
+                new Field(0, 3),
+                new Field(7, 3)
         );
     }
 

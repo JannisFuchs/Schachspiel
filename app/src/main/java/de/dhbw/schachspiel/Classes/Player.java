@@ -9,7 +9,7 @@ public class Player implements AbstractPlayer {
   public enum PlayerColor {
     BLACK, WHITE
   }
-
+  private Color color;
   @Override
   public Move readMove() {
     Scanner s = new Scanner(System.in);
@@ -17,8 +17,8 @@ public class Player implements AbstractPlayer {
     String move = s.nextLine();
     s.close();
     try {
-      return new Move(move);
-    } catch (Move.IllegalMoveExcetion e) {
+      return new Move(move,color);
+    } catch (Move.IllegalMoveException e) {
       System.out.println(e.getMessage());
       return readMove();
     }

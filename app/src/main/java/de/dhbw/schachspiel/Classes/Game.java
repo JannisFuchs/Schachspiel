@@ -1,6 +1,5 @@
 package de.dhbw.schachspiel.Classes;
 
-import de.dhbw.schachspiel.Classes.Pieces.None;
 import de.dhbw.schachspiel.Classes.Pieces.PieceFactory;
 import de.dhbw.schachspiel.Interfaces.AbstractGame;
 import de.dhbw.schachspiel.Interfaces.AbstractPiece;
@@ -24,7 +23,7 @@ public class Game implements AbstractGame {
     for (int i = 0; i < 8; i++) {
       Color pieceColor = i < 2 ? Color.WHITE : Color.BLACK;
       for (int j = 0; j < 8; j++) {
-        board[i][j] = PieceFactory.createPiece(new Position(i, j),pieceColor);
+        board[i][j] = PieceFactory.createPieceFromField(new Field(i, j),pieceColor);
       }
     }
     return board;
