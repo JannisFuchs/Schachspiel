@@ -3,8 +3,7 @@
  */
 package de.dhbw.schachspiel;
 
-import de.dhbw.schachspiel.Classes.Color;
-import de.dhbw.schachspiel.Classes.Game;
+import de.dhbw.schachspiel.classes.Game;
 
 public class App {
 

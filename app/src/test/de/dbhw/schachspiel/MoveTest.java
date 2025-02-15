@@ -3,11 +3,11 @@
  */
 package de.dbhw.schachspiel;
 
-import de.dhbw.schachspiel.Classes.Color;
-import de.dhbw.schachspiel.Classes.Field;
-import de.dhbw.schachspiel.Classes.Move;
-import de.dhbw.schachspiel.Classes.Pieces.Pawn;
-import de.dhbw.schachspiel.Classes.Pieces.Rook;
+import de.dhbw.schachspiel.classes.Color;
+import de.dhbw.schachspiel.classes.Field;
+import de.dhbw.schachspiel.classes.Move;
+import de.dhbw.schachspiel.classes.pieces.Pawn;
+import de.dhbw.schachspiel.classes.pieces.Rook;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
