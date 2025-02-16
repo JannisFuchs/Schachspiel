@@ -6,10 +6,11 @@ import de.dhbw.schachspiel.interfaces.AbstractPlayer;
 import java.util.Scanner;
 
 public class Player implements AbstractPlayer {
-  public enum PlayerColor {
-    BLACK, WHITE
+  
+  private final Color color;
+  public Player(Color color) {
+    this.color = color;
   }
-  private Color color;
   @Override
   public Move readMove() {
     Scanner s = new Scanner(System.in);

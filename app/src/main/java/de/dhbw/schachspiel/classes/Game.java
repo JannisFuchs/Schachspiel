@@ -1,5 +1,6 @@
 package de.dhbw.schachspiel.classes;
 
+import de.dhbw.schachspiel.classes.pieces.Pawn;
 import de.dhbw.schachspiel.classes.pieces.PieceFactory;
 import de.dhbw.schachspiel.interfaces.AbstractPiece;
 
@@ -8,8 +9,8 @@ public class Game {
   Player[] players = new Player[2];
 
 	public Game() {
-    players[0] = new Player();
-    players[1] = new Player();
+    players[0] = new Player(Color.WHITE);
+    players[1] = new Player(Color.BLACK);
     currentPlayer = 0;
     AbstractPiece[][] board = createBoard();
     Visualisation.drawBoard(board);
@@ -53,8 +54,9 @@ public class Game {
 
   public void makeMove(Move move, AbstractPiece[][] board) throws Move.IllegalMoveException {
     AbstractPiece piece = move.piece;
-    int startRow = move.start.row();
-    int startCol = move.start.column();
+    Field startField = piece.calculateStartField(move,board);
+    int startRow = startField.row();
+    int startCol = startField.column();
     AbstractPiece currentPiece = board[startRow][startCol];
     if(!checkPieceEquality(currentPiece,piece)) throw new Move.IllegalMoveException("Illegal move wrong piece");
     //0 because it defaults to None anyway Color also doesn't matter
@@ -64,7 +66,8 @@ public class Game {
     board[endRow][endCol] = currentPiece;
 
   }
-  public boolean checkPieceEquality(AbstractPiece p1, AbstractPiece p2) {
+
+  private boolean checkPieceEquality(AbstractPiece p1, AbstractPiece p2) {
       return p1.getSymbol() == p2.getSymbol();
   }
   public boolean checkForWin() {
