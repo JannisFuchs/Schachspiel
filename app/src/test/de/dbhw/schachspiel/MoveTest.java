@@ -30,6 +30,6 @@ class MoveTest {
     Assertions.assertInstanceOf(Rook.class, m.piece);
     Field f = new Field(4, 0);
     Assertions.assertEquals(f,m.end);
-    Assertions.assertTrue(m.isCheckmate);
+    Assertions.assertTrue(m.isMate);
   }
 }

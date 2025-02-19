@@ -12,15 +12,14 @@ public class Player implements AbstractPlayer {
     this.color = color;
   }
   @Override
-  public Move readMove() {
-    Scanner s = new Scanner(System.in);
+  public Move readMove(Scanner s) { //dependency injection
 
     String move;
     boolean moveValid = false;
     Move result = null;
     while (!moveValid) {
       try {
-        System.out.println("Enter your move : ");
+        System.out.println(color.name()+" Enter your move : ");
         move = s.nextLine();
         result = new Move(move, color);
         moveValid = true;

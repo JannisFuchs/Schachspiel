@@ -8,4 +8,7 @@ public record Field(int row, int column) {
         }
         return false;
     }
+    public boolean isInValid() {
+        return row < 0 || row > 8 || column < 0 || column > 8;
+    }
 }

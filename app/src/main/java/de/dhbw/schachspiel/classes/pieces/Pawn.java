@@ -53,27 +53,85 @@ public class Pawn implements AbstractPiece {
         }
         if (move.isCapture){
             candidateFields.remove(0);
-            candidateFields.remove(1);
+            candidateFields.remove(0);
+            candidateFields.removeIf(Field::isInValid);
+            if (candidateFields.size()==2)
+            return calculateCapture(move,board,candidateFields.get(0),candidateFields.get(1));
+            else  if (candidateFields.size()==1)
+                return calculateCapture(move,board,candidateFields.get(0));
+            else
+                throw new Move.IllegalMoveException("No candidate fields");
         }
         else{
             candidateFields.remove(2);
             candidateFields.remove(2);
+            candidateFields.removeIf(Field::isInValid);
+            return calculateNormalMove(move, board,candidateFields.get(0),candidateFields.get(1));
         }
-        AbstractPiece firstCandidate = board[candidateFields.get(0).row()][candidateFields.get(0).column()];
-        AbstractPiece secondCandidate = board[candidateFields.get(1).row()][candidateFields.get(1).column()];
-        if (!(firstCandidate instanceof Pawn) && !(secondCandidate instanceof Pawn)){
+}
+private Field calculateCapture(Move move,AbstractPiece[][] board, Field candidateField) throws Move.IllegalMoveException {
+    Field endField = move.end;
+    AbstractPiece target = board[endField.row()][endField.column()];
+    if(target instanceof None) throw new Move.IllegalMoveException("No piece to capture");
+    AbstractPiece c = board[candidateField.row()][candidateField.column()];
+    if(!(c instanceof Pawn)) throw new Move.IllegalMoveException("Wrong piece");
+    if (candidateField.column()==endField.column()&&c.getColor()==move.piece.getColor()){
+        return candidateField;
+    }
+    else{
+        throw new Move.IllegalMoveException("Wrong piece");
+    }
+}
+private Field calculateCapture(Move move, AbstractPiece[][] board,Field candidateField1,Field candidateField2) throws Move.IllegalMoveException {
+    Field endField = move.end;
+    int correctColumn = move.start.column();
+    AbstractPiece enemyPiece = board[endField.row()][endField.column()];
+    if(enemyPiece instanceof None) throw new Move.IllegalMoveException("No piece to capture");
+    AbstractPiece c1 = board[candidateField1.row()][candidateField1.column()];
+    AbstractPiece c2 = board[candidateField2.row()][candidateField2.column()];
+    //the if-statements below always result in a throw or an return so the else is not needed
+    if(!(c1 instanceof Pawn) && !(c2 instanceof Pawn)) throw new Move.IllegalMoveException("Wrong piece");
+    if (c1 instanceof Pawn && !(c2 instanceof Pawn)) {
+        if (move.piece.getColor()==c1.getColor()){
+            return candidateField1;
+        }
+        else{
             throw new Move.IllegalMoveException("Wrong piece");
         }
-        if (firstCandidate instanceof Pawn && !(secondCandidate instanceof Pawn)) {
-            return candidateFields.get(0);
+    }
+    if (!(c1 instanceof Pawn)) {
+        if (move.piece.getColor()==c2.getColor()){
+            return candidateField2;
         }
-        else if (!(firstCandidate instanceof Pawn)) {
-            return candidateFields.get(1);
+        else{
+            throw new Move.IllegalMoveException("Wrong piece");
         }
-        else{ //both Fields have Pawns
-            int correctColumn= move.start.column();
-            if (correctColumn== -1) throw new Move.IllegalMoveException("Wrong piece");
-            if (candidateFields.get(0).column() == candidateFields.get(1).column()) throw new Move.IllegalMoveException("Wrong piece");
-            if (candidateFields.get(0).column() == )
-        }
+    }
+    if (candidateField1.column()==correctColumn&&c1.getColor()==move.piece.getColor()){
+        return candidateField1;
+    }
+    else if (candidateField2.column()==correctColumn&&c2.getColor()==move.piece.getColor()){
+        return candidateField2;
+    }
+    else{
+        throw new Move.IllegalMoveException("Wrong piece");
+    }
+}
+
+private Field calculateNormalMove(Move move, AbstractPiece[][] board, Field movesOneSquare, Field movesTwoSquares) throws Move.IllegalMoveException {
+    Field endField = move.end;
+    AbstractPiece c1 = board[movesOneSquare.row()][movesOneSquare.column()];
+    AbstractPiece c2 = board[ movesTwoSquares.row()][ movesTwoSquares.column()];
+    if(!(c1 instanceof Pawn) && !(c2 instanceof Pawn)) throw new Move.IllegalMoveException("Wrong piece"); //violates DRY criteria might be refactored
+    AbstractPiece target = board[endField.row()][endField.column()];
+    if (!(target instanceof None)) throw new Move.IllegalMoveException("Field is occupied");
+    if(c1 instanceof Pawn && c1.getColor() == move.piece.getColor())
+        return movesOneSquare;
+    if (!(c1 instanceof None)) throw new Move.IllegalMoveException("next Field is occupied");
+    if (c2.getColor() != move.piece.getColor()) throw new Move.IllegalMoveException("Wrong piece");
+    if(c2.getColor()==Color.WHITE && movesTwoSquares.row()==6) return movesTwoSquares;
+    if(c2.getColor()==Color.BLACK && movesTwoSquares.row()==1) return movesTwoSquares;
+    throw new Move.IllegalMoveException("Pawn can only move two squares from starting position");
+    }
+
 }

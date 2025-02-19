@@ -1,10 +1,12 @@
 package de.dhbw.schachspiel.classes;
 
-import de.dhbw.schachspiel.classes.pieces.Pawn;
 import de.dhbw.schachspiel.classes.pieces.PieceFactory;
 import de.dhbw.schachspiel.interfaces.AbstractPiece;
 
+import java.util.Scanner;
+
 public class Game {
+  private static final Scanner SCANNER = new Scanner(System.in);
   int currentPlayer ;
   Player[] players = new Player[2];
 
@@ -14,12 +16,12 @@ public class Game {
     currentPlayer = 0;
     AbstractPiece[][] board = createBoard();
     Visualisation.drawBoard(board);
-    for(int i=0;i<8;i++){
+    for(int i=0;i<50;i++){
       //this is a duplication see Move class
       boolean isValid = false;
       while(!isValid){
         try{
-          Move m = players[currentPlayer].readMove();
+          Move m = players[currentPlayer].readMove(SCANNER);
           makeMove(m, board);
           isValid = true;
         }
@@ -58,7 +60,7 @@ public class Game {
     int startRow = startField.row();
     int startCol = startField.column();
     AbstractPiece currentPiece = board[startRow][startCol];
-    if(!checkPieceEquality(currentPiece,piece)) throw new Move.IllegalMoveException("Illegal move wrong piece");
+    if(!checkPieceEquality(currentPiece,piece)) throw new Move.IllegalMoveException("wrong piece");
     //0 because it defaults to None anyway Color also doesn't matter
     board[startRow][startCol] = PieceFactory.createPieceFromLetter('0',Color.RESET);
     int endRow = move.end.row();

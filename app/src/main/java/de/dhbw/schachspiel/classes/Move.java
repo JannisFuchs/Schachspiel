@@ -33,7 +33,7 @@ public class Move {
 
     Matcher matcher = Pattern.compile("([RBQKN])?([a-h])?([1-8])?(x)?([a-h])([1-8])([+#])?").matcher(stringRepresentation);
     if (!matcher.matches()) {
-      throw new IllegalMoveException("Illegal move incorrect Notation");
+      throw new IllegalMoveException("incorrect Notation");
     }
     String pieceLabel = matcher.group(1);
     if (pieceLabel == null)
@@ -72,7 +72,8 @@ public class Move {
   }
   public static class IllegalMoveException extends Exception {
     public IllegalMoveException(String message) {
-      super(message);
+
+      super("Illegal move : "+message);
     }
   }
 
