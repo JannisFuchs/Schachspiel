@@ -12,4 +12,9 @@ public enum Color {
 		this.backGround = backGround;
 		this.foreGround = foreGround;
 	}
+	public static Color getOtherColor(Color color) {
+		if (color == BLACK) return WHITE;
+		if (color == WHITE) return BLACK;
+		return RESET;
+	}
 }

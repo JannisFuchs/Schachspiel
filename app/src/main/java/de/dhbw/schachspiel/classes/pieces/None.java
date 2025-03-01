@@ -5,24 +5,17 @@ import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.Move;
 import de.dhbw.schachspiel.interfaces.AbstractPiece;
 
-public class None implements AbstractPiece {
-    private Color color;
+public record None (Color c) implements AbstractPiece {
+
 
     @Override
     public char getSymbol() {
         return ' ';
     }
 
-
-
     @Override
     public Color getColor() {
-        return color;
-    }
-
-    @Override
-    public void setColor(Color color) {
-        this.color = Color.RESET;
+        return c;
     }
 
     @Override

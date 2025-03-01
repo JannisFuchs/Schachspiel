@@ -5,8 +5,8 @@ import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.Move;
 import de.dhbw.schachspiel.interfaces.AbstractPiece;
 
-public class King implements AbstractPiece {
-    private Color color;
+public record King (Color c) implements AbstractPiece {
+
 
     @Override
     public char getSymbol() {
@@ -15,14 +15,9 @@ public class King implements AbstractPiece {
 
     @Override
     public Color getColor() {
-        return color;
+        return c;
     }
 
-    @Override
-    public void setColor(Color color) {
-
-        this.color = color;
-    }
 
     @Override
     public Field calculateStartField(Move move, AbstractPiece[][] board) {

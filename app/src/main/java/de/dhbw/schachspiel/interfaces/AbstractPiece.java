@@ -7,10 +7,7 @@ import de.dhbw.schachspiel.classes.Move;
 public interface AbstractPiece {
   // gets the piece as a unicode character
   char getSymbol();
-  // gets color of the piece
   Color getColor();
-  // sets the color of the piece
-  void setColor(Color color);
 
   /**
    *

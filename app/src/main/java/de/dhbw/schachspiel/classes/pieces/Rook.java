@@ -5,24 +5,17 @@ import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.Move;
 import de.dhbw.schachspiel.interfaces.AbstractPiece;
 
-public class Rook implements AbstractPiece {
-    private Color color;
+public record Rook (Color c) implements AbstractPiece {
+
 
     @Override
     public char getSymbol() {
         return '♜';
     }
 
-
-
     @Override
     public Color getColor() {
-        return color;
-    }
-
-    @Override
-    public void setColor(Color color) {
-this.color = color;
+        return c;
     }
 
     @Override

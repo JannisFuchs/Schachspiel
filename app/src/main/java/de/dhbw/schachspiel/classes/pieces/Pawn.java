@@ -8,26 +8,18 @@ import de.dhbw.schachspiel.interfaces.AbstractPiece;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Pawn implements AbstractPiece {
-    private Color color;
-
+public record Pawn (Color c) implements AbstractPiece {
 
     @Override
     public char getSymbol() {
         return '♟';
     }
 
-
-
     @Override
     public Color getColor() {
-        return color;
+        return c;
     }
 
-    @Override
-    public void setColor(Color color) {
-        this.color = color;
-    }
 
     @Override
     public Field calculateStartField(Move move, AbstractPiece[][] board) throws Move.IllegalMoveException {

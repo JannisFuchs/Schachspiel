@@ -10,42 +10,41 @@ public class PieceFactory {
     public static AbstractPiece createPieceFromField(Field p, Color c){
         AbstractPiece piece;
         if (p.row()==1||p.row()==6){
-            piece = new Pawn();
+            piece = new Pawn(c);
         }
         else if (p.row()<6&&p.row()>1){
-            piece = new None();
+            piece = new None(c);
         }
         else if (p.column()==0||p.column()==7){
-            piece = new Rook();
+            piece = new Rook(c);
         }
         else if (p.column()==1||p.column()==6){
-            piece = new Knight();
+            piece = new Knight(c);
         }
         else if (p.column()==2||p.column()==5){
-            piece = new Bishop();
+            piece = new Bishop(c);
         }
         else if (p.column()==3){
-            piece = new Queen();
+            piece = new Queen(c);
         }
         else {
-            piece = new King();
+            piece = new King(c);
         }
-        piece.setColor(c);
+
         return piece;
 
     }
     public static AbstractPiece createPieceFromLetter(char letter, Color c){
         AbstractPiece piece;
 		piece =  switch (letter) {
-			case 'R' -> new Rook();
-			case 'N' -> new Knight();
-			case 'B' -> new Bishop();
-			case 'Q' -> new Queen();
-			case 'K' -> new King();
-			case 'P' -> new Pawn();
-			default -> new None();
+			case 'R' -> new Rook(c);
+			case 'N' -> new Knight(c);
+			case 'B' -> new Bishop(c);
+			case 'Q' -> new Queen(c);
+			case 'K' -> new King(c);
+			case 'P' -> new Pawn(c);
+			default -> new None(c);
 		};
-        piece.setColor(c);
         return piece;
 
     }

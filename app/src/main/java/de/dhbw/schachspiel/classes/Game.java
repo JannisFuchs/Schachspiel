@@ -60,7 +60,7 @@ public class Game {
     int startRow = startField.row();
     int startCol = startField.column();
     AbstractPiece currentPiece = board[startRow][startCol];
-    if(!checkPieceEquality(currentPiece,piece)) throw new Move.IllegalMoveException("wrong piece");
+    if(!currentPiece.equals(piece)) throw new Move.IllegalMoveException("wrong piece");
     //0 because it defaults to None anyway Color also doesn't matter
     board[startRow][startCol] = PieceFactory.createPieceFromLetter('0',Color.RESET);
     int endRow = move.end.row();
@@ -69,11 +69,8 @@ public class Game {
 
   }
 
-  private boolean checkPieceEquality(AbstractPiece p1, AbstractPiece p2) {
-      return p1.getSymbol() == p2.getSymbol();
-  }
   public boolean checkForWin() {
-    return false;
+      return false;
   }
 
 }
