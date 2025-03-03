@@ -28,7 +28,7 @@ public record Pawn (Color c) implements AbstractPiece {
          * 2 from capture
          * 2 from normal moving (pawn can move two square at a time)
          */
-        Field endField = move.end;
+        Field endField = move.target;
         List<Field> candidateFields = new ArrayList<>();
         if (move.piece.getColor() == Color.WHITE) {
 
@@ -62,7 +62,7 @@ public record Pawn (Color c) implements AbstractPiece {
         }
 }
 private Field calculateCapture(Move move,AbstractPiece[][] board, Field candidateField) throws Move.IllegalMoveException {
-    Field endField = move.end;
+    Field endField = move.target;
     AbstractPiece target = board[endField.row()][endField.column()];
     if(target instanceof None) throw new Move.IllegalMoveException("No piece to capture");
     AbstractPiece c = board[candidateField.row()][candidateField.column()];
@@ -75,7 +75,7 @@ private Field calculateCapture(Move move,AbstractPiece[][] board, Field candidat
     }
 }
 private Field calculateCapture(Move move, AbstractPiece[][] board,Field candidateField1,Field candidateField2) throws Move.IllegalMoveException {
-    Field endField = move.end;
+    Field endField = move.target;
     int correctColumn = move.start.column();
     AbstractPiece enemyPiece = board[endField.row()][endField.column()];
     if(enemyPiece instanceof None) throw new Move.IllegalMoveException("No piece to capture");
@@ -111,7 +111,7 @@ private Field calculateCapture(Move move, AbstractPiece[][] board,Field candidat
 }
 
 private Field calculateNormalMove(Move move, AbstractPiece[][] board, Field movesOneSquare, Field movesTwoSquares) throws Move.IllegalMoveException {
-    Field endField = move.end;
+    Field endField = move.target;
     AbstractPiece c1 = board[movesOneSquare.row()][movesOneSquare.column()];
     AbstractPiece c2 = board[ movesTwoSquares.row()][ movesTwoSquares.column()];
     if(!(c1 instanceof Pawn) && !(c2 instanceof Pawn)) throw new Move.IllegalMoveException("Wrong piece"); //violates DRY criteria might be refactored

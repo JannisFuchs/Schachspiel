@@ -6,6 +6,5 @@ import java.util.Scanner;
 
 public interface AbstractPlayer {
     Move readMove(Scanner s);
-    void setMove(AbstractPiece move);
     AbstractPiece getMove();
 }

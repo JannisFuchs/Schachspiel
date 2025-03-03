@@ -9,6 +9,7 @@ public interface AbstractPiece {
   char getSymbol();
   Color getColor();
 
+
   /**
    *
    * @param move the move this piece is about to make

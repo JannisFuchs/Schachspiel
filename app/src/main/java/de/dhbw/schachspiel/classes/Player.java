@@ -31,11 +31,6 @@ public class Player implements AbstractPlayer {
   }
 
   @Override
-  public void setMove(AbstractPiece move) {
-
-  }
-
-  @Override
   public AbstractPiece getMove() {
     return null;
   }

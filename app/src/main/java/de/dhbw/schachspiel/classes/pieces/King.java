@@ -5,6 +5,9 @@ import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.Move;
 import de.dhbw.schachspiel.interfaces.AbstractPiece;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public record King (Color c) implements AbstractPiece {
 
 
@@ -20,7 +23,30 @@ public record King (Color c) implements AbstractPiece {
 
 
     @Override
-    public Field calculateStartField(Move move, AbstractPiece[][] board) {
-        return null;
+    public Field calculateStartField(Move move, AbstractPiece[][] board) throws Move.IllegalMoveException {
+        Field target =  move.target;
+        List<Field> candidateFields = new ArrayList<>();
+
+        candidateFields.add(new Field(target.row(), target.column()+1));
+        candidateFields.add(new Field(target.row(), target.column()-1));
+        candidateFields.add(new Field(target.row()+1, target.column()));
+        candidateFields.add(new Field(target.row()-1, target.column()));
+
+        candidateFields.add(new Field(target.row()+1, target.column()+1));
+        candidateFields.add(new Field(target.row()-1, target.column()+1));
+        candidateFields.add(new Field(target.row()+1, target.column()-1));
+        candidateFields.add(new Field(target.row()-1, target.column()-1));
+
+
+        candidateFields.removeIf(Field::isInValid);
+        for (Field candidateField : candidateFields) {
+            int row = candidateField.row();
+            int column = candidateField.column();
+
+            if (board[row][column].equals(move.piece)) {
+                return candidateField;
+            }
+        }
+        throw new Move.IllegalMoveException("Wrong piece");
     }
 }

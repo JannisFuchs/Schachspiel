@@ -13,3 +13,5 @@
 # Modes optional to implement
 - player vs computer
 - limited time
+# Things to improve grading
+- board read configuration out of a file

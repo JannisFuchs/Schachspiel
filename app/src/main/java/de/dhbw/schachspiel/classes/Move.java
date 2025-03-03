@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class Move {
   public final Field start;
-  public final Field end;
+  public final Field target;
   public final AbstractPiece piece;
   public final boolean isCheck;
   public final boolean isMate;
@@ -55,7 +55,7 @@ public class Move {
 
     int endRow = 8-Integer.parseInt(matcher.group(6));
     int endCol = Columns.valueOf(matcher.group(5).toUpperCase()).ordinal();
-    end = new Field(endRow, endCol );
+    target = new Field(endRow, endCol );
 
     if (Objects.equals(matcher.group(7), "+")){
       isCheck = true;
