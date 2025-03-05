@@ -63,7 +63,7 @@ public class Game {
     AbstractPiece currentPiece = board[startRow][startCol];
     if(!currentPiece.equals(piece)) throw new Move.IllegalMoveException("wrong piece");
     //0 because it defaults to None anyway Color also doesn't matter
-    board[startRow][startCol] = PieceFactory.createPieceFromLetter('0',Color.RESET);
+    board[startRow][startCol] = PieceFactory.createPieceFromType(PieceType.NONE,Color.RESET);
     int endRow = move.target.row();
     int endCol = move.target.column();
     board[endRow][endCol] = currentPiece;

@@ -3,12 +3,13 @@ package de.dhbw.schachspiel.interfaces;
 import de.dhbw.schachspiel.classes.Color;
 import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.Move;
+import de.dhbw.schachspiel.classes.PieceType;
 
 public interface AbstractPiece {
   // gets the piece as a unicode character
   char getSymbol();
   Color getColor();
-
+  PieceType getPieceType();
 
   /**
    *

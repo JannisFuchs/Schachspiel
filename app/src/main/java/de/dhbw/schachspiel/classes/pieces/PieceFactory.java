@@ -2,6 +2,7 @@ package de.dhbw.schachspiel.classes.pieces;
 
 import de.dhbw.schachspiel.classes.Color;
 import de.dhbw.schachspiel.classes.Field;
+import de.dhbw.schachspiel.classes.PieceType;
 import de.dhbw.schachspiel.interfaces.AbstractPiece;
 
 public class PieceFactory {
@@ -34,15 +35,15 @@ public class PieceFactory {
         return piece;
 
     }
-    public static AbstractPiece createPieceFromLetter(char letter, Color c){
+    public static AbstractPiece createPieceFromType(PieceType type, Color c){
         AbstractPiece piece;
-		piece =  switch (letter) {
-			case 'R' -> new Rook(c);
-			case 'N' -> new Knight(c);
-			case 'B' -> new Bishop(c);
-			case 'Q' -> new Queen(c);
-			case 'K' -> new King(c);
-			case 'P' -> new Pawn(c);
+		piece =  switch (type) {
+			case ROOK -> new Rook(c);
+			case KNIGHT -> new Knight(c);
+			case BISHOP -> new Bishop(c);
+			case QUEEN -> new Queen(c);
+			case KING -> new King(c);
+			case PAWN -> new Pawn(c);
 			default -> new None(c);
 		};
         return piece;

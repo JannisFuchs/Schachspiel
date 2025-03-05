@@ -37,9 +37,9 @@ public class Move {
     }
     String pieceLabel = matcher.group(1);
     if (pieceLabel == null)
-      piece = PieceFactory.createPieceFromLetter('P', c);
+      piece = PieceFactory.createPieceFromType(PieceType.PAWN, c);
     else
-      piece = PieceFactory.createPieceFromLetter(pieceLabel.charAt(0), c);
+      piece = PieceFactory.createPieceFromType(PieceType.PieceTypeFromChar(pieceLabel.charAt(0)), c);
     int startRow = -1;
     int startCol = -1;
 

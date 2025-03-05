@@ -5,19 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5a42d11-bd89-495f-b908-2a867175b719" name="Changes" comment="implemented every Move&#10;changed Readme">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Field.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Piece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Move.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Bishop.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/King.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Knight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/None.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/None.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/PieceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/PieceFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Queen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Rook.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/interfaces/AbstractPiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/interfaces/AbstractPiece.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/interfaces/AbstractPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/interfaces/AbstractPlayer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,24 +79,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Schachspiel:app [:app:de.dhbw.schachspiel.App.main()].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Schachspiel:app [:app:de.dhbw.schachspiel.App.main()].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/Classes/pieces" />
@@ -152,6 +152,8 @@
       <workItem from="1740847691427" duration="184000" />
       <workItem from="1740849043699" duration="2044000" />
       <workItem from="1740911975466" duration="13189000" />
+      <workItem from="1741043808074" duration="27000" />
+      <workItem from="1741197642787" duration="3398000" />
     </task>
     <task id="LOCAL-00001" summary="basic stuff is working now but no rules are implemented">
       <option name="closed" value="true" />
@@ -177,7 +179,15 @@
       <option name="project" value="LOCAL" />
       <updated>1740846140571</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="implemented every Move&#10;changed Readme">
+      <option name="closed" value="true" />
+      <created>1741043828295</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1741043828295</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
