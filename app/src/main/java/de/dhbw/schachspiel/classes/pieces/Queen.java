@@ -54,11 +54,11 @@ public record Queen (Color c) implements AbstractPiece {
 
     private boolean isReachable(Field start, Field target, AbstractPiece[][] board) {
         if (start.row() == target.row()) {
-            return Field.isReachableByRow(start, target, board);
+            return target.isReachableByRow(start, board);
         }
         if (start.column() == target.column()) {
-            return Field.isReachableByColumn(start, target, board);
+            return target.isReachableByColumn(start, board);
         }
-        return Field.isReachableByDiagonal(start, target, board);
+        return target.isReachableByDiagonal(start, board);
     }
 }

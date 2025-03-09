@@ -3,6 +3,7 @@ package de.dhbw.schachspiel.classes;
 import de.dhbw.schachspiel.classes.pieces.None;
 import de.dhbw.schachspiel.interfaces.AbstractPiece;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record Field(int row, int column) {
@@ -36,19 +37,19 @@ public record Field(int row, int column) {
     /**
      * target and start field are on the same diagonal
      * @param start starting square from piece
-     * @param target square the piece is trying to reach
      * @param board the given position
      * @return checks if fields between target and start are free
      */
-    public static boolean isReachableByDiagonal(Field start,Field target, AbstractPiece[][] board) {
-        int diffRow = Math.abs(target.row() - start.row());
-        int diffColumn = Math.abs(target.column() - start.column());
+    public boolean isReachableByDiagonal(Field start, AbstractPiece[][] board) {
+        int diffRow = Math.abs(this.row() - start.row());
+        int diffColumn = Math.abs(this.column() - start.column());
+        if (diffColumn != diffRow) {
+            return false;
+        }
         for (int i = 1 ; i < diffRow; i++) {
-            for (int j = 1 ; j < diffColumn; j++) {
-                int nextx = (start.row()<target.row()) ?start.row() + i : start.row()-i;
-                int nexty = (start.column()<target.column()) ?start.column() + i : start.column()-i;
-                if (! (board[nextx][nexty] instanceof None)) return false;
-            }
+            int nextx = (start.row()<this.row()) ?start.row() + i : start.row()-i;
+            int nexty = (start.column()<this.column()) ?start.column() + i : start.column()-i;
+            if (! (board[nextx][nexty] instanceof None)) return false;
         }
         return true;
     }
@@ -56,15 +57,16 @@ public record Field(int row, int column) {
     /**
      * target and start field are on the same row
      * @param start starting square from piece
-     * @param target square the piece is trying to reach
      * @param board the given position
      * @return checks if fields between target and start are free
      */
-    public static boolean isReachableByRow(Field start,Field target, AbstractPiece[][] board) {
-        int diffColumn = Math.abs(target.column() - start.column());
-
+    public boolean isReachableByRow(Field start, AbstractPiece[][] board) {
+        int diffColumn = Math.abs(this.column() - start.column());
+        if(this.row() != start.row()){
+            return false;
+        }
         for(int i = 1; i < diffColumn; i++){
-            int nextColumn = (start.column()<target.column()) ?start.column() + i : start.column()-i;
+            int nextColumn = (start.column()<this.column()) ?start.column() + i : start.column()-i;
             if(!(board[start.row()][nextColumn] instanceof None)) return false;
         }
         return true;
@@ -72,15 +74,16 @@ public record Field(int row, int column) {
     /**
      * target and start field are on the same column
      * @param start starting square from piece
-     * @param target square the piece is trying to reach
      * @param board the given position
      * @return checks if fields between target and start are free
      */
-    public static boolean isReachableByColumn(Field start,Field target, AbstractPiece[][] board) {
-        int diffRow = Math.abs(target.row() - start.row());
-
+    public boolean isReachableByColumn(Field start, AbstractPiece[][] board) {
+        int diffRow = Math.abs(this.row() - start.row());
+        if (this.column != start.column()){
+            return false;
+        }
         for(int i = 1; i < diffRow; i++){
-            int nextRow = (start.row()<target.row()) ?start.row() + i : start.row()-i;
+            int nextRow = (start.row()<this.row()) ?start.row() + i : start.row()-i;
             if(!(board[nextRow][start.column()] instanceof None)) return false;
         }
 
@@ -109,4 +112,5 @@ public record Field(int row, int column) {
     public boolean hasPiece(AbstractPiece piece, AbstractPiece[][] board) {
         return  board[row][column].equals(piece);
     }
+
 }

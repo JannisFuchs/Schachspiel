@@ -4,20 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5a42d11-bd89-495f-b908-2a867175b719" name="Changes" comment="implemented every Move&#10;changed Readme">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Piece.java" afterDir="false" />
+    <list default="true" id="f5a42d11-bd89-495f-b908-2a867175b719" name="Changes" comment="added Piece enum&#10;Pawn needs refactoring">
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/test/schach/MoveTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_1_25,_11_24 AM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_1_25__11_24AM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Move.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Field.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Bishop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/King.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Knight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/None.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/None.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/PieceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/PieceFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Queen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Rook.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/interfaces/AbstractPiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/interfaces/AbstractPiece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/de/dbhw/schachspiel/MoveTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +33,9 @@
     <system id="GRADLE">
       <state>
         <task path="$PROJECT_DIR$/app">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$">
           <activation />
         </task>
         <projects_view>
@@ -58,6 +61,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -79,36 +83,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.Schachspiel:app [:app:de.dhbw.schachspiel.App.main()].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build Schachspiel.executor": "Run",
+    "Gradle.Schachspiel [app:test].executor": "Run",
+    "Gradle.Schachspiel [test].executor": "Run",
+    "Gradle.Schachspiel:app [:app:de.dhbw.schachspiel.App.main()].executor": "Debug",
+    "JUnit.MoveTest (1).executor": "Run",
+    "JUnit.MoveTest.executor": "Run",
+    "JUnit.MoveTest.normalMove.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/home/huchsle/Schachspiel/app/src/test/com.dhbw.schachspiel/src/Main.java",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main" />
+      <recent name="$PROJECT_DIR$/app/src/test/com.dhbw.schachspiel/src" />
       <recent name="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/Classes/pieces" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Gradle.MoveTest">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="de.dhbw.schachspiel.App" />
       <module name="Schachspiel.app.main" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="de.dhbw.schachspiel.*" />
+          <option name="PATTERN" value="de.dhbw.schachspiel.interfaces.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -116,8 +130,60 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="MoveTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;de.dhbw.schach.MoveTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="Schachspiel [app:test]" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="app:test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.App" />
+      <item itemvalue="Gradle.Schachspiel [app:test]" />
+      <item itemvalue="Gradle.MoveTest" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.MoveTest" />
         <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
@@ -125,8 +191,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23536.34" />
-        <option value="bundled-js-predefined-d6986cc7102b-45be767fe593-JavaScript-IU-251.23536.34" />
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.16" />
+        <option value="bundled-js-predefined-d6986cc7102b-45be767fe593-JavaScript-IU-251.23774.16" />
       </set>
     </attachedChunks>
   </component>
@@ -154,6 +220,8 @@
       <workItem from="1740911975466" duration="13189000" />
       <workItem from="1741043808074" duration="27000" />
       <workItem from="1741197642787" duration="3398000" />
+      <workItem from="1741203103799" duration="40000" />
+      <workItem from="1741522120107" duration="12007000" />
     </task>
     <task id="LOCAL-00001" summary="basic stuff is working now but no rules are implemented">
       <option name="closed" value="true" />
@@ -187,7 +255,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741043828295</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="added Piece enum&#10;Pawn needs refactoring">
+      <option name="closed" value="true" />
+      <created>1741203132436</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1741203132436</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -210,6 +286,18 @@
     <MESSAGE value="started to implement pawn moves" />
     <MESSAGE value="refactor Now every Piece is a record. &#10;Implemented Bishop" />
     <MESSAGE value="implemented every Move&#10;changed Readme" />
-    <option name="LAST_COMMIT_MESSAGE" value="implemented every Move&#10;changed Readme" />
+    <MESSAGE value="added Piece enum&#10;Pawn needs refactoring" />
+    <option name="LAST_COMMIT_MESSAGE" value="added Piece enum&#10;Pawn needs refactoring" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java</url>
+          <line>62</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

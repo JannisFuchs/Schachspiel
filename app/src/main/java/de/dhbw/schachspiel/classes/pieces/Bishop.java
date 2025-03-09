@@ -40,7 +40,7 @@ public record Bishop (Color c) implements AbstractPiece {
 
         List<Field> fieldsWithBishop = candidateFields.stream().filter(field ->field.hasPiece(move.piece, board)).toList();
         if (fieldsWithBishop.isEmpty()) throw new Move.IllegalMoveException("Wrong piece");
-        List<Field> reachableFields = fieldsWithBishop.stream().filter(field -> Field.isReachableByDiagonal(field, target, board)).toList();
+        List<Field> reachableFields = fieldsWithBishop.stream().filter(field -> target.isReachableByDiagonal(field, board)).toList();
         if (reachableFields.isEmpty()) throw new Move.IllegalMoveException("Field not reachable");
         //with this notation it is not possible to get a second bishop for a color so this non-ambiguous
         return reachableFields.get(0);
