@@ -5,19 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5a42d11-bd89-495f-b908-2a867175b719" name="Changes" comment="added Piece enum&#10;Pawn needs refactoring">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/test/schach/MoveTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/test/java/de/dhbw/schach/PawnTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_1_25,_11_24 AM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_3_1_25__11_24AM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Field.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Bishop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Queen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Rook.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/de/dbhw/schachspiel/MoveTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,6 +64,18 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="SIGN_OFF_COMMIT" value="true" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "JannisFuchs"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "git@github.com:JannisFuchs/Schachspiel.git",
+    "accountId": "3a62e4ab-d831-49f2-a946-255041ded95e"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 4
@@ -86,6 +88,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Gradle.Build Schachspiel.executor": "Run",
+    "Gradle.PawnTest.executor": "Debug",
     "Gradle.Schachspiel [app:test].executor": "Run",
     "Gradle.Schachspiel [test].executor": "Run",
     "Gradle.Schachspiel:app [:app:de.dhbw.schachspiel.App.main()].executor": "Debug",
@@ -116,7 +119,7 @@
       <recent name="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/Classes/pieces" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.MoveTest">
+  <component name="RunManager" selected="Gradle.PawnTest">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="de.dhbw.schachspiel.App" />
       <module name="Schachspiel.app.main" />
@@ -154,6 +157,30 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="PawnTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;de.dhbw.schach.PawnTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="Schachspiel [app:test]" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -179,10 +206,12 @@
     <list>
       <item itemvalue="Application.App" />
       <item itemvalue="Gradle.Schachspiel [app:test]" />
+      <item itemvalue="Gradle.PawnTest" />
       <item itemvalue="Gradle.MoveTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.PawnTest" />
         <item itemvalue="Gradle.MoveTest" />
         <item itemvalue="Application.App" />
       </list>
@@ -296,6 +325,14 @@
           <url>file://$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java</url>
           <line>62</line>
           <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java</url>
+          <line>52</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
