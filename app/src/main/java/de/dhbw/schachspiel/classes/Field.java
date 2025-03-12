@@ -3,7 +3,6 @@ package de.dhbw.schachspiel.classes;
 import de.dhbw.schachspiel.classes.pieces.None;
 import de.dhbw.schachspiel.interfaces.AbstractPiece;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public record Field(int row, int column) {

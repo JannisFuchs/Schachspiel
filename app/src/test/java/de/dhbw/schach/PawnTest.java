@@ -4,15 +4,13 @@ import de.dhbw.schachspiel.classes.Color;
 import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.PieceType;
 import de.dhbw.schachspiel.classes.pieces.None;
-import de.dhbw.schachspiel.classes.pieces.Pawn;
 import de.dhbw.schachspiel.classes.pieces.PieceFactory;
-import de.dhbw.schachspiel.classes.pieces.Rook;
 import de.dhbw.schachspiel.interfaces.AbstractPiece;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class PawnTest {
+class PawnTest {
     private final AbstractPiece[][] board = new AbstractPiece[8][8];
     @BeforeEach
     void setUp() {
@@ -23,13 +21,21 @@ public class PawnTest {
         }
     }
     @Test
-    void captureAmbiguous() throws Move.IllegalMoveException {
+    void capture() throws Move.IllegalMoveException {
         Move move = new Move("exd5", Color.WHITE);
         board[4][4] = PieceFactory.createPieceFromType(PieceType.PAWN, Color.WHITE); //e4 captures on d5
         board[3][3] = PieceFactory.createPieceFromType(PieceType.PAWN, Color.BLACK); //d5
-        board[4][2] = PieceFactory.createPieceFromType(PieceType.PAWN, Color.WHITE); //e5 is neighbour
+        board[4][2] = PieceFactory.createPieceFromType(PieceType.PAWN, Color.WHITE); //c4 makes move ambiguous
         Field f = move.piece.calculateStartField(move, board);
-        Assertions.assertEquals(new Field(2, 3), f);
+        Assertions.assertEquals(new Field(4, 4), f);
     }
+    @Test
+    void move2Squares() throws Move.IllegalMoveException {
+        Move move = new Move("e4", Color.WHITE);
+        board[6][4] = PieceFactory.createPieceFromType(PieceType.PAWN, Color.WHITE); //e2
+        Field f = move.piece.calculateStartField(move, board);
+        Assertions.assertEquals(new Field(6, 4), f);
+    }
+
 
 }

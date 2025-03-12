@@ -2,7 +2,7 @@ package de.dhbw.schachspiel.classes;
 
 public enum PieceType {
 	PAWN, KNIGHT, ROOK, BISHOP, QUEEN, KING, NONE;
-	public static PieceType PieceTypeFromChar(char piece) {
+	public static PieceType pieceTypeFromChar(char piece) {
 		return switch (piece) {
 			case 'P' -> PieceType.PAWN;
 			case 'K' -> PieceType.KNIGHT;

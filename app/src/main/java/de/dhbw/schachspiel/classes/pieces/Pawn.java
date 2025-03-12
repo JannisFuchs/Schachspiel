@@ -74,7 +74,7 @@ private Field calculateCapture(Move move,AbstractPiece[][] board, List<Field> ca
     if (candidateFields.size() > 2) {
         throw new Move.IllegalMoveException("This should not happen");
     }
-    int column = target.column();
+    int column = move.start.column();
     if(column == -1){
         throw new Move.IllegalMoveException("move is ambiguous");
     }

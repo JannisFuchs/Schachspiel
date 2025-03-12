@@ -39,7 +39,7 @@ public class Move {
     if (pieceLabel == null)
       piece = PieceFactory.createPieceFromType(PieceType.PAWN, c);
     else
-      piece = PieceFactory.createPieceFromType(PieceType.PieceTypeFromChar(pieceLabel.charAt(0)), c);
+      piece = PieceFactory.createPieceFromType(PieceType.pieceTypeFromChar(pieceLabel.charAt(0)), c);
     int startRow = -1;
     int startCol = -1;
 
@@ -52,6 +52,9 @@ public class Move {
     start = new Field(startRow, startCol );
 
     isCapture = matcher.group(4) != null;
+    if (isCapture && piece.getPieceType() == PieceType.PAWN &&startCol==-1) {
+      throw new IllegalMoveException("Illegal notation");
+    }
 
     int endRow = 8-Integer.parseInt(matcher.group(6));
     int endCol = Columns.valueOf(matcher.group(5).toUpperCase()).ordinal();

@@ -44,7 +44,7 @@ public class PieceFactory {
 			case QUEEN -> new Queen(c);
 			case KING -> new King(c);
 			case PAWN -> new Pawn(c);
-			default -> new None(c);
+			case NONE -> new None(c);
 		};
         return piece;
 
