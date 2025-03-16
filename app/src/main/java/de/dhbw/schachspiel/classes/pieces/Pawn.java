@@ -4,12 +4,13 @@ import de.dhbw.schachspiel.classes.Color;
 import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.Move;
 import de.dhbw.schachspiel.classes.PieceType;
-import de.dhbw.schachspiel.interfaces.AbstractPiece;
+import de.dhbw.schachspiel.interfaces.IBoard;
+import de.dhbw.schachspiel.interfaces.IPiece;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record Pawn (Color c) implements AbstractPiece {
+public record Pawn (Color c) implements IPiece {
 
     @Override
     public char getSymbol() {
@@ -28,7 +29,7 @@ public record Pawn (Color c) implements AbstractPiece {
 
 
     @Override
-    public Field calculateStartField(Move move, AbstractPiece[][] board) throws Move.IllegalMoveException {
+    public Field calculateStartField(Move move, IBoard board) throws Move.IllegalMoveException {
         /*
          * 4 possible start squares from each color
          * 2 from capture
@@ -49,19 +50,22 @@ public record Pawn (Color c) implements AbstractPiece {
             candidateFields.add(new Field(endField.row()-1,endField.column()+1)); //Pawn captures left
             candidateFields.add(new Field(endField.row()-1,endField.column()-1));//Pawn captures right
         }
-        candidateFields.removeIf(Field::isInValid);
-        candidateFields.removeIf(field -> !field.hasPiece(move.piece, board));
-        if (candidateFields.isEmpty()) {
+        List<Field> fieldsWithPawn = board.getFieldsWithPiece(candidateFields,move.piece);
+        if (fieldsWithPawn.isEmpty()) {
             throw new Move.IllegalMoveException("No pieces found");
         }
         if (move.isCapture){
-            return calculateCapture(move,board, candidateFields);
+            return calculateCapture(move,board, fieldsWithPawn);
         }
-        return calculateNormalMove(move,board,candidateFields);
+        return calculateNormalMove(move,board,fieldsWithPawn);
 }
-private Field calculateCapture(Move move,AbstractPiece[][] board, List<Field> candidateFields) throws Move.IllegalMoveException {
+private Field calculateCapture(Move move, IBoard board, List<Field> candidateFields) throws Move.IllegalMoveException {
     Field target = move.target;
-    if (!target.isOccupiedByColor(Color.BLACK,board)){
+    Color enemyColor = Color.WHITE;
+    if (move.piece.getColor() == Color.WHITE){
+        enemyColor = Color.BLACK;
+    }
+    if (!board.isOccupiedByColor(enemyColor,target)){
         throw new Move.IllegalMoveException("Target is no capture");
     }
     candidateFields.removeIf(field -> !target.isReachableByDiagonal(field,board));
@@ -88,9 +92,9 @@ private Field calculateCapture(Move move,AbstractPiece[][] board, List<Field> ca
 }
 
 
-private Field calculateNormalMove(Move move, AbstractPiece[][] board, List<Field> candidateFields) throws Move.IllegalMoveException {
+private Field calculateNormalMove(Move move, IBoard board, List<Field> candidateFields) throws Move.IllegalMoveException {
     Field target = move.target;
-    if (target.isOccupiedByColor(Color.BLACK, board)||target.isOccupiedByColor(Color.WHITE, board)) {
+    if (board.isOccupiedByColor(Color.BLACK,target)||board.isOccupiedByColor(Color.WHITE, target)) {
         throw new Move.IllegalMoveException("Field is occupied");
     }
 
@@ -104,7 +108,7 @@ private Field calculateNormalMove(Move move, AbstractPiece[][] board, List<Field
     return calculateMove(candidateFields.get(0),move,board);
 
 }
-private Field calculateMove(Field start, Move move, AbstractPiece[][] board) throws Move.IllegalMoveException {
+private Field calculateMove(Field start, Move move, IBoard board) throws Move.IllegalMoveException {
     Field target = move.target;
     int diffRow =  Math.abs(start.row() - target.row());
     if (diffRow == 1) {
@@ -113,7 +117,7 @@ private Field calculateMove(Field start, Move move, AbstractPiece[][] board) thr
     if (diffRow > 2) {
         throw new Move.IllegalMoveException("This should not happen");
     }
-    if (move.piece.getColor() == Color.WHITE && start.row() == board.length - 2) {
+    if (move.piece.getColor() == Color.WHITE && start.row() == board.getColumnLength()- 2) {
         return start;
     }
     if (move.piece.getColor() == Color.BLACK && start.row() == 1) {

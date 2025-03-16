@@ -4,9 +4,10 @@ import de.dhbw.schachspiel.classes.Color;
 import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.Move;
 import de.dhbw.schachspiel.classes.PieceType;
-import de.dhbw.schachspiel.interfaces.AbstractPiece;
+import de.dhbw.schachspiel.interfaces.IBoard;
+import de.dhbw.schachspiel.interfaces.IPiece;
 
-public record None (Color c) implements AbstractPiece {
+public record None (Color c) implements IPiece {
 
 
     @Override
@@ -25,7 +26,7 @@ public record None (Color c) implements AbstractPiece {
     }
 
     @Override
-    public Field calculateStartField(Move move, AbstractPiece[][] board) {
-        return null;
+    public Field calculateStartField(Move move, IBoard board) {
+        throw new IllegalCallerException("This class is just a null wrapper and this method should not be called");
     }
 }

@@ -4,12 +4,13 @@ import de.dhbw.schachspiel.classes.Color;
 import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.Move;
 import de.dhbw.schachspiel.classes.PieceType;
-import de.dhbw.schachspiel.interfaces.AbstractPiece;
+import de.dhbw.schachspiel.interfaces.IBoard;
+import de.dhbw.schachspiel.interfaces.IPiece;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record Bishop (Color c) implements AbstractPiece {
+public record Bishop (Color c) implements IPiece {
 
     @Override
     public char getSymbol() {
@@ -27,25 +28,29 @@ public record Bishop (Color c) implements AbstractPiece {
     }
 
     @Override
-    public Field calculateStartField(Move move, AbstractPiece[][] board) throws Move.IllegalMoveException {
+    public Field calculateStartField(Move move, IBoard board) throws Move.IllegalMoveException {
         Field target = move.target;
         List<Field> candidateFields = new ArrayList<>();
-        for (int i = 1 ; i < board.length ; i++) {
+        for (int i = 1 ; i < board.getRowLength(); i++) {
             candidateFields.add(new Field(target.row()+i, target.column()+i));
             candidateFields.add(new Field(target.row()-i, target.column()+i));
             candidateFields.add(new Field(target.row()+i, target.column()-i));
             candidateFields.add(new Field(target.row()-i, target.column()-i));
         }
-        candidateFields.removeIf(Field::isInValid);
-
-        List<Field> fieldsWithBishop = candidateFields.stream().filter(field ->field.hasPiece(move.piece, board)).toList();
+        List<Field> fieldsWithBishop = board.getFieldsWithPiece(candidateFields, move.piece);
         if (fieldsWithBishop.isEmpty()) throw new Move.IllegalMoveException("Wrong piece");
-        List<Field> reachableFields = fieldsWithBishop.stream().filter(field -> target.isReachableByDiagonal(field, board)).toList();
+        List<Field> reachableFields = findReachableFields(fieldsWithBishop,target,board);
         if (reachableFields.isEmpty()) throw new Move.IllegalMoveException("Field not reachable");
         //with this notation it is not possible to get a second bishop for a color so this non-ambiguous
         return reachableFields.get(0);
     }
-
-
-
+    private List<Field> findReachableFields(List<Field> fields,Field target, IBoard board){
+        List<Field> reachableFields = new ArrayList<>(fields.size());
+        for (Field startField:fields){
+            if (target.isReachableByDiagonal(startField,board)){
+                reachableFields.add(startField);
+            }
+        }
+        return reachableFields;
+    }
 }

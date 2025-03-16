@@ -1,24 +1,24 @@
 package de.dhbw.schach;
-import de.dhbw.schachspiel.classes.Move;
-import de.dhbw.schachspiel.classes.Color;
-import de.dhbw.schachspiel.classes.Field;
-import de.dhbw.schachspiel.classes.PieceType;
+import de.dhbw.schachspiel.classes.*;
 import de.dhbw.schachspiel.classes.pieces.None;
 import de.dhbw.schachspiel.classes.pieces.PieceFactory;
-import de.dhbw.schachspiel.interfaces.AbstractPiece;
+import de.dhbw.schachspiel.interfaces.IBoard;
+import de.dhbw.schachspiel.interfaces.IPiece;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class PawnTest {
-    private final AbstractPiece[][] board = new AbstractPiece[8][8];
+    private  IBoard board;
     @BeforeEach
     void setUp() {
+        IPiece [][] basicBoard = new IPiece[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                board[i][j] = new None(Color.RESET);
+                basicBoard[i][j] = new None(Color.RESET);
             }
         }
+        board = new Board(basicBoard);
     }
     @Test
     void capture() throws Move.IllegalMoveException {

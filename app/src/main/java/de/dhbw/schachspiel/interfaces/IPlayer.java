@@ -4,7 +4,7 @@ import de.dhbw.schachspiel.classes.Move;
 
 import java.util.Scanner;
 
-public interface AbstractPlayer {
+public interface IPlayer {
     Move readMove(Scanner s);
-    AbstractPiece getMove();
+    IPiece getMove();
 }

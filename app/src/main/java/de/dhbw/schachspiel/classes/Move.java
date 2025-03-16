@@ -1,7 +1,7 @@
 package de.dhbw.schachspiel.classes;
 
 import de.dhbw.schachspiel.classes.pieces.PieceFactory;
-import de.dhbw.schachspiel.interfaces.AbstractPiece;
+import de.dhbw.schachspiel.interfaces.IPiece;
 
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class Move {
   public final Field start;
   public final Field target;
-  public final AbstractPiece piece;
+  public final IPiece piece;
   public final boolean isCheck;
   public final boolean isMate;
   public final boolean isCapture;

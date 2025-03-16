@@ -1,19 +1,13 @@
 package de.dhbw.schachspiel.classes;
 
 import de.dhbw.schachspiel.classes.pieces.None;
-import de.dhbw.schachspiel.interfaces.AbstractPiece;
+import de.dhbw.schachspiel.interfaces.IBoard;
+import de.dhbw.schachspiel.interfaces.IPiece;
 
 import java.util.List;
 
 public record Field(int row, int column) {
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Field p) {
-            return p.row == row && p.column == column;
-        }
-        return false;
-    }
     public boolean isInValid() {
         return row < 0 || row >=8 || column < 0 || column >= 8;
     }
@@ -39,7 +33,7 @@ public record Field(int row, int column) {
      * @param board the given position
      * @return checks if fields between target and start are free
      */
-    public boolean isReachableByDiagonal(Field start, AbstractPiece[][] board) {
+    public boolean isReachableByDiagonal(Field start, IBoard board) {
         int diffRow = Math.abs(this.row() - start.row());
         int diffColumn = Math.abs(this.column() - start.column());
         if (diffColumn != diffRow) {
@@ -48,7 +42,8 @@ public record Field(int row, int column) {
         for (int i = 1 ; i < diffRow; i++) {
             int nextx = (start.row()<this.row()) ?start.row() + i : start.row()-i;
             int nexty = (start.column()<this.column()) ?start.column() + i : start.column()-i;
-            if (! (board[nextx][nexty] instanceof None)) return false;
+            Field nextField = new Field(nextx,nexty);
+            if (! (board.getPiece(nextField) instanceof None)) return false;
         }
         return true;
     }
@@ -59,14 +54,15 @@ public record Field(int row, int column) {
      * @param board the given position
      * @return checks if fields between target and start are free
      */
-    public boolean isReachableByRow(Field start, AbstractPiece[][] board) {
+    public boolean isReachableByRow(Field start, IBoard board) {
         int diffColumn = Math.abs(this.column() - start.column());
         if(this.row() != start.row()){
             return false;
         }
         for(int i = 1; i < diffColumn; i++){
             int nextColumn = (start.column()<this.column()) ?start.column() + i : start.column()-i;
-            if(!(board[start.row()][nextColumn] instanceof None)) return false;
+            Field posssibleField = new Field(start.row,nextColumn);
+            if(!(board.getPiece(posssibleField) instanceof None)) return false;
         }
         return true;
     }
@@ -76,14 +72,15 @@ public record Field(int row, int column) {
      * @param board the given position
      * @return checks if fields between target and start are free
      */
-    public boolean isReachableByColumn(Field start, AbstractPiece[][] board) {
+    public boolean isReachableByColumn(Field start, IBoard board) {
         int diffRow = Math.abs(this.row() - start.row());
         if (this.column != start.column()){
             return false;
         }
         for(int i = 1; i < diffRow; i++){
             int nextRow = (start.row()<this.row()) ?start.row() + i : start.row()-i;
-            if(!(board[nextRow][start.column()] instanceof None)) return false;
+            Field posssibleField = new Field(nextRow,start.column);
+            if(!(board.getPiece(posssibleField) instanceof None)) return false;
         }
 
         return true;
@@ -103,13 +100,9 @@ public record Field(int row, int column) {
         }
         return target;
     }
-    public boolean isOccupiedByColor(Color color, AbstractPiece[][] board) {
-        AbstractPiece piece = board[row][column];
-        if(piece instanceof None) return false;
-		return piece.getColor() == color;
-	}
-    public boolean hasPiece(AbstractPiece piece, AbstractPiece[][] board) {
-        return  board[row][column].equals(piece);
+
+    public boolean hasPiece(IPiece piece, IBoard board) {
+        return  piece.equals(board.getPiece(this));
     }
 
 }

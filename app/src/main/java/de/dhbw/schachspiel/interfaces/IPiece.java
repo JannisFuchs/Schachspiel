@@ -5,7 +5,7 @@ import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.Move;
 import de.dhbw.schachspiel.classes.PieceType;
 
-public interface AbstractPiece {
+public interface IPiece {
   // gets the piece as a unicode character
   char getSymbol();
   Color getColor();
@@ -17,5 +17,5 @@ public interface AbstractPiece {
    * @param board the whole board before the piece moves
    * @return the field on which the piece currently stands
    */
-  Field calculateStartField(Move move,AbstractPiece[][] board) throws Move.IllegalMoveException;
+  Field calculateStartField(Move move, IBoard board) throws Move.IllegalMoveException;
 }

@@ -4,12 +4,13 @@ import de.dhbw.schachspiel.classes.Color;
 import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.Move;
 import de.dhbw.schachspiel.classes.PieceType;
-import de.dhbw.schachspiel.interfaces.AbstractPiece;
+import de.dhbw.schachspiel.interfaces.IBoard;
+import de.dhbw.schachspiel.interfaces.IPiece;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record King (Color c) implements AbstractPiece {
+public record King (Color c) implements IPiece {
 
 
     @Override
@@ -29,7 +30,7 @@ public record King (Color c) implements AbstractPiece {
 
 
     @Override
-    public Field calculateStartField(Move move, AbstractPiece[][] board) throws Move.IllegalMoveException {
+    public Field calculateStartField(Move move, IBoard board) throws Move.IllegalMoveException {
         Field target =  move.target;
         List<Field> candidateFields = new ArrayList<>();
 
@@ -44,15 +45,13 @@ public record King (Color c) implements AbstractPiece {
         candidateFields.add(new Field(target.row()-1, target.column()-1));
 
 
-        candidateFields.removeIf(Field::isInValid);
-        for (Field candidateField : candidateFields) {
-            int row = candidateField.row();
-            int column = candidateField.column();
-
-            if (board[row][column].equals(move.piece)) {
-                return candidateField;
-            }
-        }
-        throw new Move.IllegalMoveException("Wrong piece");
+       List<Field> PiecesWithKing = board.getFieldsWithPiece(candidateFields,move.piece);
+       if (PiecesWithKing.isEmpty()) {
+           throw new Move.IllegalMoveException("Wrong piece");
+       }
+       if (PiecesWithKing.size()>1){
+           throw new Move.IllegalMoveException("King exists somehow two times");
+       }
+       return PiecesWithKing.get(0);
     }
 }

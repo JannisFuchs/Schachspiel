@@ -4,12 +4,13 @@ import de.dhbw.schachspiel.classes.Color;
 import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.Move;
 import de.dhbw.schachspiel.classes.PieceType;
-import de.dhbw.schachspiel.interfaces.AbstractPiece;
+import de.dhbw.schachspiel.interfaces.IBoard;
+import de.dhbw.schachspiel.interfaces.IPiece;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public record Rook (Color c) implements AbstractPiece {
+public record Rook (Color c) implements IPiece {
 
 
     @Override
@@ -28,10 +29,10 @@ public record Rook (Color c) implements AbstractPiece {
     }
 
     @Override
-    public Field calculateStartField(Move move, AbstractPiece[][] board) throws Move.IllegalMoveException {
+    public Field calculateStartField(Move move, IBoard board) throws Move.IllegalMoveException {
         Field target =  move.target;
         List<Field> candidateFields = new ArrayList<>();
-        for (int i = 1 ; i < board.length ; i++) {
+        for (int i = 1 ; i < board.getRowLength(); i++) {
             candidateFields.add(new Field(target.row(), target.column()+i));
             candidateFields.add(new Field(target.row(), target.column()-i));
             candidateFields.add(new Field(target.row()+i, target.column()));
@@ -39,20 +40,21 @@ public record Rook (Color c) implements AbstractPiece {
 
 
         }
-        candidateFields.removeIf(Field::isInValid);
 
-        List<Field> fieldsWithRook = candidateFields.stream().filter(field ->field.hasPiece(move.piece, board)).toList();
+        List<Field> fieldsWithRook = board.getFieldsWithPiece(candidateFields,move.piece);
         if (fieldsWithRook.isEmpty()) throw new Move.IllegalMoveException("Wrong piece");
-        List<Field> reachableFields = fieldsWithRook.stream().filter(field -> isReachable(field, target, board)).toList();
+        List<Field> reachableFields = getReachableFields(fieldsWithRook,target,board);
         if (reachableFields.isEmpty()) throw new Move.IllegalMoveException("Field not reachable");
         if (reachableFields.size() == 1) return reachableFields.get(0);
         int row = move.start.row();
         int column = move.start.column();
         if (row == -1 && column == -1) throw new Move.IllegalMoveException("Ambiguous piece");
         if (row!=-1 &&column != -1){
-            if (board[row][column].equals(move.piece)) {
-                return new Field(row, column);
+            Field specifiedStartField = new Field(row,column);
+            if(reachableFields.contains(specifiedStartField)){
+                return specifiedStartField;
             }
+
             throw new Move.IllegalMoveException("Wrong start coordinate");
         }
         if (row!=-1){
@@ -60,10 +62,18 @@ public record Rook (Color c) implements AbstractPiece {
         }
         return Field.findRow(column,reachableFields);
     }
-    private boolean isReachable(Field start, Field target, AbstractPiece[][] board) {
-        if (start.row() == target.row()) {
-            return target.isReachableByRow(start, board);
+    private List<Field> getReachableFields(List<Field> candidateFields, Field target, IBoard board) {
+        List<Field> reachableFields = new ArrayList<>(candidateFields.size());
+        for (Field startField:candidateFields){
+            if (startField.isReachableByColumn(startField,board)){
+                reachableFields.add(startField);
+                continue;
+            }
+
+            if (startField.isReachableByRow(startField,board)){
+                reachableFields.add(startField);
+            }
         }
-        return target.isReachableByColumn(start, board);
+        return reachableFields;
     }
 }

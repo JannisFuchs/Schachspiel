@@ -5,13 +5,25 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5a42d11-bd89-495f-b908-2a867175b719" name="Changes" comment="added Piece enum&#10;Pawn needs refactoring">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Board.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/interfaces/IBoard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/test/java/de/dhbw/schach/MockBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Field.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Move.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/PieceType.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/PieceType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Visualisation.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Visualisation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Bishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Bishop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/King.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/King.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Knight.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Knight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/None.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/None.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/PieceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/PieceFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Queen.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Queen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Rook.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Rook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/interfaces/AbstractPiece.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/interfaces/IPiece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/interfaces/AbstractPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/interfaces/IPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/test/java/de/dhbw/schach/PawnTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/de/dhbw/schach/PawnTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,6 +68,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -350,24 +363,5 @@
     <MESSAGE value="implemented every Move&#10;changed Readme" />
     <MESSAGE value="added Piece enum&#10;Pawn needs refactoring" />
     <option name="LAST_COMMIT_MESSAGE" value="added Piece enum&#10;Pawn needs refactoring" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java</url>
-          <line>62</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java</url>
-          <line>52</line>
-          <properties>
-            <option name="lambda-ordinal" value="-1" />
-          </properties>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

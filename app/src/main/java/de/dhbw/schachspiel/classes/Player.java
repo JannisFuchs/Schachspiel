@@ -1,11 +1,11 @@
 package de.dhbw.schachspiel.classes;
 
-import de.dhbw.schachspiel.interfaces.AbstractPiece;
-import de.dhbw.schachspiel.interfaces.AbstractPlayer;
+import de.dhbw.schachspiel.interfaces.IPiece;
+import de.dhbw.schachspiel.interfaces.IPlayer;
 
 import java.util.Scanner;
 
-public class Player implements AbstractPlayer {
+public class Player implements IPlayer {
   
   private final Color color;
   public Player(Color color) {
@@ -31,7 +31,7 @@ public class Player implements AbstractPlayer {
   }
 
   @Override
-  public AbstractPiece getMove() {
+  public IPiece getMove() {
     return null;
   }
 }
