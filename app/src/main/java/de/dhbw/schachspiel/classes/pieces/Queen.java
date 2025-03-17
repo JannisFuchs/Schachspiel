@@ -28,24 +28,30 @@ public record Queen (Color c) implements IPiece {
     }
 
     @Override
-    public Field calculateStartField(Move move, IBoard board) throws Move.IllegalMoveException {
-        Field target =  move.target;
+    public List<Field> getCandidateFields(Field target,IBoard board){
         List<Field> candidateFields = new ArrayList<>();
-        for (int i = 1 ; i < board.getRowLength() ; i++) {
-            candidateFields.add(new Field(target.row(), target.column()+i));
-            candidateFields.add(new Field(target.row(), target.column()-i));
-            candidateFields.add(new Field(target.row()+i, target.column()));
-            candidateFields.add(new Field(target.row()-i, target.column()));
-
-            candidateFields.add(new Field(target.row()+i, target.column()+i));
-            candidateFields.add(new Field(target.row()-i, target.column()+i));
-            candidateFields.add(new Field(target.row()+i, target.column()-i));
-            candidateFields.add(new Field(target.row()-i, target.column()-i));
-
+        for (int rows = 1 ; rows < board.getRowLength() ; rows++) {
+            candidateFields.add(new Field(target.row()+rows, target.column()));
+            candidateFields.add(new Field(target.row()-rows, target.column()));
         }
-        List<Field> fieldsWithQueen = board.getFieldsWithPiece(candidateFields,move.piece);
-        if (fieldsWithQueen.isEmpty()) throw new Move.IllegalMoveException("Wrong piece");
-        List<Field> reachableFields = getReachableFields(candidateFields,target,board);
+        for (int columns = 1; columns < board.getColumnLength(); columns++) {
+            candidateFields.add(new Field(target.row(), target.column()+columns));
+            candidateFields.add(new Field(target.row(), target.column()-columns));
+        }
+        int min = Math.min(board.getRowLength(),board.getColumnLength());
+        for (int diagonal = 1 ; diagonal < min ; diagonal++) {
+            candidateFields.add(new Field(target.row()+diagonal, target.column()+diagonal));
+            candidateFields.add(new Field(target.row()-diagonal, target.column()+diagonal));
+            candidateFields.add(new Field(target.row()+diagonal, target.column()-diagonal));
+            candidateFields.add(new Field(target.row()-diagonal, target.column()-diagonal));
+        }
+        return candidateFields;
+    }
+
+    @Override
+    public Field calculateStartField(List<Field> fields,Move move, IBoard board) throws Move.IllegalMoveException {
+        Field target =  move.target;
+        List<Field> reachableFields = getReachableFields(fields,target,board);
         if (reachableFields.isEmpty()) throw new Move.IllegalMoveException("Field not reachable");
         //with this notation it is not possible to get a second Queen so this non-ambiguous
         return reachableFields.get(0);
@@ -54,16 +60,16 @@ public record Queen (Color c) implements IPiece {
     private List<Field> getReachableFields(List<Field> candidateFields, Field target, IBoard board) {
         List<Field> reachableFields = new ArrayList<>(candidateFields.size());
         for (Field startField:candidateFields){
-            if (startField.isReachableByColumn(startField,board)){
+            if (target.isReachableByColumn(startField,board)){
                 reachableFields.add(startField);
                 continue;
             }
 
-            if (startField.isReachableByRow(startField,board)){
+            if (target.isReachableByRow(startField,board)){
                 reachableFields.add(startField);
                 continue;
             }
-            if (startField.isReachableByDiagonal(startField,board)){
+            if (target.isReachableByDiagonal(startField,board)){
                 reachableFields.add(startField);
             }
         }

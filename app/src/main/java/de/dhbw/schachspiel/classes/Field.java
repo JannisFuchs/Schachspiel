@@ -2,15 +2,12 @@ package de.dhbw.schachspiel.classes;
 
 import de.dhbw.schachspiel.classes.pieces.None;
 import de.dhbw.schachspiel.interfaces.IBoard;
-import de.dhbw.schachspiel.interfaces.IPiece;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public record Field(int row, int column) {
 
-    public boolean isInValid() {
-        return row < 0 || row >=8 || column < 0 || column >= 8;
-    }
     public static Field findRow(int column, List<Field> fields) throws Move.IllegalMoveException {
         Field target = null;
 
@@ -100,9 +97,13 @@ public record Field(int row, int column) {
         }
         return target;
     }
-
-    public boolean hasPiece(IPiece piece, IBoard board) {
-        return  piece.equals(board.getPiece(this));
+    public static List<Field> intersectionOfFieldList(List<Field> fieldList, List<Field> otherList){
+        List<Field> interceptFields = new ArrayList<>();
+        for (Field field:fieldList){
+            if (otherList.contains(field)){
+                interceptFields.add(field);
+            }
+        }
+        return interceptFields;
     }
-
 }

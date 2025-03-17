@@ -7,6 +7,8 @@ import de.dhbw.schachspiel.classes.PieceType;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
 
+import java.util.List;
+
 public record None (Color c) implements IPiece {
 
 
@@ -26,7 +28,12 @@ public record None (Color c) implements IPiece {
     }
 
     @Override
-    public Field calculateStartField(Move move, IBoard board) {
+    public List<Field> getCandidateFields(Field target, IBoard board) {
+        return List.of();
+    }
+
+    @Override
+    public Field calculateStartField(List<Field> fieldList, Move move, IBoard board) {
         throw new IllegalCallerException("This class is just a null wrapper and this method should not be called");
     }
 }

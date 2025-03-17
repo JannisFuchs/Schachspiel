@@ -27,37 +27,34 @@ public record Pawn (Color c) implements IPiece {
         return PieceType.PAWN;
     }
 
-
     @Override
-    public Field calculateStartField(Move move, IBoard board) throws Move.IllegalMoveException {
+    public List<Field> getCandidateFields(Field target,IBoard board){
+        List<Field> candidateFields = new ArrayList<>();
+
+        candidateFields.add(new Field(target.row()+1, target.column()));
+        candidateFields.add(new Field(target.row()+2, target.column()));
+        candidateFields.add(new Field(target.row()+1, target.column()+1));
+        candidateFields.add(new Field(target.row()+1, target.column()-1));
+        candidateFields.add(new Field(target.row()-1, target.column()));
+        candidateFields.add(new Field(target.row()-2, target.column()));
+        candidateFields.add(new Field(target.row()-1, target.column()+1));
+        candidateFields.add(new Field(target.row()-1, target.column()-1));
+        return candidateFields;
+    }
+    @Override
+    public Field calculateStartField(List<Field> fields,Move move, IBoard board) throws Move.IllegalMoveException {
         /*
          * 4 possible start squares from each color
          * 2 from capture
          * 2 from normal moving (pawn can move two square at a time)
          */
-        Field endField = move.target;
-        List<Field> candidateFields = new ArrayList<>();
-        if (move.piece.getColor() == Color.WHITE) {
-
-            candidateFields.add(new Field(endField.row()+1,endField.column()) ); //Pawn moves one square forward
-            candidateFields.add(new Field(endField.row()+2,endField.column())); //Pawn starts with two squares forward
-            candidateFields.add(new Field(endField.row()+1,endField.column()+1)); //Pawn captures right
-            candidateFields.add(new Field(endField.row()+1,endField.column()-1)); //Pawn captures left
-        }
-        else { //Pawn is black
-            candidateFields.add(new Field(endField.row()-1,endField.column())); //Pawn moves one square forward
-            candidateFields.add(new Field(endField.row()-2,endField.column())); //Pawn starts with two squares forward
-            candidateFields.add(new Field(endField.row()-1,endField.column()+1)); //Pawn captures left
-            candidateFields.add(new Field(endField.row()-1,endField.column()-1));//Pawn captures right
-        }
-        List<Field> fieldsWithPawn = board.getFieldsWithPiece(candidateFields,move.piece);
-        if (fieldsWithPawn.isEmpty()) {
+        if (fields.isEmpty()) {
             throw new Move.IllegalMoveException("No pieces found");
         }
         if (move.isCapture){
-            return calculateCapture(move,board, fieldsWithPawn);
+            return calculateCapture(move,board, fields);
         }
-        return calculateNormalMove(move,board,fieldsWithPawn);
+        return calculateNormalMove(move,board,fields);
 }
 private Field calculateCapture(Move move, IBoard board, List<Field> candidateFields) throws Move.IllegalMoveException {
     Field target = move.target;

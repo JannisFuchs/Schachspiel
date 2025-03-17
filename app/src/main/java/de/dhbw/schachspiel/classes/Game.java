@@ -9,7 +9,8 @@ import java.util.Scanner;
 public class Game {
   private static final Scanner SCANNER = new Scanner(System.in);
   int currentPlayer ;
-  Player[] players = new Player[2];
+  private  final int MAX_PLAYER_COUNT = 2;
+  Player[] players = new Player[MAX_PLAYER_COUNT];
 
 	public Game() {
     players[0] = new Player(Color.WHITE);
@@ -33,20 +34,7 @@ public class Game {
 
 
       Visualisation.drawBoard(board);
-      currentPlayer = (currentPlayer + 1) % 2;
+      currentPlayer = (currentPlayer + 1) % MAX_PLAYER_COUNT;
     }
-
-
   }
-
-
-
-  public boolean checkForLegalMove() {
-    return false;
-  }
-
-
-
-
-
 }

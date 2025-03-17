@@ -28,12 +28,9 @@ public record King (Color c) implements IPiece {
         return PieceType.KING;
     }
 
-
     @Override
-    public Field calculateStartField(Move move, IBoard board) throws Move.IllegalMoveException {
-        Field target =  move.target;
+    public List<Field> getCandidateFields(Field target,IBoard board) {
         List<Field> candidateFields = new ArrayList<>();
-
         candidateFields.add(new Field(target.row(), target.column()+1));
         candidateFields.add(new Field(target.row(), target.column()-1));
         candidateFields.add(new Field(target.row()+1, target.column()));
@@ -43,15 +40,14 @@ public record King (Color c) implements IPiece {
         candidateFields.add(new Field(target.row()-1, target.column()+1));
         candidateFields.add(new Field(target.row()+1, target.column()-1));
         candidateFields.add(new Field(target.row()-1, target.column()-1));
+        return candidateFields;
+    }
 
-
-       List<Field> PiecesWithKing = board.getFieldsWithPiece(candidateFields,move.piece);
-       if (PiecesWithKing.isEmpty()) {
-           throw new Move.IllegalMoveException("Wrong piece");
-       }
-       if (PiecesWithKing.size()>1){
+    @Override
+    public Field calculateStartField(List<Field> fields,Move move, IBoard board) throws Move.IllegalMoveException {
+       if (fields.size()>1){
            throw new Move.IllegalMoveException("King exists somehow two times");
        }
-       return PiecesWithKing.get(0);
+       return fields.get(0);
     }
 }

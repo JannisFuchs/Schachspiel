@@ -18,5 +18,5 @@ public interface IBoard {
 
     void makeMove(Move move) throws Move.IllegalMoveException;
 
-    List<Field> getFieldsWithPiece(List<Field> candidateFields, IPiece piece);
+    List<Field> getFieldsWithPiece(IPiece piece);
 }

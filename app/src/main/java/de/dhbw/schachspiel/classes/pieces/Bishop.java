@@ -26,20 +26,23 @@ public record Bishop (Color c) implements IPiece {
     public PieceType getPieceType() {
         return PieceType.BISHOP;
     }
+    @Override
+    public List<Field> getCandidateFields(Field target, IBoard board){
+        List<Field> candidateFields = new ArrayList<>();
+        int min = Math.min(board.getRowLength(),board.getColumnLength());
+        for (int diagonal = 1 ; diagonal < min; diagonal++) {
+            candidateFields.add(new Field(target.row()+diagonal, target.column()+diagonal));
+            candidateFields.add(new Field(target.row()-diagonal, target.column()+diagonal));
+            candidateFields.add(new Field(target.row()+diagonal, target.column()-diagonal));
+            candidateFields.add(new Field(target.row()-diagonal, target.column()-diagonal));
+        }
+        return candidateFields;
+    }
 
     @Override
-    public Field calculateStartField(Move move, IBoard board) throws Move.IllegalMoveException {
+    public Field calculateStartField(List<Field> candiateFields,Move move, IBoard board) throws Move.IllegalMoveException {
         Field target = move.target;
-        List<Field> candidateFields = new ArrayList<>();
-        for (int i = 1 ; i < board.getRowLength(); i++) {
-            candidateFields.add(new Field(target.row()+i, target.column()+i));
-            candidateFields.add(new Field(target.row()-i, target.column()+i));
-            candidateFields.add(new Field(target.row()+i, target.column()-i));
-            candidateFields.add(new Field(target.row()-i, target.column()-i));
-        }
-        List<Field> fieldsWithBishop = board.getFieldsWithPiece(candidateFields, move.piece);
-        if (fieldsWithBishop.isEmpty()) throw new Move.IllegalMoveException("Wrong piece");
-        List<Field> reachableFields = findReachableFields(fieldsWithBishop,target,board);
+        List<Field> reachableFields = findReachableFields(candiateFields,target,board);
         if (reachableFields.isEmpty()) throw new Move.IllegalMoveException("Field not reachable");
         //with this notation it is not possible to get a second bishop for a color so this non-ambiguous
         return reachableFields.get(0);

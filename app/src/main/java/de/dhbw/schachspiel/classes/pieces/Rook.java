@@ -27,23 +27,23 @@ public record Rook (Color c) implements IPiece {
     public PieceType getPieceType() {
         return PieceType.ROOK;
     }
-
     @Override
-    public Field calculateStartField(Move move, IBoard board) throws Move.IllegalMoveException {
-        Field target =  move.target;
+    public List<Field> getCandidateFields(Field target,IBoard board){
         List<Field> candidateFields = new ArrayList<>();
-        for (int i = 1 ; i < board.getRowLength(); i++) {
-            candidateFields.add(new Field(target.row(), target.column()+i));
-            candidateFields.add(new Field(target.row(), target.column()-i));
-            candidateFields.add(new Field(target.row()+i, target.column()));
-            candidateFields.add(new Field(target.row()-i, target.column()));
-
-
+        for (int rows = 1 ; rows < board.getRowLength() ; rows++) {
+            candidateFields.add(new Field(target.row()+rows, target.column()));
+            candidateFields.add(new Field(target.row()-rows, target.column()));
         }
-
-        List<Field> fieldsWithRook = board.getFieldsWithPiece(candidateFields,move.piece);
-        if (fieldsWithRook.isEmpty()) throw new Move.IllegalMoveException("Wrong piece");
-        List<Field> reachableFields = getReachableFields(fieldsWithRook,target,board);
+        for (int columns = 1; columns < board.getColumnLength(); columns++) {
+            candidateFields.add(new Field(target.row(), target.column()+columns));
+            candidateFields.add(new Field(target.row(), target.column()-columns));
+        }
+        return candidateFields;
+    }
+    @Override
+    public Field calculateStartField(List<Field> fields,Move move, IBoard board) throws Move.IllegalMoveException {
+        Field target =  move.target;
+        List<Field> reachableFields = getReachableFields(fields,target,board);
         if (reachableFields.isEmpty()) throw new Move.IllegalMoveException("Field not reachable");
         if (reachableFields.size() == 1) return reachableFields.get(0);
         int row = move.start.row();
@@ -65,12 +65,12 @@ public record Rook (Color c) implements IPiece {
     private List<Field> getReachableFields(List<Field> candidateFields, Field target, IBoard board) {
         List<Field> reachableFields = new ArrayList<>(candidateFields.size());
         for (Field startField:candidateFields){
-            if (startField.isReachableByColumn(startField,board)){
+            if (target.isReachableByColumn(startField,board)){
                 reachableFields.add(startField);
                 continue;
             }
 
-            if (startField.isReachableByRow(startField,board)){
+            if (target.isReachableByRow(startField,board)){
                 reachableFields.add(startField);
             }
         }

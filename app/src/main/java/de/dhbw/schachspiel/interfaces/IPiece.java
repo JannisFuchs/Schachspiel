@@ -5,11 +5,14 @@ import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.Move;
 import de.dhbw.schachspiel.classes.PieceType;
 
+import java.util.List;
+
 public interface IPiece {
   // gets the piece as a unicode character
   char getSymbol();
   Color getColor();
   PieceType getPieceType();
+  List<Field> getCandidateFields(Field target, IBoard board);
 
   /**
    *
@@ -17,5 +20,5 @@ public interface IPiece {
    * @param board the whole board before the piece moves
    * @return the field on which the piece currently stands
    */
-  Field calculateStartField(Move move, IBoard board) throws Move.IllegalMoveException;
+  Field calculateStartField(List<Field>candidateFields,Move move, IBoard board) throws Move.IllegalMoveException;
 }
