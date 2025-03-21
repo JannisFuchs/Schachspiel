@@ -5,10 +5,12 @@ package de.dhbw.schachspiel;
 
 import de.dhbw.schachspiel.classes.Game;
 
-public class App {
+public class App
+{
 
-  public static void main(String[] args) {
-    new Game();
+    public static void main(String[] args)
+    {
+        new Game();
 
-  }
+    }
 }

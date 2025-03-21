@@ -7,44 +7,65 @@ import de.dhbw.schachspiel.interfaces.IPiece;
 
 import java.util.Map;
 
-public class MockBoard implements IBoard {
-    private final IPiece [][] board;
+public class MockBoard implements IBoard
+{
+    private final Map<Field, IPiece> board;
+
+    public MockBoard(Map<Field, IPiece> importantPieces)
+    {
+        this.board = importantPieces;
+    }
 
 
-    public MockBoard(Map<Field,IPiece> importantPieces) {
-        board = new IPiece[8][8];
-        for (int row = 0; row < 8; row++) {
-            for (int column = 0; column < 8; column++) {
-                board[row][column] = new None(Color.RESET);
+    @Override
+    public void makeMove(Move move) throws Move.IllegalMoveException
+    {
+
+    }
+
+    @Override
+    public void simulateMove(Move move) throws Move.IllegalMoveException
+    {
+
+    }
+
+
+    @Override
+    public IPiece getPiece(Field currentField)
+    {
+        IPiece piece = board.get(currentField);
+        if (piece == null)
+        {
+            return new None(Color.RESET);
+        }
+        return piece;
+    }
+
+    @Override
+    public Field getKingField(Color color)
+    {
+        Field kingField = new Field(-1, -1);
+        for (Field field : board.keySet())
+        {
+            if (board.get(field).getPieceType() == PieceType.KING && board.get(field).getColor() == color)
+            {
+                kingField = field;
             }
         }
-        for (Map.Entry<Field, IPiece> entry : importantPieces.entrySet()) {
-            board[entry.getKey().row()][entry.getKey().column()] = entry.getValue();
-        }
-    }
-
-
-    @Override
-    public void makeMove(Move move) throws Move.IllegalMoveException {
+        return kingField;
 
     }
 
-
-
-
     @Override
-    public IPiece getPiece(Field currentField) {
-        return board[currentField.row()][currentField.column()];
+    public int getRowLength()
+    {
+        return 8;
     }
 
     @Override
-    public int getRowLength() {
-        return board.length;
-    }
-
-    @Override
-    public int getColumnLength() {
-        return board[0].length;
+    public int getColumnLength()
+    {
+        return 8;
     }
 
 }
