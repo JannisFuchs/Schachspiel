@@ -1,11 +1,6 @@
 package de.dhbw.schachspiel.interfaces;
 
-import de.dhbw.schachspiel.classes.Color;
-import de.dhbw.schachspiel.classes.Field;
-import de.dhbw.schachspiel.classes.Move;
-import de.dhbw.schachspiel.classes.PieceType;
-
-import java.util.List;
+import de.dhbw.schachspiel.classes.*;
 
 public interface IBoard {
     IPiece getPiece(Field currentField);
@@ -14,9 +9,7 @@ public interface IBoard {
 
     int getColumnLength();
 
-    boolean isOccupiedByColor(Color color, Field target);
-
     void makeMove(Move move) throws Move.IllegalMoveException;
 
-    List<Field> getFieldsWithPiece(IPiece piece);
+
 }

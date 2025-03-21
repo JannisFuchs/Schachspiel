@@ -1,14 +1,8 @@
 package de.dhbw.schachspiel.classes.pieces;
 
-import de.dhbw.schachspiel.classes.Color;
-import de.dhbw.schachspiel.classes.Field;
-import de.dhbw.schachspiel.classes.Move;
-import de.dhbw.schachspiel.classes.PieceType;
+import de.dhbw.schachspiel.classes.*;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public record Rook (Color c) implements IPiece {
 
@@ -28,8 +22,8 @@ public record Rook (Color c) implements IPiece {
         return PieceType.ROOK;
     }
     @Override
-    public List<Field> getCandidateFields(Field target,IBoard board){
-        List<Field> candidateFields = new ArrayList<>();
+    public FieldSet getCandidateFields(Field target, IBoard board){
+        FieldSet candidateFields = new FieldSet();
         for (int rows = 1 ; rows < board.getRowLength() ; rows++) {
             candidateFields.add(new Field(target.row()+rows, target.column()));
             candidateFields.add(new Field(target.row()-rows, target.column()));
@@ -41,11 +35,11 @@ public record Rook (Color c) implements IPiece {
         return candidateFields;
     }
     @Override
-    public Field calculateStartField(List<Field> fields,Move move, IBoard board) throws Move.IllegalMoveException {
+    public Field calculateStartField(FieldSet fields, Move move, IBoard board) throws Move.IllegalMoveException {
         Field target =  move.target;
-        List<Field> reachableFields = getReachableFields(fields,target,board);
+        FieldSet reachableFields = getReachableFields(fields,target,board);
         if (reachableFields.isEmpty()) throw new Move.IllegalMoveException("Field not reachable");
-        if (reachableFields.size() == 1) return reachableFields.get(0);
+        if (reachableFields.size() == 1) return reachableFields.getSingleItem();
         int row = move.start.row();
         int column = move.start.column();
         if (row == -1 && column == -1) throw new Move.IllegalMoveException("Ambiguous piece");
@@ -58,22 +52,16 @@ public record Rook (Color c) implements IPiece {
             throw new Move.IllegalMoveException("Wrong start coordinate");
         }
         if (row!=-1){
-            return Field.findColumn(row,reachableFields);
+            return reachableFields.findColumn(row);
         }
-        return Field.findRow(column,reachableFields);
+        return reachableFields.findColumn(row);
     }
-    private List<Field> getReachableFields(List<Field> candidateFields, Field target, IBoard board) {
-        List<Field> reachableFields = new ArrayList<>(candidateFields.size());
-        for (Field startField:candidateFields){
-            if (target.isReachableByColumn(startField,board)){
-                reachableFields.add(startField);
-                continue;
-            }
-
-            if (target.isReachableByRow(startField,board)){
-                reachableFields.add(startField);
-            }
-        }
+    private FieldSet getReachableFields(FieldSet candidateFields, Field target, IBoard board) {
+        FieldSet reachableFields = new FieldSet();
+        FieldSet row = candidateFields.filterReachableByRow(target,board);
+        FieldSet column = candidateFields.filterReachableByColumn(target,board);
+        reachableFields.addAll(row);
+        reachableFields.addAll(column);
         return reachableFields;
     }
 }

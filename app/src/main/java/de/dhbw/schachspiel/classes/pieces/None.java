@@ -1,9 +1,6 @@
 package de.dhbw.schachspiel.classes.pieces;
 
-import de.dhbw.schachspiel.classes.Color;
-import de.dhbw.schachspiel.classes.Field;
-import de.dhbw.schachspiel.classes.Move;
-import de.dhbw.schachspiel.classes.PieceType;
+import de.dhbw.schachspiel.classes.*;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
 
@@ -28,12 +25,12 @@ public record None (Color c) implements IPiece {
     }
 
     @Override
-    public List<Field> getCandidateFields(Field target, IBoard board) {
-        return List.of();
+    public FieldSet getCandidateFields(Field target, IBoard board) {
+        return new FieldSet();
     }
 
     @Override
-    public Field calculateStartField(List<Field> fieldList, Move move, IBoard board) {
+    public Field calculateStartField(FieldSet set, Move move, IBoard board) {
         throw new IllegalCallerException("This class is just a null wrapper and this method should not be called");
     }
 }

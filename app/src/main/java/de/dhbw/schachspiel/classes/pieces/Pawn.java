@@ -1,14 +1,10 @@
 package de.dhbw.schachspiel.classes.pieces;
 
-import de.dhbw.schachspiel.classes.Color;
-import de.dhbw.schachspiel.classes.Field;
-import de.dhbw.schachspiel.classes.Move;
-import de.dhbw.schachspiel.classes.PieceType;
+import de.dhbw.schachspiel.classes.*;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
 public record Pawn (Color c) implements IPiece {
 
@@ -28,8 +24,8 @@ public record Pawn (Color c) implements IPiece {
     }
 
     @Override
-    public List<Field> getCandidateFields(Field target,IBoard board){
-        List<Field> candidateFields = new ArrayList<>();
+    public FieldSet getCandidateFields(Field target, IBoard board){
+        FieldSet candidateFields = new FieldSet();
 
         candidateFields.add(new Field(target.row()+1, target.column()));
         candidateFields.add(new Field(target.row()+2, target.column()));
@@ -42,35 +38,50 @@ public record Pawn (Color c) implements IPiece {
         return candidateFields;
     }
     @Override
-    public Field calculateStartField(List<Field> fields,Move move, IBoard board) throws Move.IllegalMoveException {
+    public Field calculateStartField(FieldSet fields, Move move, IBoard board) throws Move.IllegalMoveException {
         /*
          * 4 possible start squares from each color
          * 2 from capture
          * 2 from normal moving (pawn can move two square at a time)
          */
-        if (fields.isEmpty()) {
+        FieldSet candidateFields = filterBehindSquares(fields,move.target,move.piece.getColor());
+        if (candidateFields.isEmpty()) {
             throw new Move.IllegalMoveException("No pieces found");
         }
         if (move.isCapture){
-            return calculateCapture(move,board, fields);
+            return calculateCapture(move,board, candidateFields);
         }
-        return calculateNormalMove(move,board,fields);
+        return calculateNormalMove(move,board,candidateFields);
 }
-private Field calculateCapture(Move move, IBoard board, List<Field> candidateFields) throws Move.IllegalMoveException {
+private FieldSet filterBehindSquares(FieldSet candidateFields, Field target,Color pieceColor) {
+    Iterator<Field> allFields = candidateFields.getIterator();
+    FieldSet reachableFields = new FieldSet();
+    while (allFields.hasNext()) {
+        Field field = allFields.next();
+        if (pieceColor == Color.WHITE && field.row() < target.row()) {
+            reachableFields.add(field);
+        }
+        else {
+            reachableFields.add(field);
+        }
+    }
+    return reachableFields;
+}
+private Field calculateCapture(Move move, IBoard board, FieldSet candidateFields) throws Move.IllegalMoveException {
     Field target = move.target;
     Color enemyColor = Color.WHITE;
     if (move.piece.getColor() == Color.WHITE){
         enemyColor = Color.BLACK;
     }
-    if (!board.isOccupiedByColor(enemyColor,target)){
+    if (!target.isOccupiedByColor(enemyColor,board)){
         throw new Move.IllegalMoveException("Target is no capture");
     }
-    candidateFields.removeIf(field -> !target.isReachableByDiagonal(field,board));
+    candidateFields = candidateFields.filterReachableByDiagonal(target,board);
     if (candidateFields.isEmpty()) {
         throw new Move.IllegalMoveException("No pieces found");
     }
     if (candidateFields.size() == 1) {
-        return candidateFields.get(0);
+        return candidateFields.getSingleItem();
     }
     if (candidateFields.size() > 2) {
         throw new Move.IllegalMoveException("This should not happen");
@@ -79,30 +90,25 @@ private Field calculateCapture(Move move, IBoard board, List<Field> candidateFie
     if(column == -1){
         throw new Move.IllegalMoveException("move is ambiguous");
     }
-    for (Field f: candidateFields) {
-        if (f.column() == column) {
-            return f;
-        }
-    }
-    throw new Move.IllegalMoveException("Field not found");
+    return candidateFields.findRow(column);
 
 }
 
 
-private Field calculateNormalMove(Move move, IBoard board, List<Field> candidateFields) throws Move.IllegalMoveException {
+private Field calculateNormalMove(Move move, IBoard board, FieldSet candidateFields) throws Move.IllegalMoveException {
     Field target = move.target;
-    if (board.isOccupiedByColor(Color.BLACK,target)||board.isOccupiedByColor(Color.WHITE, target)) {
+    if (target.isOccupiedByColor(Color.BLACK,board)||target.isOccupiedByColor(Color.WHITE, board)) {
         throw new Move.IllegalMoveException("Field is occupied");
     }
 
-	candidateFields.removeIf(f -> !target.isReachableByColumn(f, board));
+	candidateFields = candidateFields.filterReachableByColumn(target,board);
     if (candidateFields.isEmpty()) {
         throw new Move.IllegalMoveException("No pieces found");
     }
     if (candidateFields.size() > 1) {
         throw new Move.IllegalMoveException("This should not happen");
     }
-    return calculateMove(candidateFields.get(0),move,board);
+    return calculateMove(candidateFields.getSingleItem(),move,board);
 
 }
 private Field calculateMove(Field start, Move move, IBoard board) throws Move.IllegalMoveException {

@@ -1,14 +1,8 @@
 package de.dhbw.schachspiel.classes.pieces;
 
-import de.dhbw.schachspiel.classes.Color;
-import de.dhbw.schachspiel.classes.Field;
-import de.dhbw.schachspiel.classes.Move;
-import de.dhbw.schachspiel.classes.PieceType;
+import de.dhbw.schachspiel.classes.*;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public record Bishop (Color c) implements IPiece {
 
@@ -27,8 +21,8 @@ public record Bishop (Color c) implements IPiece {
         return PieceType.BISHOP;
     }
     @Override
-    public List<Field> getCandidateFields(Field target, IBoard board){
-        List<Field> candidateFields = new ArrayList<>();
+    public FieldSet getCandidateFields(Field target, IBoard board){
+        FieldSet candidateFields = new FieldSet();
         int min = Math.min(board.getRowLength(),board.getColumnLength());
         for (int diagonal = 1 ; diagonal < min; diagonal++) {
             candidateFields.add(new Field(target.row()+diagonal, target.column()+diagonal));
@@ -40,20 +34,11 @@ public record Bishop (Color c) implements IPiece {
     }
 
     @Override
-    public Field calculateStartField(List<Field> candiateFields,Move move, IBoard board) throws Move.IllegalMoveException {
+    public Field calculateStartField(FieldSet candiateFields, Move move, IBoard board) throws Move.IllegalMoveException {
         Field target = move.target;
-        List<Field> reachableFields = findReachableFields(candiateFields,target,board);
+        FieldSet reachableFields = candiateFields.filterReachableByDiagonal(target,board);
         if (reachableFields.isEmpty()) throw new Move.IllegalMoveException("Field not reachable");
         //with this notation it is not possible to get a second bishop for a color so this non-ambiguous
-        return reachableFields.get(0);
-    }
-    private List<Field> findReachableFields(List<Field> fields,Field target, IBoard board){
-        List<Field> reachableFields = new ArrayList<>(fields.size());
-        for (Field startField:fields){
-            if (target.isReachableByDiagonal(startField,board)){
-                reachableFields.add(startField);
-            }
-        }
-        return reachableFields;
+        return reachableFields.getSingleItem();
     }
 }

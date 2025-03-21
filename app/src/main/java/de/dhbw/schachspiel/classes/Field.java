@@ -2,27 +2,15 @@ package de.dhbw.schachspiel.classes;
 
 import de.dhbw.schachspiel.classes.pieces.None;
 import de.dhbw.schachspiel.interfaces.IBoard;
+import de.dhbw.schachspiel.interfaces.IPiece;
 
 import java.util.ArrayList;
 import java.util.List;
 
+//FieldList wrapper around List<Field> to provide additional functionality
 public record Field(int row, int column) {
 
-    public static Field findRow(int column, List<Field> fields) throws Move.IllegalMoveException {
-        Field target = null;
 
-        for (Field field : fields) {
-            if (field.column == column && target == null) {
-                target = field;
-                continue;
-            }
-            throw new Move.IllegalMoveException("Move is ambiguous");
-        }
-        if (target == null){
-            throw new Move.IllegalMoveException("No piece found ");
-        }
-        return target;
-    }
 
     /**
      * target and start field are on the same diagonal
@@ -82,28 +70,10 @@ public record Field(int row, int column) {
 
         return true;
     }
-    public static Field findColumn(int row, List<Field> fields) throws Move.IllegalMoveException {
-        Field target = null;
 
-        for (Field field : fields) {
-            if (field.row == row && target == null) {
-                target = field;
-                continue;
-            }
-            throw new Move.IllegalMoveException("Move is ambiguous");
-        }
-        if (target == null){
-            throw new Move.IllegalMoveException("No piece found ");
-        }
-        return target;
-    }
-    public static List<Field> intersectionOfFieldList(List<Field> fieldList, List<Field> otherList){
-        List<Field> interceptFields = new ArrayList<>();
-        for (Field field:fieldList){
-            if (otherList.contains(field)){
-                interceptFields.add(field);
-            }
-        }
-        return interceptFields;
+    public boolean isOccupiedByColor(Color color, IBoard board) {
+        IPiece piece = board.getPiece(this);
+        if(piece.getPieceType() == PieceType.NONE) return false;
+        return piece.getColor() == color;
     }
 }

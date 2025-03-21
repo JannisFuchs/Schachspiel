@@ -4,9 +4,6 @@ import de.dhbw.schachspiel.classes.pieces.PieceFactory;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Board implements IBoard {
     private final IPiece[][] board;
     public Board(int rows, int columns) {
@@ -29,11 +26,7 @@ public class Board implements IBoard {
     public int getColumnLength() {
         return board[0].length;
     }
-    public boolean isOccupiedByColor(Color color, Field target) {
-        IPiece piece = board[target.row()][target.column()];
-        if(piece.getPieceType() == PieceType.NONE) return false;
-		return piece.getColor() == color;
-	}
+
 
     /**
    * checks if a field is occupied. This is sufficient for normal pieces but pawns need extra checking
@@ -44,18 +37,18 @@ public class Board implements IBoard {
     private void checksField(Move move) throws Move.IllegalMoveException {
         Field target = move.target;
         //these ifs check if the target field is free might move the code up
-        if (isOccupiedByColor(move.piece.getColor(), target)) {
+        if (target.isOccupiedByColor(move.piece.getColor(), this)) {
             throw new Move.IllegalMoveException("Can't capture your own piece");
         }
         Color enemyColor = Color.getOtherColor(move.piece.getColor());
-        if (isOccupiedByColor(enemyColor, target)&&!move.isCapture){
+        if (target.isOccupiedByColor(enemyColor, this)&&!move.isCapture){
             throw new Move.IllegalMoveException("This move is not a capture");
         }
     }
 public void makeMove(Move move) throws Move.IllegalMoveException {
     IPiece piece = move.piece;
     checksField(move);
-    List<Field> fields = selectFields(move);
+    FieldSet fields = selectFields(move);
     Field startField = piece.calculateStartField(fields,move,this);
     int startRow = startField.row();
     int startCol = startField.column();
@@ -69,9 +62,9 @@ public void makeMove(Move move) throws Move.IllegalMoveException {
     board[endRow][endCol] = currentPiece;
 
   }
-  @Override
-  public List<Field> getFieldsWithPiece(IPiece piece) {
-      List<Field> fieldsWithPiece = new ArrayList<>();
+
+  private FieldSet getFieldsWithPiece(IPiece piece) {
+      FieldSet fieldsWithPiece = new FieldSet();
       for (int i = 0; i < getRowLength(); i++) {
           for (int j = 0; j < getColumnLength(); j++) {
               if (board[i][j].equals(piece)) {
@@ -81,12 +74,12 @@ public void makeMove(Move move) throws Move.IllegalMoveException {
       }
       return fieldsWithPiece;
   }
-  public List<Field> selectFields(Move move){
+  public FieldSet selectFields(Move move){
         IPiece movingPiece = move.piece;
         Field target = move.target;
-        List<Field> candidateFields = movingPiece.getCandidateFields(target,this);
-        List<Field> allFieldsWithPiece = getFieldsWithPiece( move.piece);
-      return Field.intersectionOfFieldList(candidateFields,allFieldsWithPiece);
+        FieldSet candidateFields = movingPiece.getCandidateFields(target,this);
+        FieldSet allFieldsWithPiece = getFieldsWithPiece( move.piece);
+        return candidateFields.intersectionOfFieldList(allFieldsWithPiece);
     }
 
 }
