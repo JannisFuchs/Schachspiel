@@ -1,5 +1,6 @@
 package de.dhbw.schachspiel.classes.pieces;
 
+import de.dhbw.schachspiel.classes.FieldPieceMap;
 import de.dhbw.schachspiel.classes.PieceColor;
 import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.classes.PieceType;
@@ -63,15 +64,17 @@ public class PieceFactory
 
 	}
 
-	public static IPiece[][] createBoard(int rows, int columns)
+	public static FieldPieceMap createBoard(int rows, int columns)
 	{
-		IPiece[][] board = new IPiece[8][8];
+		FieldPieceMap board = new FieldPieceMap(rows * columns);
 		for (int row = 0; row < rows; row++)
 		{
 			PieceColor piecePieceColor = row < 2 ? PieceColor.BLACK : PieceColor.WHITE;
 			for (int column = 0; column < columns; column++)
 			{
-				board[row][column] = PieceFactory.createPieceFromField(new Field(row, column), piecePieceColor);
+				Field currentField = new Field(row, column);
+				IPiece currentPiece = PieceFactory.createPieceFromField(new Field(row, column), piecePieceColor);
+				board.addPair(currentField, currentPiece);
 			}
 		}
 		return board;
