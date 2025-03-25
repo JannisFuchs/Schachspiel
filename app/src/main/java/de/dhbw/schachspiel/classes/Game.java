@@ -9,119 +9,101 @@ import java.util.Scanner;
 
 public class Game
 {
-	private static final Scanner SCANNER = new Scanner(System.in);
-	private final int MAX_PLAYER_COUNT = 2;
-	private final IBoard board;
+    private static final Scanner SCANNER = new Scanner(System.in);
+    private final int MAX_PLAYER_COUNT = 2;
+    private final IBoard board;
 
-	int currentPlayer;
-	IPlayer[] players = new IPlayer[MAX_PLAYER_COUNT];
+    int currentPlayer;
+    IPlayer[] players = new IPlayer[MAX_PLAYER_COUNT];
 
-	public Game()
-	{
-		players[0] = new Player(PieceColor.WHITE);
-		players[1] = new Player(PieceColor.BLACK);
-		currentPlayer = 0;
+    public Game()
+    {
+        players[0] = new Player(PieceColor.WHITE);
+        players[1] = new Player(PieceColor.BLACK);
+        currentPlayer = 0;
 
-		board = new Board(8, 8);
-		Visualisation output = createVisualisation();
-		output.setCheck(new Field(0, 0));
-		output.drawBoard(board);
-		for (int i = 0; i < 50; i++)
-		{
-			//this is a duplication see Move class
-			boolean isValid = false;
-			while (!isValid)
-			{
-				try
-				{
-					Move m = players[currentPlayer].readMove(SCANNER);
-
-					isValid = testMove(m);
-					output.drawBoard(board);
-					if (!isValid)
-					{
-						System.out.println("This puts the king in check");
-					}
-					else
-					{
-						board.makeMove(m);
-					}
-				} catch (Move.IllegalMoveException e)
-				{
-					System.out.println(e.getMessage());
-				}
-			}
+        board = new Board(8, 8);
+        Visualisation output = createVisualisation();
 
 
-			currentPlayer = (currentPlayer + 1) % MAX_PLAYER_COUNT;
-		}
-	}
+        for (int i = 0; i < 50; i++)
+        {
+            //this is a duplication see Move class
+            PieceColor currentPieceColor = players[currentPlayer].getColor();
+            CheckHandler handler = new CheckHandler(board, currentPieceColor);
+            handleDrawing(output, handler);
+            if (handler.isMate())
+            {
+                System.out.println("Checkmate : " + players[currentPlayer].getColor() + " wins");
+                break;
+            }
+            handleMove();
+            currentPlayer = (currentPlayer + 1) % MAX_PLAYER_COUNT;
+        }
+    }
 
-	/**
-	 * This tries to execute the entered move
-	 *
-	 * @param m the current move
-	 * @return true if the move is valid false if this move puts the king in check
-	 * @throws Move.IllegalMoveException if the move is otherwise illegal
-	 */
-	boolean testMove(Move m) throws Move.IllegalMoveException
-	{
-		IBoard clone = board.copy();
-		clone.makeMove(m);
-		return !isInCheck(clone);
-	}
+    public void handleDrawing(Visualisation output, CheckHandler handler)
+    {
+        if (handler.isCheck())
+        {
+            Field fieldWithKing = board.getKingField(handler.color());
+            output.setCheck(fieldWithKing);
+        }
+        output.drawBoard(board);
 
-	boolean isInCheck(IBoard board)
-	{
-		IPlayer player = players[currentPlayer];
-		PieceColor currentPieceColor = player.getColor();
-		PieceColor enemyPieceColor = currentPieceColor.getOtherColor();
-		Field currentKingField = board.getKingField(currentPieceColor);
-		for (PieceType type : PieceType.values())
-		{
-			if (type.equals(PieceType.NONE))
-			{
-				continue;
-			}
+    }
 
-			IPiece piece = PieceFactory.createPieceFromType(type, enemyPieceColor);
-			if (canReachField(currentKingField, piece))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
+    public void handleMove()
+    {
+        boolean isValid = false;
+        while (!isValid)
+        {
+            try
+            {
 
-	boolean canReachField(Field target, IPiece piece)
-	{
-		Move necessaryMove = createMove(target, piece);
-		try
-		{
-			board.simulateMove(necessaryMove);
-		} catch (Move.AmbiguousMoveException e)
-		{
-			return true;
-		} catch (Move.IllegalMoveException e)
-		{
-			return false;
-		}
-		return true;
-	}
+                Move m = players[currentPlayer].readMove(SCANNER);
 
-	Move createMove(Field target, IPiece piece)
-	{
-		Field start = new Field(-1, -1);
-		return new Move(start, target, piece, true, false, false);
-	}
+                isValid = testMove(m);
+                if (!isValid)
+                {
+                    System.out.println("This puts the king in check");
+                }
+                else
+                {
+                    board.makeMove(m);
+                }
 
-	Visualisation createVisualisation()
-	{
-		Color blackPieces = new Color(0, 0, 0, false);
-		Color whitePieces = new Color(255, 255, 255, false);
-		Color whiteSquares = new Color(210, 187, 151, true);
-		Color blackSquares = new Color(151, 106, 79, true);
-		Color redSquares = new Color(255, 0, 0, true);
-		return new Visualisation(blackPieces, whitePieces, blackSquares, whiteSquares, redSquares);
-	}
+            } catch (Move.IllegalMoveException e)
+            {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * This tries to execute the entered move
+     *
+     * @param m the current move
+     * @return true if the move is valid false if this move puts the king in check
+     * @throws Move.IllegalMoveException if the move is otherwise illegal
+     */
+    boolean testMove(Move m) throws Move.IllegalMoveException
+    {
+        PieceColor currentPieceColor = players[currentPlayer].getColor();
+        IBoard clone = board.copy();
+        clone.makeMove(m);
+        CheckHandler handler = new CheckHandler(clone, currentPieceColor);
+        return !handler.isCheck();
+    }
+
+
+    Visualisation createVisualisation()
+    {
+        Color blackPieces = new Color(0, 0, 0, false);
+        Color whitePieces = new Color(255, 255, 255, false);
+        Color whiteSquares = new Color(210, 187, 151, true);
+        Color blackSquares = new Color(151, 106, 79, true);
+        Color redSquares = new Color(255, 0, 0, true);
+        return new Visualisation(blackPieces, whitePieces, blackSquares, whiteSquares, redSquares);
+    }
 }
