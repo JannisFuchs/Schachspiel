@@ -1,6 +1,5 @@
-package de.dhbw.schachspiel;
+package de.dhbw.schachspiel.classes;
 
-import de.dhbw.schachspiel.classes.Field;
 import de.dhbw.schachspiel.interfaces.IPiece;
 
 public class FieldPiecePair
