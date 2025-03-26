@@ -4,26 +4,20 @@ import de.dhbw.schachspiel.classes.*;
 
 public interface IBoard
 {
-	IPiece getPiece(Field currentField);
+    IPiece getPiece(Field currentField);
 
-	Field getKingField(PieceColor pieceColor);
+    Field getKingField(PieceColor pieceColor);
 
-	int getRowLength();
+    int getRowLength();
 
-	int getColumnLength();
+    int getColumnLength();
 
-	void makeMove(Move move) throws Move.IllegalMoveException;
+    void makeMove(Move move) throws Move.IllegalMoveException;
 
-	Field simulateMove(Move move) throws Move.IllegalMoveException;
+    Field simulateMove(Move move) throws Move.IllegalMoveException;
 
-	FieldSet getFieldsWithPiece(IPiece piece);
+    FieldSet getFieldsWithPiece(IPiece piece);
 
+    IBoard copy();
 
-	class UncommittedChangesException extends IllegalStateException
-	{
-		public UncommittedChangesException(String message)
-		{
-			super(message);
-		}
-	}
 }

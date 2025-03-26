@@ -4,13 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f5a42d11-bd89-495f-b908-2a867175b719" name="Changes" comment="started to implement FieldPieceMap">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/FieldPieceMap.java" afterDir="false" />
+    <list default="true" id="f5a42d11-bd89-495f-b908-2a867175b719" name="Changes" comment="implemented Rook test, used formatter, started on Check Functionality">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/CheckHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/PieceFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/PieceFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Field.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Field.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/FieldSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/FieldSet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/pieces/Pawn.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/interfaces/IBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/interfaces/IBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/de/dhbw/schach/MockBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/test/java/de/dhbw/schach/MockBoard.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -420,8 +424,7 @@
     <MESSAGE value="implemented every Move&#10;changed Readme" />
     <MESSAGE value="added Piece enum&#10;Pawn needs refactoring" />
     <MESSAGE value="fixed colors" />
-    <MESSAGE value="started to implement FieldPieceMap" />
-    <option name="LAST_COMMIT_MESSAGE" value="started to implement FieldPieceMap" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed colors" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
