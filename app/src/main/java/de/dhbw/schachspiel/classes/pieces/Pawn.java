@@ -4,8 +4,6 @@ import de.dhbw.schachspiel.classes.*;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
 
-import java.util.Iterator;
-
 public record Pawn(PieceColor c) implements IPiece
 {
 
@@ -76,11 +74,7 @@ public record Pawn(PieceColor c) implements IPiece
         Field filteredStart = startField.getSingleItem();
         int differenceRow = Math.abs(filteredStart.row() - target.row());
         int differenceColumn = Math.abs(filteredStart.column() - target.column());
-        if (differenceRow == 1 && differenceColumn == 1)
-        {
-            return true;
-        }
-        return false;
+        return differenceRow == 1 && differenceColumn == 1;
 
     }
 
@@ -88,17 +82,17 @@ public record Pawn(PieceColor c) implements IPiece
     {
 
         FieldSet reachableFields = new FieldSet();
-		for (Field field : candidateFields.getSet())
-		{
-			if (piecePieceColor == PieceColor.WHITE && field.row() < target.row())
-			{
-				reachableFields.add(field);
-			}
-			else
-			{
-				reachableFields.add(field);
-			}
-		}
+        for (Field field : candidateFields.getSet())
+        {
+            if (piecePieceColor == PieceColor.WHITE && field.row() < target.row())
+            {
+                reachableFields.add(field);
+            }
+            else
+            {
+                reachableFields.add(field);
+            }
+        }
 
         return reachableFields;
     }

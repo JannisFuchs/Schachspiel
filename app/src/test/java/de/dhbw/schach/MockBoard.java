@@ -43,17 +43,6 @@ public class MockBoard implements IBoard
         return fields;
     }
 
-    @Override
-    public Map<Field, IPiece> getAllPiecesFromColor(PieceColor color)
-    {
-        return Map.of();
-    }
-
-    @Override
-    public FieldSet getAttacker(Field target, PieceColor attacker)
-    {
-        return null;
-    }
 
     @Override
     public void undoMove()

@@ -99,30 +99,33 @@ public record Field(int row, int column)
         return piece.getColor() == pieceColor;
     }
 
-    public boolean isValid()
-    {
-        return row >= 0 && row <= 7 && column >= 0 && column <= 7;
-    }
-    public FieldSet getFieldsInBetween( Field target)
+    public FieldSet getFieldsInBetween(Field target)
     {
         FieldSet fieldsInBetween = new FieldSet();
         int rowDiff = Math.abs(target.row() - this.row());
         int columnDiff = Math.abs(target.column() - this.column());
         if (rowDiff == 0)
         {
-            fieldsInBetween = getFieldsInBetweenRow( target);
+            fieldsInBetween = getFieldsInBetweenRow(target);
         }
-        else if (columnDiff == 0)
+        else
         {
-            fieldsInBetween = getFieldsInBetweenColumn( target);
-        }
-        else if (rowDiff == columnDiff)
+            if (columnDiff == 0)
             {
-                fieldsInBetween = getFieldsInBetweenDiagonal( target);
+                fieldsInBetween = getFieldsInBetweenColumn(target);
             }
+            else
+            {
+                if (rowDiff == columnDiff)
+                {
+                    fieldsInBetween = getFieldsInBetweenDiagonal(target);
+                }
+            }
+        }
         return fieldsInBetween;
     }
-    private FieldSet getFieldsInBetweenRow( Field target)
+
+    private FieldSet getFieldsInBetweenRow(Field target)
     {
         FieldSet fieldsInBetween = new FieldSet();
         int columnDiff = Math.abs(target.column() - this.column());
@@ -142,7 +145,8 @@ public record Field(int row, int column)
         }
         return fieldsInBetween;
     }
-    private FieldSet getFieldsInBetweenColumn( Field target)
+
+    private FieldSet getFieldsInBetweenColumn(Field target)
     {
         FieldSet fieldsInBetween = new FieldSet();
         int rowDiff = Math.abs(target.row() - this.row());
@@ -162,7 +166,8 @@ public record Field(int row, int column)
         }
         return fieldsInBetween;
     }
-    private FieldSet getFieldsInBetweenDiagonal( Field target)
+
+    private FieldSet getFieldsInBetweenDiagonal(Field target)
     {
         FieldSet fieldsInBetween = new FieldSet();
         int columnDiff = Math.abs(target.column() - this.column());

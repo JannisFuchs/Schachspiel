@@ -36,10 +36,15 @@ application {
     // Define the main class for the application.
     mainClass = "de.dhbw.schachspiel.App"
 }
-tasks.named<JavaExec>("run"){
+tasks.named<JavaExec>("run") {
     standardInput = System.`in`
 }
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+tasks.named<Jar>("jar") {
+    manifest {
+        attributes["Main-Class"] = "de.dhbw.schachspiel.App"
+    }
 }

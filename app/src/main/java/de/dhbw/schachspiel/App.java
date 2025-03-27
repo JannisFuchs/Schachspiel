@@ -10,7 +10,13 @@ public class App
 
     public static void main(String[] args)
     {
-        new Game();
+
+        String startPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w";
+        if (args.length == 1)
+        {
+            startPosition = args[0];
+        }
+        new Game(startPosition);
 
     }
 }

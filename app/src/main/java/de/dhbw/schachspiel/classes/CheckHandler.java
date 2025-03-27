@@ -8,29 +8,34 @@ import java.util.Map;
 public class CheckHandler
 {
     private final IBoard board;
+    private final BoardHelper helper;
     private final PieceColor color;
     private final PieceColor enemyColor;
     private final Map<Field, IPiece> defenders;
+
     public CheckHandler(IBoard board, PieceColor color)
     {
         this.board = board;
         this.color = color;
         this.enemyColor = color.getOtherColor();
-        defenders = board.getAllPiecesFromColor(color);
+        helper = new BoardHelper(board);
+        defenders = helper.getAllPiecesFromColor(color);
     }
+
     public boolean isCheck()
     {
         Field currentKingField = board.getKingField(color);
         PieceColor enemyColor = color.getOtherColor();
-        return !board.getAttacker(currentKingField,enemyColor).isEmpty();
+        return !helper.getAttacker(currentKingField, enemyColor).isEmpty();
     }
 
     boolean canCaptureAttacker(Field attackField)
     {
-        FieldSet defenderFields = board.getAttacker(attackField,enemyColor);
+        FieldSet defenderFields = helper.getAttacker(attackField, enemyColor);
         for (Field defenderField : defenderFields.getSet())
         {
-            if (!defenders.containsKey(defenderField)){
+            if (!defenders.containsKey(defenderField))
+            {
                 continue;
             }
             Move attack = new Move(defenderField, attackField, defenders.get(defenderField), true, false, false);
@@ -42,8 +47,11 @@ public class CheckHandler
         return false;
 
     }
-    boolean isMoveExecutable(Move move){
-        try{
+
+    boolean isMoveExecutable(Move move)
+    {
+        try
+        {
             board.makeMove(move);
         } catch (Move.IllegalMoveException e)
         {
@@ -54,7 +62,7 @@ public class CheckHandler
         return !isCheck;
     }
 
-    boolean canBlockAttacker(Field kingField , Field fieldToBlock, IPiece attacker)
+    boolean canBlockAttacker(Field kingField, Field fieldToBlock, IPiece attacker)
     {
         if (attacker.getPieceType() == PieceType.KNIGHT)
         {
@@ -70,13 +78,15 @@ public class CheckHandler
         }
         return false;
     }
-    boolean canMoveToFields(Field start,FieldSet target)
+
+    boolean canMoveToFields(Field start, FieldSet target)
     {
         for (Field currentTarget : target.getSet())
         {
             IPiece piece = board.getPiece(start);
             Move move = new Move(start, currentTarget, piece, false, false, false);
-            if (isMoveExecutable(move)){
+            if (isMoveExecutable(move))
+            {
                 return true;
             }
         }
@@ -101,7 +111,7 @@ public class CheckHandler
         for (Field currentField : set.getSet())
         {
 
-            if (!board.getAttacker(currentField,enemyColor).isEmpty())
+            if (!helper.getAttacker(currentField, enemyColor).isEmpty())
             {
                 return true;
             }
@@ -110,18 +120,18 @@ public class CheckHandler
     }
 
 
-
     boolean canOtherPieceDefendKing()
     {
         Field currentKingField = board.getKingField(color);
-        FieldSet attacker = board.getAttacker(currentKingField,enemyColor);
+        FieldSet attacker = helper.getAttacker(currentKingField, enemyColor);
         if (attacker.size() > 1)
         {
             return false;
         }
         Field attackField = attacker.getSingleItem();
         IPiece attackerPiece = board.getPiece(attackField);
-        if (canBlockAttacker(currentKingField,attackField,attackerPiece)){
+        if (canBlockAttacker(currentKingField, attackField, attackerPiece))
+        {
             return true;
         }
 
@@ -141,6 +151,7 @@ public class CheckHandler
 
         return canOtherPieceDefendKing();
     }
+
     public PieceColor getColor()
     {
         return color;

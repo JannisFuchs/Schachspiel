@@ -14,18 +14,37 @@ public class Game
     private final IBoard board;
 
     int currentPlayer;
-    IPlayer[] players = new IPlayer[MAX_PLAYER_COUNT];
+    IPlayer[] players = {new Player(PieceColor.WHITE), new Player(PieceColor.BLACK)};
 
-    public Game()
+    public Game(String startPosition)
     {
-        players[0] = new Player(PieceColor.WHITE);
-        players[1] = new Player(PieceColor.BLACK);
-        currentPlayer = 0;
+        IPiece[][] positionAsPieces = PieceFactory.createBoardFromFEN(startPosition);
+        board = new Board(positionAsPieces);
+        initializePlayer(startPosition);
+        play();
+    }
 
-        board = new Board(8, 8);
+    void initializePlayer(String startPosition)
+    {
+        String[] split = startPosition.split(" ");
+        if (split[1].equals("w"))
+        {
+            currentPlayer = 0;
+        }
+        else if (split[1].equals("b"))
+        {
+            currentPlayer = 1;
+        }
+        else
+        {
+            throw new IllegalArgumentException("Invalid FEN");
+        }
+    }
+
+
+    public void play()
+    {
         Visualisation output = createVisualisation();
-
-
         for (int i = 0; i < 50; i++)
         {
             //this is a duplication see Move class
@@ -69,7 +88,8 @@ public class Game
                     System.out.println("This puts the king in check");
                     board.undoMove();
                 }
-                else {
+                else
+                {
                     board.commitMove();
                 }
 

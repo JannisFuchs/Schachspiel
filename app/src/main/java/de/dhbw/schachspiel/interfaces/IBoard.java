@@ -1,8 +1,9 @@
 package de.dhbw.schachspiel.interfaces;
 
-import de.dhbw.schachspiel.classes.*;
-
-import java.util.Map;
+import de.dhbw.schachspiel.classes.Field;
+import de.dhbw.schachspiel.classes.FieldSet;
+import de.dhbw.schachspiel.classes.Move;
+import de.dhbw.schachspiel.classes.PieceColor;
 
 public interface IBoard
 {
@@ -19,8 +20,8 @@ public interface IBoard
     Field simulateMove(Move move) throws Move.IllegalMoveException;
 
     FieldSet getFieldsWithPiece(IPiece piece);
-    Map<Field, IPiece> getAllPiecesFromColor(PieceColor color);
-    FieldSet getAttacker(Field target,PieceColor attacker);
+
     void undoMove();
+
     void commitMove();
 }
