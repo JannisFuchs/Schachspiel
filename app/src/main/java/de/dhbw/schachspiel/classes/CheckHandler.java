@@ -29,7 +29,7 @@ public class CheckHandler
         return !helper.getAttacker(currentKingField, enemyColor).isEmpty();
     }
 
-    boolean canCaptureAttacker(Field attackField)
+    public boolean canCaptureAttacker(Field attackField)
     {
         FieldSet defenderFields = helper.getAttacker(attackField, enemyColor);
         for (Field defenderField : defenderFields.getSet())
@@ -48,7 +48,7 @@ public class CheckHandler
 
     }
 
-    boolean isMoveExecutable(Move move)
+    public boolean isMoveExecutable(Move move)
     {
         try
         {
@@ -62,7 +62,7 @@ public class CheckHandler
         return !isCheck;
     }
 
-    boolean canBlockAttacker(Field kingField, Field fieldToBlock, IPiece attacker)
+    public boolean canBlockAttacker(Field kingField, Field fieldToBlock, IPiece attacker)
     {
         if (attacker.getPieceType() == PieceType.KNIGHT)
         {
@@ -79,7 +79,7 @@ public class CheckHandler
         return false;
     }
 
-    boolean canMoveToFields(Field start, FieldSet target)
+    public boolean canMoveToFields(Field start, FieldSet target)
     {
         for (Field currentTarget : target.getSet())
         {
@@ -93,7 +93,7 @@ public class CheckHandler
         return false;
     }
 
-    boolean kingCanMove()
+    public boolean kingCanMove()
     {
 
         Field kingField = board.getKingField(color);
@@ -105,7 +105,7 @@ public class CheckHandler
         return !isAnyFieldAttacked(freeFields);
     }
 
-    boolean isAnyFieldAttacked(FieldSet set)
+    public boolean isAnyFieldAttacked(FieldSet set)
     {
 
         for (Field currentField : set.getSet())
@@ -120,7 +120,7 @@ public class CheckHandler
     }
 
 
-    boolean canOtherPieceDefendKing()
+    public boolean canOtherPieceDefendKing()
     {
         Field currentKingField = board.getKingField(color);
         FieldSet attacker = helper.getAttacker(currentKingField, enemyColor);
@@ -149,7 +149,7 @@ public class CheckHandler
             return false;
         }
 
-        return canOtherPieceDefendKing();
+        return !canOtherPieceDefendKing();
     }
 
     public PieceColor getColor()

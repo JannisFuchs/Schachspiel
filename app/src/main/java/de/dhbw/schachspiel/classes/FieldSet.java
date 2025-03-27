@@ -8,14 +8,22 @@ public class FieldSet
 {
     private final HashSet<Field> set = new HashSet<>();
 
-    public void add(Field field)
+    public boolean add(Field field)
     {
-        set.add(field);
+        if (field.isValid())
+        {
+            set.add(field);
+            return true;
+        }
+        return false;
     }
 
     public void addAll(FieldSet fieldSet)
     {
-        set.addAll(fieldSet.set);
+        for (Field field : fieldSet.getSet())
+        {
+            add(field);
+        }
     }
 
     public HashSet<Field> getSet()
@@ -186,7 +194,6 @@ public class FieldSet
         }
         return filteredSet;
     }
-
 
 
 }
