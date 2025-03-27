@@ -63,6 +63,27 @@ public record Pawn(PieceColor c) implements IPiece
         return calculateNormalMove(move, board, candidateFields);
     }
 
+    @Override
+    public boolean isAbleToAttack(Field start, Field target, PieceColor color, IBoard board)
+    {
+        FieldSet startField = new FieldSet();
+        startField.add(start);
+        startField = filterBehindSquares(startField, target, color);
+        if (startField.isEmpty())
+        {
+            return false;
+        }
+        Field filteredStart = startField.getSingleItem();
+        int differenceRow = Math.abs(filteredStart.row() - target.row());
+        int differenceColumn = Math.abs(filteredStart.column() - target.column());
+        if (differenceRow == 1 && differenceColumn == 1)
+        {
+            return true;
+        }
+        return false;
+
+    }
+
     private FieldSet filterBehindSquares(FieldSet candidateFields, Field target, PieceColor piecePieceColor)
     {
 

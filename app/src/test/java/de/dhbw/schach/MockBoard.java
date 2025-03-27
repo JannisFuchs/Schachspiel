@@ -43,6 +43,30 @@ public class MockBoard implements IBoard
         return fields;
     }
 
+    @Override
+    public Map<Field, IPiece> getAllPiecesFromColor(PieceColor color)
+    {
+        return Map.of();
+    }
+
+    @Override
+    public FieldSet getAttacker(Field target, PieceColor attacker)
+    {
+        return null;
+    }
+
+    @Override
+    public void undoMove()
+    {
+
+    }
+
+    @Override
+    public void commitMove()
+    {
+
+    }
+
 
     @Override
     public IPiece getPiece(Field currentField)
@@ -50,7 +74,7 @@ public class MockBoard implements IBoard
         IPiece piece = board.get(currentField);
         if (piece == null)
         {
-            return new None(PieceColor.RESET);
+            return new None(PieceColor.WHITE);
         }
         return piece;
     }
@@ -81,12 +105,5 @@ public class MockBoard implements IBoard
     {
         return 8;
     }
-
-    @Override
-    public IBoard copy()
-    {
-        return new MockBoard(board);
-    }
-
 
 }

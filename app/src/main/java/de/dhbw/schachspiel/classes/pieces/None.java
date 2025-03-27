@@ -37,4 +37,10 @@ public record None(PieceColor c) implements IPiece
 	{
 		throw new IllegalCallerException("This class is just a null wrapper and this method should not be called");
 	}
+
+	@Override
+	public boolean isAbleToAttack(Field start, Field target, PieceColor color, IBoard board)
+	{
+		return false;
+	}
 }

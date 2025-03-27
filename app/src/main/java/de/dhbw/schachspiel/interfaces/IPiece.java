@@ -19,4 +19,5 @@ public interface IPiece
 	 * @return the field on which the piece currently stands
 	 */
 	Field calculateStartField(FieldSet list, Move move, IBoard board) throws Move.IllegalMoveException;
+	boolean isAbleToAttack(Field start, Field target, PieceColor color, IBoard board);
 }

@@ -46,7 +46,7 @@ public class Game
     {
         if (handler.isCheck())
         {
-            Field fieldWithKing = board.getKingField(handler.color());
+            Field fieldWithKing = board.getKingField(handler.getColor());
             output.setCheck(fieldWithKing);
         }
         output.drawBoard(board);
@@ -67,10 +67,10 @@ public class Game
                 if (!isValid)
                 {
                     System.out.println("This puts the king in check");
+                    board.undoMove();
                 }
-                else
-                {
-                    board.makeMove(m);
+                else {
+                    board.commitMove();
                 }
 
             } catch (Move.IllegalMoveException e)
@@ -90,9 +90,8 @@ public class Game
     boolean testMove(Move m) throws Move.IllegalMoveException
     {
         PieceColor currentPieceColor = players[currentPlayer].getColor();
-        IBoard clone = board.copy();
-        clone.makeMove(m);
-        CheckHandler handler = new CheckHandler(clone, currentPieceColor);
+        board.makeMove(m);
+        CheckHandler handler = new CheckHandler(board, currentPieceColor);
         return !handler.isCheck();
     }
 

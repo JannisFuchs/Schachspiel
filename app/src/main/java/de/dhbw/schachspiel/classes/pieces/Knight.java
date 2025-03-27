@@ -69,4 +69,11 @@ public record Knight(PieceColor c) implements IPiece
 		}
 		return fields.findRow(column);
 	}
+
+	@Override
+	public boolean isAbleToAttack(Field start, Field target, PieceColor color, IBoard board)
+	{
+		FieldSet candidateFields = getCandidateFields(start, board);
+		return candidateFields.contains(target);
+	}
 }

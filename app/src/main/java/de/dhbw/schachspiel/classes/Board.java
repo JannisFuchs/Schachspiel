@@ -5,9 +5,7 @@ import de.dhbw.schachspiel.classes.pieces.PieceFactory;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class Board implements IBoard
 {
@@ -19,10 +17,7 @@ public class Board implements IBoard
 		board = PieceFactory.createBoard(rows, columns);
 	}
 
-	public Board(IPiece[][] board)
-	{
-		this.board = board;
-	}
+
 
 	@Override
 	public IPiece getPiece(Field currentField)
@@ -96,7 +91,7 @@ public class Board implements IBoard
 		}
 		FieldPiecePair start = new FieldPiecePair(startField, piece);
 		previousMove.push(start);
-		board[startRow][startCol] = PieceFactory.createPieceFromType(PieceType.NONE, PieceColor.RESET);
+		board[startRow][startCol] = PieceFactory.createPieceFromType(PieceType.NONE, PieceColor.WHITE);
 		int endRow = move.target.row();
 		int endCol = move.target.column();
 		IPiece endPiece = board[endRow][endCol];
@@ -105,12 +100,12 @@ public class Board implements IBoard
 		board[endRow][endCol] = currentPiece;
 
 	}
-
+	@Override
 	public void commitMove()
 	{
 		previousMove.clear();
 	}
-
+	@Override
 	public void undoMove()
 	{
 		FieldPiecePair target = previousMove.pop();
@@ -196,25 +191,44 @@ public class Board implements IBoard
 		}
 		return true;
 	}
-
 	@Override
-	public IBoard copy()
+	public Map<Field, IPiece> getAllPiecesFromColor(PieceColor color)
 	{
-
-		int rowLength = this.getRowLength();
-		int columnLength = this.getColumnLength();
-		IPiece[][] pieces = new IPiece[rowLength][columnLength];
-		for (int row = 0; row < rowLength; row++)
+		Map<Field, IPiece> pieces = new HashMap<>();
+		for (int row = 0; row < getRowLength(); row++)
 		{
-			for (int column = 0; column < columnLength; column++)
+			for (int column = 0; column < getColumnLength(); column++)
 			{
-				Field currentField = new Field(row, column);
-				IPiece currentPiece = this.getPiece(currentField);
-				pieces[row][column] = PieceFactory.copyPiece(currentPiece);
+				if (board[row][column].getColor() == color)
+				{
+					Field field = new Field(row, column);
+					IPiece piece = board[row][column];
+					pieces.put(field, piece);
+
+				}
 			}
 		}
-		return new Board(pieces);
-
+		return pieces;
 	}
-
+	@Override
+	public FieldSet getAttacker(Field attackedField, PieceColor attacker){
+		FieldSet attackers = new FieldSet();
+		for (int row = 0; row < getRowLength(); row++)
+		{
+			for (int column = 0; column < getColumnLength(); column++)
+			{
+				Field currentField = new Field(row, column);
+				IPiece piece = getPiece(currentField);
+				if (piece.getColor() != attacker)
+				{
+					continue;
+				}
+				if (piece.isAbleToAttack(currentField, attackedField, piece.getColor(), this))
+				{
+					attackers.add(currentField);
+				}
+			}
+		}
+		return attackers;
+	}
 }

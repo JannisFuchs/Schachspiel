@@ -52,4 +52,13 @@ public record Bishop(PieceColor c) implements IPiece
 		//with this notation it is not possible to get a second bishop for a color so this non-ambiguous
 		return reachableFields.getSingleItem();
 	}
+
+	@Override
+	public boolean isAbleToAttack(Field start, Field target, PieceColor color, IBoard board)
+	{
+		FieldSet candidateFields = new FieldSet();
+		candidateFields.add(start);
+		FieldSet reachableFields = candidateFields.filterReachableByDiagonal(target, board);
+		return !reachableFields.isEmpty();
+	}
 }

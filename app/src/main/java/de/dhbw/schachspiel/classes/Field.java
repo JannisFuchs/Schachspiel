@@ -103,5 +103,93 @@ public record Field(int row, int column)
     {
         return row >= 0 && row <= 7 && column >= 0 && column <= 7;
     }
+    public FieldSet getFieldsInBetween( Field target)
+    {
+        FieldSet fieldsInBetween = new FieldSet();
+        int rowDiff = Math.abs(target.row() - this.row());
+        int columnDiff = Math.abs(target.column() - this.column());
+        if (rowDiff == 0)
+        {
+            fieldsInBetween = getFieldsInBetweenRow( target);
+        }
+        else if (columnDiff == 0)
+        {
+            fieldsInBetween = getFieldsInBetweenColumn( target);
+        }
+        else if (rowDiff == columnDiff)
+            {
+                fieldsInBetween = getFieldsInBetweenDiagonal( target);
+            }
+        return fieldsInBetween;
+    }
+    private FieldSet getFieldsInBetweenRow( Field target)
+    {
+        FieldSet fieldsInBetween = new FieldSet();
+        int columnDiff = Math.abs(target.column() - this.column());
+        for (int i = 1; i < columnDiff; i++)
+        {
+            int nextColumn;
+            if (this.column() < target.column())
+            {
+                nextColumn = this.column() + i;
+            }
+            else
+            {
+                nextColumn = this.column() - i;
+            }
+            Field possibleField = new Field(this.row(), nextColumn);
+            fieldsInBetween.add(possibleField);
+        }
+        return fieldsInBetween;
+    }
+    private FieldSet getFieldsInBetweenColumn( Field target)
+    {
+        FieldSet fieldsInBetween = new FieldSet();
+        int rowDiff = Math.abs(target.row() - this.row());
+        for (int i = 1; i < rowDiff; i++)
+        {
+            int nextRow;
+            if (this.row() < target.row())
+            {
+                nextRow = this.row() + i;
+            }
+            else
+            {
+                nextRow = this.row() - i;
+            }
+            Field possibleField = new Field(this.row(), nextRow);
+            fieldsInBetween.add(possibleField);
+        }
+        return fieldsInBetween;
+    }
+    private FieldSet getFieldsInBetweenDiagonal( Field target)
+    {
+        FieldSet fieldsInBetween = new FieldSet();
+        int columnDiff = Math.abs(target.column() - this.column());
+        for (int i = 1; i < columnDiff; i++)
+        {
 
+            int nextRow;
+            if (this.row() < target.row())
+            {
+                nextRow = this.row() + i;
+            }
+            else
+            {
+                nextRow = this.row() - i;
+            }
+            int nextColumn;
+            if (this.column() < target.column())
+            {
+                nextColumn = this.column() + i;
+            }
+            else
+            {
+                nextColumn = this.column() - i;
+            }
+            Field possibleField = new Field(nextRow, nextColumn);
+            fieldsInBetween.add(possibleField);
+        }
+        return fieldsInBetween;
+    }
 }

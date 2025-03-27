@@ -3,8 +3,8 @@ package de.dhbw.schachspiel.classes;
 public enum PieceColor
 {
 	BLACK,
-	WHITE,
-	RESET;
+	WHITE;
+
 	
 
 	public PieceColor getOtherColor()
@@ -13,10 +13,6 @@ public enum PieceColor
 		{
 			return WHITE;
 		}
-		if (this == WHITE)
-		{
-			return BLACK;
-		}
-		return RESET;
+		return BLACK;
 	}
 }

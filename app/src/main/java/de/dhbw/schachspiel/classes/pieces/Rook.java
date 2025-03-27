@@ -79,6 +79,15 @@ public record Rook(PieceColor c) implements IPiece
 		return reachableFields.findRow(column);
 	}
 
+	@Override
+	public boolean isAbleToAttack(Field start, Field target, PieceColor color, IBoard board)
+	{
+		FieldSet candidateFields = new FieldSet();
+		candidateFields.add(start);
+		FieldSet reachableFields = getReachableFields(candidateFields, target, board);
+		return !reachableFields.isEmpty();
+	}
+
 	private FieldSet getReachableFields(FieldSet candidateFields, Field target, IBoard board)
 	{
 		FieldSet reachableFields = new FieldSet();

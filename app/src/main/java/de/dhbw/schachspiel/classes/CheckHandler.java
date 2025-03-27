@@ -1,100 +1,86 @@
 package de.dhbw.schachspiel.classes;
 
-import de.dhbw.schachspiel.classes.pieces.PieceFactory;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
 
-public record CheckHandler(IBoard board, PieceColor color)
+import java.util.Map;
+
+public class CheckHandler
 {
+    private final IBoard board;
+    private final PieceColor color;
+    private final PieceColor enemyColor;
+    private final Map<Field, IPiece> defenders;
+    public CheckHandler(IBoard board, PieceColor color)
+    {
+        this.board = board;
+        this.color = color;
+        this.enemyColor = color.getOtherColor();
+        defenders = board.getAllPiecesFromColor(color);
+    }
     public boolean isCheck()
     {
         Field currentKingField = board.getKingField(color);
-
-        return !getAttackingFields(currentKingField, color.getOtherColor()).isEmpty();
+        PieceColor enemyColor = color.getOtherColor();
+        return !board.getAttacker(currentKingField,enemyColor).isEmpty();
     }
 
-    /**
-     * @param attack It is important that the move is an attack because of pawns
-     * @return if this field can be reached by an attack
-     * @throws IllegalArgumentException normal Moves are an illegal Argument
-     */
-    FieldSet canAttackField(Move attack) throws IllegalArgumentException
-    {
-        FieldSet attackingFields = new FieldSet();
-        if (!attack.isCapture)
-        {
-            throw new IllegalArgumentException("This method expects an attack");
-        }
-        try
-        {
-            attackingFields.add(board.simulateMove(attack));
-        } catch (Move.AmbiguousMoveException e)
-        {
-            return getAmbiguousAttackFields(attack);
-        } catch (Move.IllegalMoveException e)
-        {
-            return attackingFields;
-        }
-        return attackingFields;
-    }
-
-    FieldSet getAmbiguousAttackFields(Move move)
-    {
-        IPiece currentPiece = move.piece;
-        FieldSet allPositionsWithPiece = board.getFieldsWithPiece(currentPiece);
-        FieldSet union = new FieldSet();
-        for (Field currentField : allPositionsWithPiece.getSet())
-        {
-            Move attack = new Move(currentField, move.target, currentPiece, true, false, false);
-            FieldSet attackingFields = canAttackField(attack);
-            union.addAll(attackingFields);
-        }
-        return union;
-    }
-
-    Move createAttack(Field target, IPiece piece)
-    {
-        Field start = new Field(-1, -1);
-        return new Move(start, target, piece, true, false, false);
-    }
-
-    FieldSet getAttacker()
-    {
-
-        return new FieldSet();
-    }
-    boolean canDoMove(Field start,Field target, boolean isAttack){
-        IBoard clone = board.copy();
-        IPiece defender = clone.getPiece(start);
-        Move defenseCapture = new Move(start, target, defender, isAttack, false, false);
-        try{
-            clone.makeMove(defenseCapture);
-        } catch (Move.IllegalMoveException e)
-        {
-            throw new RuntimeException(e);
-        }
-        CheckHandler handler = new CheckHandler(clone, color);
-        return handler.isCheck();
-
-    }
     boolean canCaptureAttacker(Field attackField)
     {
-        FieldSet defenderFields = getAttackingFields(attackField, color);
+        FieldSet defenderFields = board.getAttacker(attackField,enemyColor);
         for (Field defenderField : defenderFields.getSet())
         {
-            if (canDoMove(defenderField, attackField, true))
+            if (!defenders.containsKey(defenderField)){
+                continue;
+            }
+            Move attack = new Move(defenderField, attackField, defenders.get(defenderField), true, false, false);
+            if (isMoveExecutable(attack))
             {
                 return true;
             }
-
         }
         return false;
 
     }
+    boolean isMoveExecutable(Move move){
+        try{
+            board.makeMove(move);
+        } catch (Move.IllegalMoveException e)
+        {
+            return false;
+        }
+        boolean isCheck = isCheck();
+        board.undoMove();
+        return !isCheck;
+    }
 
-    boolean canBlockAttacker(Field fieldToBlock, IPiece attacker)
+    boolean canBlockAttacker(Field kingField , Field fieldToBlock, IPiece attacker)
     {
-
+        if (attacker.getPieceType() == PieceType.KNIGHT)
+        {
+            return false;
+        }
+        FieldSet blockingFields = kingField.getFieldsInBetween(fieldToBlock);
+        for (Map.Entry<Field, IPiece> defender : defenders.entrySet())
+        {
+            if (canMoveToFields(defender.getKey(), blockingFields))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    boolean canMoveToFields(Field start,FieldSet target)
+    {
+        for (Field currentTarget : target.getSet())
+        {
+            IPiece piece = board.getPiece(start);
+            Move move = new Move(start, currentTarget, piece, false, false, false);
+            if (isMoveExecutable(move)){
+                return true;
+            }
+        }
+        return false;
     }
 
     boolean kingCanMove()
@@ -115,7 +101,7 @@ public record CheckHandler(IBoard board, PieceColor color)
         for (Field currentField : set.getSet())
         {
 
-            if (!getAttackingFields(currentField,color.getOtherColor()).isEmpty())
+            if (!board.getAttacker(currentField,enemyColor).isEmpty())
             {
                 return true;
             }
@@ -124,32 +110,22 @@ public record CheckHandler(IBoard board, PieceColor color)
     }
 
 
-    FieldSet getAttackingFields(Field field, PieceColor enemyColor)
-    {
-        FieldSet attackingFields = new FieldSet();
-        for (PieceType type : PieceType.values())
-        {
-            IPiece attackingPiece = PieceFactory.createPieceFromType(type, enemyColor);
-            Move attack = createAttack(field, attackingPiece);
-            attackingFields.addAll(canAttackField(attack));
 
-        }
-        return attackingFields;
-    }
     boolean canOtherPieceDefendKing()
     {
-        FieldSet attacker = getAttacker();
+        Field currentKingField = board.getKingField(color);
+        FieldSet attacker = board.getAttacker(currentKingField,enemyColor);
         if (attacker.size() > 1)
         {
             return false;
         }
         Field attackField = attacker.getSingleItem();
         IPiece attackerPiece = board.getPiece(attackField);
-        if (canCaptureAttacker(attackField)
-        {
+        if (canBlockAttacker(currentKingField,attackField,attackerPiece)){
             return true;
         }
-        return canBlockAttacker(attackField, attackerPiece);
+
+        return canCaptureAttacker(attackField);
     }
 
     public boolean isMate()
@@ -164,5 +140,9 @@ public record CheckHandler(IBoard board, PieceColor color)
         }
 
         return canOtherPieceDefendKing();
+    }
+    public PieceColor getColor()
+    {
+        return color;
     }
 }

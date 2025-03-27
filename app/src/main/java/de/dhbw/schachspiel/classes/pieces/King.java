@@ -51,4 +51,11 @@ public record King(PieceColor c) implements IPiece
 		}
 		return fields.getSingleItem();
 	}
+
+	@Override
+	public boolean isAbleToAttack(Field start, Field target, PieceColor color, IBoard board)
+	{
+		FieldSet candidateFields = getCandidateFields(start, board);
+		return candidateFields.contains(target);
+	}
 }
