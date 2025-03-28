@@ -10,7 +10,6 @@ import java.util.Scanner;
 public class Game
 {
     private static final Scanner SCANNER = new Scanner(System.in);
-    private final int MAX_PLAYER_COUNT = 2;
     private final IBoard board;
 
     int currentPlayer;
@@ -18,20 +17,20 @@ public class Game
 
     public Game(String startPosition)
     {
-        IPiece[][] positionAsPieces = PieceFactory.createBoardFromFEN(startPosition);
+        String[] split = startPosition.split(" ");
+        IPiece[][] positionAsPieces = PieceFactory.createBoardFromFEN(split[0]);
         board = new Board(positionAsPieces);
-        initializePlayer(startPosition);
+        initializePlayer(split[1]);
         play();
     }
 
-    void initializePlayer(String startPosition)
+    void initializePlayer(String playerString)
     {
-        String[] split = startPosition.split(" ");
-        if (split[1].equals("w"))
+        if (playerString.equals("w"))
         {
             currentPlayer = 0;
         }
-        else if (split[1].equals("b"))
+        else if (playerString.equals("b"))
         {
             currentPlayer = 1;
         }
@@ -44,6 +43,7 @@ public class Game
 
     public void play()
     {
+        final int MAX_PLAYER_COUNT = 2;
         Visualisation output = createVisualisation();
         for (int i = 0; i < 50; i++)
         {
@@ -53,10 +53,12 @@ public class Game
             handleDrawing(output, handler);
             if (handler.isMate())
             {
-                System.out.println("Checkmate : " + players[currentPlayer].getColor() + " wins");
+                PieceColor enemyColor = players[currentPlayer].getColor().getOtherColor();
+                System.out.println("Checkmate : " + enemyColor + " wins");
                 break;
             }
             handleMove();
+
             currentPlayer = (currentPlayer + 1) % MAX_PLAYER_COUNT;
         }
     }

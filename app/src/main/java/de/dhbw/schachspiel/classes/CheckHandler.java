@@ -29,9 +29,9 @@ public class CheckHandler
         return !helper.getAttacker(currentKingField, enemyColor).isEmpty();
     }
 
-    public boolean canCaptureAttacker(Field attackField)
+    public boolean canCaptureAttacker(Field attackField, PieceColor attackerColor)
     {
-        FieldSet defenderFields = helper.getAttacker(attackField, enemyColor);
+        FieldSet defenderFields = helper.getAttacker(attackField, attackerColor);
         for (Field defenderField : defenderFields.getSet())
         {
             if (!defenders.containsKey(defenderField))
@@ -81,9 +81,10 @@ public class CheckHandler
 
     public boolean canMoveToFields(Field start, FieldSet target)
     {
+        IPiece piece = board.getPiece(start);
         for (Field currentTarget : target.getSet())
         {
-            IPiece piece = board.getPiece(start);
+
             Move move = new Move(start, currentTarget, piece, false, false, false);
             if (isMoveExecutable(move))
             {
@@ -102,21 +103,7 @@ public class CheckHandler
         FieldSet occupiedByOwnColor = candidateFields.getOccupiedByColor(board, king.getColor());
         FieldSet freeFields = candidateFields.difference(occupiedByOwnColor);
 
-        return !isAnyFieldAttacked(freeFields);
-    }
-
-    public boolean isAnyFieldAttacked(FieldSet set)
-    {
-
-        for (Field currentField : set.getSet())
-        {
-
-            if (!helper.getAttacker(currentField, enemyColor).isEmpty())
-            {
-                return true;
-            }
-        }
-        return false;
+        return canMoveToFields(kingField, freeFields);
     }
 
 
@@ -135,7 +122,7 @@ public class CheckHandler
             return true;
         }
 
-        return canCaptureAttacker(attackField);
+        return canCaptureAttacker(attackField, color);
     }
 
     public boolean isMate()

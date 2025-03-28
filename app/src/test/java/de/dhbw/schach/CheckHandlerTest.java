@@ -31,4 +31,26 @@ public class CheckHandlerTest
         Assertions.assertFalse(handler.kingCanMove());
         Assertions.assertFalse(handler.isMate());
     }
+
+    @Test
+    void canKingMove()
+    {
+        String startPosition = "rnbqkb1r/pppB1pp1/4p3/4N2p/4n3/8/PPPP1PPP/RNBQK2R";
+        CheckHandler handler = setUp(startPosition, PieceColor.BLACK);
+        Assertions.assertTrue(handler.isCheck());
+        Assertions.assertTrue(handler.canOtherPieceDefendKing());
+        Assertions.assertTrue(handler.kingCanMove());
+        Assertions.assertFalse(handler.isMate());
+    }
+
+    @Test
+    void isMate()
+    {
+        String startPosition = "1R4k1/5ppp/8/8/8/8/8/3K4";
+        CheckHandler handler = setUp(startPosition, PieceColor.BLACK);
+        Assertions.assertTrue(handler.isCheck());
+        Assertions.assertFalse(handler.canOtherPieceDefendKing());
+        Assertions.assertFalse(handler.kingCanMove());
+        Assertions.assertTrue(handler.isMate());
+    }
 }

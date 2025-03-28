@@ -82,15 +82,15 @@ public record Pawn(PieceColor c) implements IPiece
     {
 
         FieldSet reachableFields = new FieldSet();
-        for (Field field : candidateFields.getSet())
+        for (Field start : candidateFields.getSet())
         {
-            if (piecePieceColor == PieceColor.WHITE && field.row() < target.row())
+            if (piecePieceColor == PieceColor.WHITE && start.row() > target.row())
             {
-                reachableFields.add(field);
+                reachableFields.add(start);
             }
-            else
+            else if (piecePieceColor == PieceColor.BLACK && start.row() < target.row())
             {
-                reachableFields.add(field);
+                reachableFields.add(start);
             }
         }
 

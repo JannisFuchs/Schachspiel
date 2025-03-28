@@ -121,12 +121,16 @@ public class Board implements IBoard
 
     public void undoMove()
     {
+        if (previousMove.isEmpty())
+        {
+            throw new IllegalStateException("no move to undo");
+        }
         FieldPiecePair target = previousMove.pop();
         Field targetField = target.getField();
         FieldPiecePair start = previousMove.pop();
         Field startField = start.getField();
         board[targetField.row()][targetField.column()] = target.getPiece();
-        board[startField.row()][startField.column()] = target.getPiece();
+        board[startField.row()][startField.column()] = start.getPiece();
     }
 
     @Override
