@@ -3,6 +3,7 @@ package de.dhbw.schach;
 import de.dhbw.schachspiel.classes.Board;
 import de.dhbw.schachspiel.classes.CheckHandler;
 import de.dhbw.schachspiel.classes.PieceColor;
+import de.dhbw.schachspiel.classes.PieceType;
 import de.dhbw.schachspiel.classes.pieces.PieceFactory;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
@@ -28,7 +29,7 @@ public class CheckHandlerTest
         CheckHandler handler = setUp(startPosition, PieceColor.WHITE);
         Assertions.assertTrue(handler.isCheck());
         Assertions.assertTrue(handler.canOtherPieceDefendKing());
-        Assertions.assertFalse(handler.kingCanMove());
+        Assertions.assertFalse(handler.pieceCanMove(PieceType.KING));
         Assertions.assertFalse(handler.isMate());
     }
 
@@ -39,7 +40,7 @@ public class CheckHandlerTest
         CheckHandler handler = setUp(startPosition, PieceColor.BLACK);
         Assertions.assertTrue(handler.isCheck());
         Assertions.assertTrue(handler.canOtherPieceDefendKing());
-        Assertions.assertTrue(handler.kingCanMove());
+        Assertions.assertTrue(handler.pieceCanMove(PieceType.KING));
         Assertions.assertFalse(handler.isMate());
     }
 
@@ -50,7 +51,7 @@ public class CheckHandlerTest
         CheckHandler handler = setUp(startPosition, PieceColor.BLACK);
         Assertions.assertTrue(handler.isCheck());
         Assertions.assertFalse(handler.canOtherPieceDefendKing());
-        Assertions.assertFalse(handler.kingCanMove());
+        Assertions.assertFalse(handler.pieceCanMove(PieceType.KING));
         Assertions.assertTrue(handler.isMate());
     }
 }

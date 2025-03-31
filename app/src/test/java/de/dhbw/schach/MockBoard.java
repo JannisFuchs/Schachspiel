@@ -30,17 +30,25 @@ public class MockBoard implements IBoard
     }
 
     @Override
-    public FieldSet getFieldsWithPiece(IPiece piece)
+    public FieldSet getFieldsWithPiece(PieceType type, PieceColor color)
     {
         FieldSet fields = new FieldSet();
         for (Field field : board.keySet())
         {
-            if (board.get(field).equals(piece))
+            IPiece piece = board.get(field);
+            if (piece.getPieceType() == type && piece.getColor() == color)
             {
                 fields.add(field);
             }
         }
         return fields;
+    }
+
+    @Override
+    public Field getKingField(PieceColor color)
+    {
+        FieldSet set = getFieldsWithPiece(PieceType.KING, color);
+        return set.getSingleItem();
     }
 
 
@@ -68,20 +76,6 @@ public class MockBoard implements IBoard
         return piece;
     }
 
-    @Override
-    public Field getKingField(PieceColor boardColor)
-    {
-        Field kingField = new Field(-1, -1);
-        for (Field field : board.keySet())
-        {
-            if (board.get(field).getPieceType() == PieceType.KING && board.get(field).getColor() == boardColor)
-            {
-                kingField = field;
-            }
-        }
-        return kingField;
-
-    }
 
     @Override
     public int getRowLength()

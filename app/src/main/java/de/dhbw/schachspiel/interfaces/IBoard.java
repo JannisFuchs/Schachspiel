@@ -1,15 +1,10 @@
 package de.dhbw.schachspiel.interfaces;
 
-import de.dhbw.schachspiel.classes.Field;
-import de.dhbw.schachspiel.classes.FieldSet;
-import de.dhbw.schachspiel.classes.Move;
-import de.dhbw.schachspiel.classes.PieceColor;
+import de.dhbw.schachspiel.classes.*;
 
 public interface IBoard
 {
     IPiece getPiece(Field currentField);
-
-    Field getKingField(PieceColor pieceColor);
 
     int getRowLength();
 
@@ -19,7 +14,9 @@ public interface IBoard
 
     Field simulateMove(Move move) throws Move.IllegalMoveException;
 
-    FieldSet getFieldsWithPiece(IPiece piece);
+    FieldSet getFieldsWithPiece(PieceType type, PieceColor color);
+
+    Field getKingField(PieceColor color);
 
     void undoMove();
 

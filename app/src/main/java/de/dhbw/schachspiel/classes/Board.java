@@ -1,6 +1,5 @@
 package de.dhbw.schachspiel.classes;
 
-import de.dhbw.schachspiel.classes.pieces.King;
 import de.dhbw.schachspiel.classes.pieces.PieceFactory;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
@@ -17,6 +16,13 @@ public class Board implements IBoard
         this.board = board;
     }
 
+    @Override
+    public Field getKingField(PieceColor color)
+    {
+        FieldSet kingFields = getFieldsWithPiece(PieceType.KING, color);
+        return kingFields.getSingleItem();
+    }
+
 
     @Override
     public IPiece getPiece(Field currentField)
@@ -24,13 +30,6 @@ public class Board implements IBoard
         return board[currentField.row()][currentField.column()];
     }
 
-    @Override
-    public Field getKingField(PieceColor pieceColor)
-    {
-        IPiece king = new King(pieceColor);
-        FieldSet fieldsWithKing = getFieldsWithPiece(king);
-        return fieldsWithKing.getSingleItem();
-    }
 
     @Override
     public int getRowLength()
@@ -141,14 +140,15 @@ public class Board implements IBoard
 
 
     @Override
-    public FieldSet getFieldsWithPiece(IPiece piece)
+    public FieldSet getFieldsWithPiece(PieceType type, PieceColor color)
     {
         FieldSet fieldsWithPiece = new FieldSet();
         for (int row = 0; row < getRowLength(); row++)
         {
             for (int column = 0; column < getColumnLength(); column++)
             {
-                if (board[row][column].equals(piece))
+                IPiece currentPiece = board[row][column];
+                if (currentPiece.getPieceType() == type && currentPiece.getColor() == color)
                 {
                     fieldsWithPiece.add(new Field(row, column));
                 }
@@ -162,7 +162,7 @@ public class Board implements IBoard
         IPiece movingPiece = move.piece;
         Field target = move.target;
         FieldSet candidateFields = movingPiece.getCandidateFields(target, this);
-        FieldSet allFieldsWithPiece = getFieldsWithPiece(move.piece);
+        FieldSet allFieldsWithPiece = getFieldsWithPiece(movingPiece.getPieceType(), movingPiece.getColor());
         return candidateFields.intersection(allFieldsWithPiece);
     }
 
