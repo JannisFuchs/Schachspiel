@@ -4,16 +4,13 @@ import de.dhbw.schachspiel.classes.pieces.PieceFactory;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
 
-import java.util.Stack;
-
 public class Board implements IBoard
 {
-    private final IPiece[][] board;
-    private final Stack<FieldPiecePair> previousMove = new Stack<>();
+    private final IPiece[][] pieceArray;
 
     public Board(IPiece[][] board)
     {
-        this.board = board;
+        this.pieceArray = board;
     }
 
     @Override
@@ -27,20 +24,20 @@ public class Board implements IBoard
     @Override
     public IPiece getPiece(Field currentField)
     {
-        return board[currentField.row()][currentField.column()];
+        return pieceArray[currentField.row()][currentField.column()];
     }
 
 
     @Override
     public int getRowLength()
     {
-        return board.length;
+        return pieceArray.length;
     }
 
     @Override
     public int getColumnLength()
     {
-        return board[0].length;
+        return pieceArray[0].length;
     }
 
 
@@ -74,28 +71,21 @@ public class Board implements IBoard
 
     public void makeMove(Move move) throws Move.IllegalMoveException
     {
-        if (!previousMove.isEmpty())
-        {
-            throw new IllegalStateException("can't make more than one move at once.");
-        }
+
         Field startField = prepareMove(move);
         IPiece piece = move.piece;
         int startRow = startField.row();
         int startCol = startField.column();
-        IPiece currentPiece = board[startRow][startCol];
+        IPiece currentPiece = pieceArray[startRow][startCol];
         if (!currentPiece.equals(piece))
         {
             throw new Move.IllegalMoveException("wrong piece");
         }
-        FieldPiecePair start = new FieldPiecePair(startField, piece);
-        previousMove.push(start);
-        board[startRow][startCol] = PieceFactory.createPieceFromType(PieceType.NONE, PieceColor.WHITE);
+
+        pieceArray[startRow][startCol] = PieceFactory.createPieceFromType(PieceType.NONE, PieceColor.WHITE);
         int endRow = move.target.row();
         int endCol = move.target.column();
-        IPiece endPiece = board[endRow][endCol];
-        FieldPiecePair target = new FieldPiecePair(move.target, endPiece);
-        previousMove.push(target);
-        board[endRow][endCol] = currentPiece;
+        pieceArray[endRow][endCol] = currentPiece;
 
     }
 
@@ -112,31 +102,8 @@ public class Board implements IBoard
         return piece.calculateStartField(fields, move, this);
     }
 
-    public void commitMove()
-    {
-        previousMove.clear();
-    }
 
 
-    public void undoMove()
-    {
-        if (previousMove.isEmpty())
-        {
-            throw new IllegalStateException("no move to undo");
-        }
-        FieldPiecePair target = previousMove.pop();
-        Field targetField = target.getField();
-        FieldPiecePair start = previousMove.pop();
-        Field startField = start.getField();
-        board[targetField.row()][targetField.column()] = target.getPiece();
-        board[startField.row()][startField.column()] = start.getPiece();
-    }
-
-    @Override
-    public Field simulateMove(Move move) throws Move.IllegalMoveException
-    {
-        return prepareMove(move);
-    }
 
 
     @Override
@@ -147,7 +114,7 @@ public class Board implements IBoard
         {
             for (int column = 0; column < getColumnLength(); column++)
             {
-                IPiece currentPiece = board[row][column];
+                IPiece currentPiece = pieceArray[row][column];
                 if (currentPiece.getPieceType() == type && currentPiece.getColor() == color)
                 {
                     fieldsWithPiece.add(new Field(row, column));
@@ -188,12 +155,25 @@ public class Board implements IBoard
         {
             for (int column = 0; column < otherColumnLength; column++)
             {
-                if (board[row][column] != other.board[row][column])
+                if (pieceArray[row][column] != other.pieceArray[row][column])
                 {
                     return false;
                 }
             }
         }
         return true;
+    }
+
+
+    public Board copy()
+    {
+        IPiece[][] clone = new IPiece[this.pieceArray.length][this.pieceArray[0].length];
+        for (int row = 0; row < this.pieceArray.length; row++){
+            for (int column = 0; column < this.pieceArray[0].length; column++){
+                IPiece piece = this.pieceArray[row][column];
+                clone[row][column] = PieceFactory.createPieceFromType(piece.getPieceType(), piece.getColor());
+            }
+        }
+        return new Board(clone);
     }
 }

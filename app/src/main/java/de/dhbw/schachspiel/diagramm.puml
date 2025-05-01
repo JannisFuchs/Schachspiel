@@ -1,0 +1,346 @@
+@startuml
+class de.dhbw.schachspiel.classes.pieces.None {
+- PieceColor c
++ char getSymbol()
++ PieceColor getColor()
++ PieceType getPieceType()
++ FieldSet getCandidateFields(Field,IBoard)
++ Field calculateStartField(FieldSet,Move,IBoard)
++ boolean isAbleToAttack(Field,Field,PieceColor,IBoard)
++ PieceColor c()
+}
+
+
+enum de.dhbw.schachspiel.classes.PieceColor {
++  BLACK
++  WHITE
++ PieceColor getOtherColor()
+}
+
+
+class de.dhbw.schachspiel.classes.pieces.PieceFactory {
++ {static} IPiece[][] createBoardFromFEN(String)
+- {static} void mergePieceArrayIntoArray(IPiece[],IPiece[])
+~ {static} IPiece[] generatePiecesFromChar(char)
++ {static} IPiece createPieceFromType(PieceType,PieceColor)
+}
+
+interface de.dhbw.schachspiel.interfaces.IPlayer {
+~ Move readMove(Scanner)
+~ PieceColor getColor()
+}
+
+class de.dhbw.schachspiel.classes.pieces.Pawn {
+- PieceColor c
++ char getSymbol()
++ PieceColor getColor()
++ PieceType getPieceType()
++ FieldSet getCandidateFields(Field,IBoard)
++ Field calculateStartField(FieldSet,Move,IBoard)
++ boolean isAbleToAttack(Field,Field,PieceColor,IBoard)
+- FieldSet filterBehindSquares(FieldSet,Field,PieceColor)
+- Field calculateCapture(Move,IBoard,FieldSet)
+- Field calculateNormalMove(Move,IBoard,FieldSet)
+- Field validateMove(Field,Move,IBoard)
++ PieceColor c()
+}
+
+
+class de.dhbw.schachspiel.classes.Player {
+- PieceColor pieceColor
++ Move readMove(Scanner)
++ PieceColor getColor()
+}
+
+
+class de.dhbw.schachspiel.classes.FieldPiecePair {
+- Field field
+- IPiece piece
++ IPiece getPiece()
++ Field getField()
+}
+
+
+class de.dhbw.schachspiel.classes.pieces.Bishop {
+- PieceColor c
++ char getSymbol()
++ PieceColor getColor()
++ PieceType getPieceType()
++ FieldSet getCandidateFields(Field,IBoard)
++ Field calculateStartField(FieldSet,Move,IBoard)
++ boolean isAbleToAttack(Field,Field,PieceColor,IBoard)
++ PieceColor c()
+}
+
+
+class de.dhbw.schachspiel.classes.Color {
+- int red
+- int green
+- int blue
+- boolean isBackground
++ String toString()
++ int red()
++ boolean isBackground()
++ int green()
++ int blue()
+}
+
+
+class de.dhbw.schachspiel.classes.pieces.Rook {
+- PieceColor c
++ char getSymbol()
++ PieceColor getColor()
++ PieceType getPieceType()
++ FieldSet getCandidateFields(Field,IBoard)
++ Field calculateStartField(FieldSet,Move,IBoard)
++ boolean isAbleToAttack(Field,Field,PieceColor,IBoard)
+- FieldSet getReachableFields(FieldSet,Field,IBoard)
++ PieceColor c()
+}
+
+
+class de.dhbw.schachspiel.classes.Visualisation {
+- Map<PieceColor,Color> pieceColorMap
+- Map<BoardColor,Color> boardColorColorMap
+- Field inCheck
++ void drawBoard(IBoard)
+- BoardColor getBoardColor(Field)
++ void setCheck(Field)
+- void resetCheck()
+}
+
+
+class de.dhbw.schachspiel.classes.Board {
+- IPiece[][] board
+- Stack<FieldPiecePair> previousMove
++ Field getKingField(PieceColor)
++ IPiece getPiece(Field)
++ int getRowLength()
++ int getColumnLength()
+- void checksField(Move)
++ void makeMove(Move)
+- Field prepareMove(Move)
++ void commitMove()
++ void undoMove()
++ Field simulateMove(Move)
++ FieldSet getFieldsWithPiece(PieceType,PieceColor)
++ FieldSet selectFields(Move)
++ boolean equals(Object)
+}
+
+
+interface de.dhbw.schachspiel.interfaces.IPiece {
+~ char getSymbol()
+~ PieceColor getColor()
+~ PieceType getPieceType()
+~ FieldSet getCandidateFields(Field,IBoard)
+~ Field calculateStartField(FieldSet,Move,IBoard)
+~ boolean isAbleToAttack(Field,Field,PieceColor,IBoard)
+}
+
+enum de.dhbw.schachspiel.classes.PieceType {
++  PAWN
++  KNIGHT
++  ROOK
++  BISHOP
++  QUEEN
++  KING
++  NONE
++ {static} PieceType pieceTypeFromChar(char)
+}
+
+
+class de.dhbw.schachspiel.App {
++ {static} void main(String[])
+}
+
+class de.dhbw.schachspiel.classes.CheckHandler {
+- IBoard board
+- BoardHelper helper
+- PieceColor color
+- PieceColor enemyColor
+- Map<Field,IPiece> defenders
++ boolean isCheck()
++ boolean canCaptureAttacker(Field,PieceColor)
++ boolean isMoveExecutable(Move)
++ boolean canBlockAttacker(Field,Field,IPiece)
++ boolean canMoveToFields(Field,FieldSet)
++ boolean pieceCanMove(PieceType)
++ boolean canOtherPieceDefendKing()
++ boolean isMate()
+- boolean colorHasSufficientMaterial(PieceColor)
++ boolean isInsufficientMaterial()
+- int getIndexOfLastMoveOfColor(PieceColor,List<Move>)
+- boolean isThreeFoldColor(List<Move>,PieceColor)
++ boolean isThreeFold(List<Move>)
++ boolean fiftyMoveRule(List<Move>)
++ boolean isDraw(List<Move>)
++ boolean isStalemate()
++ PieceColor getColor()
+}
+
+
+class de.dhbw.schachspiel.classes.Field {
+- int row
+- int column
++ boolean isReachableByDiagonal(Field,IBoard)
++ boolean isReachableByRow(Field,IBoard)
++ boolean isReachableByColumn(Field,IBoard)
++ boolean isOccupiedByColor(PieceColor,IBoard)
++ FieldSet getFieldsInBetween(Field)
+- FieldSet getFieldsInBetweenRow(Field)
+- FieldSet getFieldsInBetweenColumn(Field)
+- FieldSet getFieldsInBetweenDiagonal(Field)
++ boolean isValid()
++ int row()
++ int column()
+}
+
+
+class de.dhbw.schachspiel.classes.pieces.Queen {
+- PieceColor c
++ char getSymbol()
++ PieceColor getColor()
++ PieceType getPieceType()
++ FieldSet getCandidateFields(Field,IBoard)
++ Field calculateStartField(FieldSet,Move,IBoard)
++ boolean isAbleToAttack(Field,Field,PieceColor,IBoard)
+- FieldSet getReachableFields(FieldSet,Field,IBoard)
++ PieceColor c()
+}
+
+
+class de.dhbw.schachspiel.classes.Move {
++ Field start
++ Field target
++ IPiece piece
++ boolean isCheck
++ boolean isMate
++ boolean isCapture
++ IPiece promotion
++ boolean equals(Object)
+- IPiece getPiece(String,PieceColor)
+- boolean isCapture(String)
+- Field getField(String,String)
+- IPiece getPromotion(String)
+- boolean isCheck(String)
+- boolean isMate(String)
+}
+
+
+enum de.dhbw.schachspiel.classes.Columns {
++  A
++  B
++  C
++  D
++  E
++  F
++  G
++  H
+}
+
+class de.dhbw.schachspiel.classes.Move$IllegalMoveException {
+}
+class de.dhbw.schachspiel.classes.Move$AmbiguousMoveException {
+}
+class de.dhbw.schachspiel.classes.Move$NoCaptureException {
+}
+class de.dhbw.schachspiel.classes.Move$CaptureException {
+}
+enum de.dhbw.schachspiel.classes.BoardColor {
++  BLACK
++  WHITE
++  RED
+}
+
+class de.dhbw.schachspiel.classes.Game {
+- {static} Scanner SCANNER
+- IBoard board
+- List<Move> moveList
+~ int currentPlayer
+~ IPlayer[] players
+~ void initializePlayer(String)
++ void play()
++ void handleDrawing(Visualisation,CheckHandler)
++ void handleMove()
+~ boolean testMove(Move)
+~ Visualisation createVisualisation()
+}
+
+
+class de.dhbw.schachspiel.classes.FieldSet {
+- HashSet<Field> set
++ boolean add(Field)
++ void addAll(FieldSet)
++ HashSet<Field> getSet()
++ Field getSingleItem()
++ int size()
++ boolean isEmpty()
++ Field findRow(int)
++ Field findColumn(int)
++ boolean contains(Field)
++ FieldSet difference(FieldSet)
++ FieldSet intersection(FieldSet)
++ FieldSet filterReachableByRow(Field,IBoard)
++ FieldSet filterReachableByDiagonal(Field,IBoard)
++ FieldSet filterReachableByColumn(Field,IBoard)
++ FieldSet getOccupiedByColor(IBoard,PieceColor)
+}
+
+
+class de.dhbw.schachspiel.classes.pieces.King {
+- PieceColor c
++ char getSymbol()
++ PieceColor getColor()
++ PieceType getPieceType()
++ FieldSet getCandidateFields(Field,IBoard)
++ Field calculateStartField(FieldSet,Move,IBoard)
++ boolean isAbleToAttack(Field,Field,PieceColor,IBoard)
++ PieceColor c()
+}
+
+
+class de.dhbw.schachspiel.classes.BoardHelper {
+- IBoard board
++ Map<Field,IPiece> getAllPiecesFromColor(PieceColor)
++ FieldSet getAttacker(Field,PieceColor)
+}
+
+
+class de.dhbw.schachspiel.classes.pieces.Knight {
+- PieceColor c
++ char getSymbol()
++ PieceColor getColor()
++ PieceType getPieceType()
++ FieldSet getCandidateFields(Field,IBoard)
++ Field calculateStartField(FieldSet,Move,IBoard)
++ boolean isAbleToAttack(Field,Field,PieceColor,IBoard)
++ PieceColor c()
+}
+
+
+interface de.dhbw.schachspiel.interfaces.IBoard {
+~ IPiece getPiece(Field)
+~ int getRowLength()
+~ int getColumnLength()
+~ void makeMove(Move)
+~ Field simulateMove(Move)
+~ FieldSet getFieldsWithPiece(PieceType,PieceColor)
+~ Field getKingField(PieceColor)
+~ void undoMove()
+~ void commitMove()
+}
+
+
+
+de.dhbw.schachspiel.interfaces.IPlayer <|.. de.dhbw.schachspiel.classes.Player
+de.dhbw.schachspiel.interfaces.IBoard <|.. de.dhbw.schachspiel.classes.Board
+de.dhbw.schachspiel.classes.Move +.. de.dhbw.schachspiel.classes.Move$IllegalMoveException
+de.dhbw.schachspiel.classes.Exception <|-- de.dhbw.schachspiel.classes.Move$IllegalMoveException
+de.dhbw.schachspiel.classes.Move +.. de.dhbw.schachspiel.classes.Move$AmbiguousMoveException
+de.dhbw.schachspiel.classes.IllegalMoveException <|-- de.dhbw.schachspiel.classes.Move$AmbiguousMoveException
+de.dhbw.schachspiel.classes.Move +.. de.dhbw.schachspiel.classes.Move$NoCaptureException
+de.dhbw.schachspiel.classes.IllegalMoveException <|-- de.dhbw.schachspiel.classes.Move$NoCaptureException
+de.dhbw.schachspiel.classes.Move +.. de.dhbw.schachspiel.classes.Move$CaptureException
+de.dhbw.schachspiel.classes.IllegalMoveException <|-- de.dhbw.schachspiel.classes.Move$CaptureException
+@enduml

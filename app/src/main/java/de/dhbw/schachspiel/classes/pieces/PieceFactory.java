@@ -30,7 +30,7 @@ public class PieceFactory
         return board;
     }
 
-    static void mergePieceArrayIntoArray(IPiece[] base, IPiece[] insert) throws IndexOutOfBoundsException
+    private static void mergePieceArrayIntoArray(IPiece[] base, IPiece[] insert) throws IndexOutOfBoundsException
     {
         int firstEmptyIndex = -1;
         for (int index = 0; index < base.length; index++)

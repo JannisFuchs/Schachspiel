@@ -1,0 +1,22 @@
+[Event "Casual correspondence game"]
+[Site "https://lichess.org/xE1Ew23B"]
+[Date "2025.05.01"]
+[White "FuerstAgus"]
+[Black "lichess AI level 8"]
+[Result "0-1"]
+[GameId "xE1Ew23B"]
+[UTCDate "2025.05.01"]
+[UTCTime "12:27:15"]
+[WhiteElo "1494"]
+[BlackElo "?"]
+[Variant "From Position"]
+[TimeControl "-"]
+[ECO "?"]
+[Opening "?"]
+[Termination "Normal"]
+[FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 1"]
+[SetUp "1"]
+
+1. e4 e5 2. Bc4 Nf6 3. d3 c6 4. Bg5 d5 5. exd5 cxd5 6. Bb5+ Nc6 7. Nf3 Qb6 8. Bxc6+ bxc6 9. b3 Ng4 10. Be3 Nxe3 11. fxe3 Qxe3+ 12. Qe2 Qc1+ 13. Qd1 Qb2 14. Nbd2 e4 15. dxe4 Qc3 16. exd5 Ba6 17. dxc6 Qe3+ 18. Qe2 Qxe2# 0-1
+
+

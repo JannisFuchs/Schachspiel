@@ -12,13 +12,15 @@ public interface IBoard
 
     void makeMove(Move move) throws Move.IllegalMoveException;
 
-    Field simulateMove(Move move) throws Move.IllegalMoveException;
 
     FieldSet getFieldsWithPiece(PieceType type, PieceColor color);
 
     Field getKingField(PieceColor color);
 
-    void undoMove();
+    /**
+     *
+     * @return deep copy of the current board
+     */
+    IBoard copy();
 
-    void commitMove();
 }

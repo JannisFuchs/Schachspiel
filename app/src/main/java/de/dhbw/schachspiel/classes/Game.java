@@ -5,24 +5,29 @@ import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
 import de.dhbw.schachspiel.interfaces.IPlayer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Game
 {
-    private static final Scanner SCANNER = new Scanner(System.in);
+    private final Scanner scanner;
     private final IBoard board;
+    private final List<Move> moveList = new ArrayList<>();
 
     int currentPlayer;
     IPlayer[] players = {new Player(PieceColor.WHITE), new Player(PieceColor.BLACK)};
 
-    public Game(String startPosition)
+    public Game(String startPosition, Scanner scanner)
     {
+        this.scanner = scanner;
         String[] split = startPosition.split(" ");
         IPiece[][] positionAsPieces = PieceFactory.createBoardFromFEN(split[0]);
         board = new Board(positionAsPieces);
         initializePlayer(split[1]);
-        play();
+
     }
+
 
     void initializePlayer(String playerString)
     {
@@ -47,14 +52,19 @@ public class Game
         Visualisation output = createVisualisation();
         for (int i = 0; i < 50; i++)
         {
-            //this is a duplication see Move class
             PieceColor currentPieceColor = players[currentPlayer].getColor();
             CheckHandler handler = new CheckHandler(board, currentPieceColor);
             handleDrawing(output, handler);
+
             if (handler.isMate())
             {
                 PieceColor enemyColor = players[currentPlayer].getColor().getOtherColor();
                 System.out.println("Checkmate : " + enemyColor + " wins");
+                break;
+            }
+            if (handler.isDraw(moveList))
+            {
+                System.out.println("Draw");
                 break;
             }
             handleMove();
@@ -82,17 +92,16 @@ public class Game
             try
             {
 
-                Move m = players[currentPlayer].readMove(SCANNER);
+                Move m = players[currentPlayer].readMove(scanner);
 
                 isValid = testMove(m);
                 if (!isValid)
                 {
                     System.out.println("This puts the king in check");
-                    board.undoMove();
                 }
                 else
                 {
-                    board.commitMove();
+                    moveList.add(m);
                 }
 
             } catch (Move.IllegalMoveException e)
@@ -114,6 +123,23 @@ public class Game
         PieceColor currentPieceColor = players[currentPlayer].getColor();
         board.makeMove(m);
         CheckHandler handler = new CheckHandler(board, currentPieceColor);
+        CheckHandler notationHandler = new CheckHandler(board, currentPieceColor.getOtherColor());
+        if (notationHandler.isMate() && !m.isMate)
+        {
+            throw new Move.IllegalMoveException("this is a mate but not declared");
+        }
+        if (notationHandler.isCheck() && !m.isCheck)
+        {
+            throw new Move.IllegalMoveException("this is a check but not declared");
+        }
+        if (!notationHandler.isMate() && m.isMate)
+        {
+            throw new Move.IllegalMoveException("this is not a mate but it's declared");
+        }
+        if (!notationHandler.isCheck() && m.isCheck)
+        {
+            throw new Move.IllegalMoveException("this is not a check but it's declared");
+        }
         return !handler.isCheck();
     }
 

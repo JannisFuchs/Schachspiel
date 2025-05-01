@@ -61,4 +61,5 @@ public record Bishop(PieceColor c) implements IPiece
 		FieldSet reachableFields = candidateFields.filterReachableByDiagonal(target, board);
 		return !reachableFields.isEmpty();
 	}
+
 }

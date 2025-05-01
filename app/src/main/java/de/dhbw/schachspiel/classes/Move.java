@@ -15,8 +15,10 @@ public class Move
     public final boolean isCheck;
     public final boolean isMate;
     public final boolean isCapture;
+    public final IPiece promotion;
 
-    public Move(Field start, Field target, IPiece piece, boolean isCapture, boolean isCheck, boolean isMate)
+
+    public Move(Field start, Field target, IPiece piece, boolean isCapture, boolean isCheck, boolean isMate, IPiece promotion)
     {
         this.piece = piece;
         this.start = start;
@@ -24,21 +26,28 @@ public class Move
         this.isCapture = isCapture;
         this.isCheck = isCheck;
         this.isMate = isMate;
+        this.promotion = promotion;
     }
 
     @Override
     public boolean equals(Object o)
     {
-		if (this == o)
-		{
-			return true;
-		}
-		if (o == null || getClass() != o.getClass())
-		{
-			return false;
-		}
+        if (this == o)
+        {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass())
+        {
+            return false;
+        }
         Move move = (Move) o;
-        return isCheck == move.isCheck && isMate == move.isMate && isCapture == move.isCapture && Objects.equals(start, move.start) && Objects.equals(target, move.target) && Objects.equals(piece, move.piece);
+        return isCheck == move.isCheck
+                && isMate == move.isMate
+                && isCapture == move.isCapture
+                && Objects.equals(start, move.start)
+                && Objects.equals(target, move.target)
+                && Objects.equals(piece, move.piece)
+                && Objects.equals(promotion, move.promotion);
     }
 
     /**
@@ -50,6 +59,7 @@ public class Move
      *                             (x)? -  capture
      *                             ([a-h]) - End column
      *                             ([1-8]) - End row
+     *                             (=[RBQKN]) - promotion
      *                             ([+#])? - check or mate
      * @param c                    the color the current pieces have
      */
@@ -57,61 +67,87 @@ public class Move
     public Move(String stringRepresentation, PieceColor c) throws IllegalMoveException
     {
 
-        Matcher matcher = Pattern.compile("([RBQKN])?([a-h])?([1-8])?(x)?([a-h])([1-8])([+#])?").matcher(stringRepresentation);
+        Matcher matcher = Pattern.compile("([RBQKN])?([a-h])?([1-8])?(x)?([a-h])([1-8])(=[RBQKN])?([+#])?").matcher(stringRepresentation);
         if (!matcher.matches())
         {
             throw new IllegalMoveException("incorrect Notation");
         }
-        String pieceLabel = matcher.group(1);
-        if (pieceLabel == null)
-        {
-            piece = PieceFactory.createPieceFromType(PieceType.PAWN, c);
-        }
-        else
-        {
-            piece = PieceFactory.createPieceFromType(PieceType.pieceTypeFromChar(pieceLabel.charAt(0)), c);
-        }
-        int startRow = -1;
-        int startCol = -1;
+        piece = getPiece(matcher.group(1),c);
+        start = getField(matcher.group(3), matcher.group(2));
+        isCapture = isCapture(matcher.group(4));
+        target = getField(matcher.group(6), matcher.group(5));
+        promotion = getPromotion(matcher.group(7));
+        isCheck = isCheck(matcher.group(8));
+        isMate = isMate(matcher.group(8));
 
-        if (matcher.group(2) != null)
+    }
+    private IPiece getPiece(String representation, PieceColor c)
+    {
+        if (representation == null)
         {
-            startCol = Columns.valueOf(matcher.group(2).toUpperCase()).ordinal();
+            return PieceFactory.createPieceFromType(PieceType.PAWN, c);
         }
-        if (matcher.group(3) != null)
+        return PieceFactory.createPieceFromType(PieceType.pieceTypeFromChar(representation.charAt(0)), c);
+    }
+    private boolean isCapture(String stringRepresentation) throws IllegalMoveException
+    {
+        if (stringRepresentation == null)
         {
-            startRow = 8 - Integer.parseInt(matcher.group(3));
+            return false;
         }
-        start = new Field(startRow, startCol);
-
-        isCapture = matcher.group(4) != null;
+        boolean isCapture = stringRepresentation.contains("x");
+        int startCol = start.column();
         if (isCapture && piece.getPieceType() == PieceType.PAWN && startCol == -1)
         {
+
             throw new IllegalMoveException("Illegal notation");
         }
-
-        int endRow = 8 - Integer.parseInt(matcher.group(6));
-        int endCol = Columns.valueOf(matcher.group(5).toUpperCase()).ordinal();
-        target = new Field(endRow, endCol);
-
-        if (Objects.equals(matcher.group(7), "+"))
+        return isCapture;
+    }
+    private Field  getField(String rowRepresentation, String columnRepresentation){
+        int row = -1;
+        int col = -1;
+        if (rowRepresentation != null)
         {
-            isCheck = true;
-            isMate = false;
+            row = 8 - Integer.parseInt(rowRepresentation);
         }
-        else
+        if (columnRepresentation != null)
         {
-            if (Objects.equals(matcher.group(7), "#"))
-            {
-                isMate = true;
-                isCheck = false;
-            }
-            else
-            {
-                isCheck = false;
-                isMate = false;
-            }
+            col = Columns.valueOf(columnRepresentation.toUpperCase()).ordinal();
         }
+        return new Field(row, col);
+    }
+    private IPiece getPromotion(String representation) throws IllegalMoveException
+    {
+        IPiece promotion = PieceFactory.createPieceFromType(PieceType.NONE, piece.getColor());
+        if (representation != null){
+            promotion = PieceFactory.createPieceFromType(PieceType.pieceTypeFromChar(representation.charAt(1)), piece.getColor());
+        }
+
+
+
+        if (piece.getPieceType() != PieceType.PAWN && promotion.getPieceType() != PieceType.NONE)
+        {
+            throw new IllegalMoveException("Illegal promotion");
+        }
+        return promotion;
+    }
+    private boolean isCheck(String stringRepresentation)
+    {
+        if (stringRepresentation == null)
+        {
+            return false;
+        }
+        return stringRepresentation.contains("+");
+
+    }
+    private boolean isMate(String stringRepresentation)
+    {
+        if (stringRepresentation == null)
+        {
+            return false;
+        }
+        return stringRepresentation.contains("#");
     }
 
     private enum Columns
@@ -119,7 +155,7 @@ public class Move
         A, B, C, D, E, F, G, H
     }
 
-    public static class IllegalMoveException extends Exception
+    public static class IllegalMoveException extends RuntimeException
     {
         public IllegalMoveException(String message)
         {

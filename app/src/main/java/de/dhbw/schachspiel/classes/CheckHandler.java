@@ -1,14 +1,17 @@
 package de.dhbw.schachspiel.classes;
 
+import de.dhbw.schachspiel.classes.pieces.None;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class CheckHandler
 {
-    private final IBoard board;
+    private final IBoard boardCopy;
+    private final IBoard originalBoard;
     private final BoardHelper helper;
     private final PieceColor color;
     private final PieceColor enemyColor;
@@ -16,18 +19,22 @@ public class CheckHandler
 
     public CheckHandler(IBoard board, PieceColor color)
     {
-        this.board = board;
+        this.originalBoard = board;
+        this.boardCopy = board.copy();
         this.color = color;
         this.enemyColor = color.getOtherColor();
         helper = new BoardHelper(board);
         defenders = helper.getAllPiecesFromColor(color);
     }
+    private List<Move> generateOptions(){
+        return new ArrayList<Move>();
+    }
 
     public boolean isCheck()
     {
-        Field currentKingField = board.getKingField(color);
-        PieceColor enemyColor = color.getOtherColor();
-        return !helper.getAttacker(currentKingField, enemyColor).isEmpty();
+        Field currentKingField = boardCopy.getKingField(color);
+        PieceColor otherColor = color.getOtherColor();
+        return !helper.getAttacker(currentKingField, otherColor).isEmpty();
     }
 
     public boolean canCaptureAttacker(Field attackField, PieceColor attackerColor)
@@ -39,7 +46,7 @@ public class CheckHandler
             {
                 continue;
             }
-            Move attack = new Move(defenderField, attackField, defenders.get(defenderField), true, false, false);
+            Move attack = new Move(defenderField, attackField, defenders.get(defenderField), true, false, false, new None(PieceColor.WHITE));
             if (isMoveExecutable(attack))
             {
                 return true;
@@ -53,13 +60,13 @@ public class CheckHandler
     {
         try
         {
-            board.makeMove(move);
+            boardCopy.makeMove(move);
         } catch (Move.IllegalMoveException e)
         {
             return false;
         }
         boolean isCheck = isCheck();
-        board.undoMove();
+
         return !isCheck;
     }
 
@@ -82,11 +89,11 @@ public class CheckHandler
 
     public boolean canMoveToFields(Field start, FieldSet target)
     {
-        IPiece piece = board.getPiece(start);
+        IPiece piece = boardCopy.getPiece(start);
         for (Field currentTarget : target.getSet())
         {
 
-            Move move = new Move(start, currentTarget, piece, false, false, false);
+            Move move = new Move(start, currentTarget, piece, false, false, false, new None(PieceColor.WHITE));
             if (isMoveExecutable(move))
             {
                 return true;
@@ -98,12 +105,12 @@ public class CheckHandler
     public boolean pieceCanMove(PieceType type)
     {
 
-        FieldSet fieldsOfPiece = board.getFieldsWithPiece(type, color);
+        FieldSet fieldsOfPiece = boardCopy.getFieldsWithPiece(type, color);
         for (Field field : fieldsOfPiece.getSet())
         {
-            IPiece currentPiece = board.getPiece(field);
-            FieldSet candidateFields = currentPiece.getCandidateFields(field, board);
-            FieldSet occupiedByOwnColor = candidateFields.getOccupiedByColor(board, currentPiece.getColor());
+            IPiece currentPiece = boardCopy.getPiece(field);
+            FieldSet candidateFields = currentPiece.getCandidateFields(field, boardCopy);
+            FieldSet occupiedByOwnColor = candidateFields.getOccupiedByColor(boardCopy, currentPiece.getColor());
             FieldSet freeFields = candidateFields.difference(occupiedByOwnColor);
             if (canMoveToFields(field, freeFields))
             {
@@ -119,14 +126,14 @@ public class CheckHandler
     public boolean canOtherPieceDefendKing()
     {
 
-        Field currentKingField = board.getKingField(color);
+        Field currentKingField = boardCopy.getKingField(color);
         FieldSet attacker = helper.getAttacker(currentKingField, enemyColor);
         if (attacker.size() > 1)
         {
             return false;
         }
         Field attackField = attacker.getSingleItem();
-        IPiece attackerPiece = board.getPiece(attackField);
+        IPiece attackerPiece = boardCopy.getPiece(attackField);
         if (canBlockAttacker(currentKingField, attackField, attackerPiece))
         {
             return true;
@@ -141,12 +148,16 @@ public class CheckHandler
         {
             return false;
         }
-        if (pieceCanMove(PieceType.KING))
-        {
-            return false;
+        List<Move> possibleMoves = generateOptions();
+        for (Move move : possibleMoves){
+            boardCopy.makeMove(move);
+            CheckHandler handler = new CheckHandler(boardCopy, color);
+            if (!handler.isCheck()){
+                return false;
+            }
         }
 
-        return !canOtherPieceDefendKing();
+        return true;
     }
 
     //insufficient material : King has only Bishop or Knight or Bishop and Bishop and Knight and Knight
@@ -165,6 +176,8 @@ public class CheckHandler
                 case KNIGHT:
                     hasKnight = true;
                     break;
+                case KING:
+                    break;
                 default:
                     return true;
             }
@@ -178,7 +191,7 @@ public class CheckHandler
 
     public boolean isInsufficientMaterial()
     {
-        return colorHasSufficientMaterial(PieceColor.WHITE) || colorHasSufficientMaterial(PieceColor.BLACK);
+        return !(colorHasSufficientMaterial(PieceColor.WHITE) || colorHasSufficientMaterial(PieceColor.BLACK));
     }
 
     private int getIndexOfLastMoveOfColor(PieceColor currentColor, List<Move> moveList)
@@ -198,7 +211,7 @@ public class CheckHandler
         Move lastMove = moveList.get(lastIndexOfColor);
         for (int moveIndex = lastIndexOfColor - 2; moveIndex > lastIndexOfColor - 7; moveIndex -= 2)
         {
-            Move currentMove = moveList.get(lastIndexOfColor);
+            Move currentMove = moveList.get(moveIndex);
             if (!currentMove.equals(lastMove))
             {
                 return false;
@@ -207,7 +220,7 @@ public class CheckHandler
         return true;
     }
 
-    private boolean isThreeFold(List<Move> moveList)
+    public boolean isThreeFold(List<Move> moveList)
     {
         if (moveList.size() < 6)
         {
@@ -216,10 +229,31 @@ public class CheckHandler
         return isThreeFoldColor(moveList, PieceColor.WHITE) && isThreeFoldColor(moveList, PieceColor.BLACK);
     }
 
-
-    public boolean isDraw()
+    public boolean fiftyMoveRule(List<Move> moveList)
     {
-        return isStalemate() || isInsufficientMaterial();
+        if (moveList.size() < 100)
+        {
+            return false;
+        }
+        int indexLastMove = moveList.size() - 1;
+        for (int indexMove = indexLastMove; indexMove > indexLastMove - 100; indexMove--)
+        {
+            Move currentMove = moveList.get(indexMove);
+            if (currentMove.isCapture || currentMove.piece.getPieceType() == PieceType.PAWN)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    public boolean isDraw(List<Move> moveList)
+    {
+        return isStalemate()
+                || isInsufficientMaterial()
+                || fiftyMoveRule(moveList)
+                || isThreeFold(moveList);
     }
 
     public boolean isStalemate()

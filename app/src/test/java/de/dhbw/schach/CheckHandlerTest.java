@@ -10,7 +10,7 @@ import de.dhbw.schachspiel.interfaces.IPiece;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class CheckHandlerTest
+class CheckHandlerTest
 {
 
 
@@ -25,11 +25,11 @@ public class CheckHandlerTest
     @Test
     void canOtherPieceBlock()
     {
-        String startPosition = "rnbqk1nr/pppp1ppp/4p3/8/1b6/3P3P/PPP1PPP1/RNBQKBNR";
-        CheckHandler handler = setUp(startPosition, PieceColor.WHITE);
+        String startPosition = "rnbqkb1r/pp3ppp/5n2/1B1pp1B1/8/3P4/PPP2PPP/RN1QK1NR";
+        CheckHandler handler = setUp(startPosition, PieceColor.BLACK);
         Assertions.assertTrue(handler.isCheck());
         Assertions.assertTrue(handler.canOtherPieceDefendKing());
-        Assertions.assertFalse(handler.pieceCanMove(PieceType.KING));
+        Assertions.assertTrue(handler.pieceCanMove(PieceType.KING));
         Assertions.assertFalse(handler.isMate());
     }
 
@@ -38,10 +38,16 @@ public class CheckHandlerTest
     {
         String startPosition = "rnbqkb1r/pppB1pp1/4p3/4N2p/4n3/8/PPPP1PPP/RNBQK2R";
         CheckHandler handler = setUp(startPosition, PieceColor.BLACK);
-        Assertions.assertTrue(handler.isCheck());
         Assertions.assertTrue(handler.canOtherPieceDefendKing());
         Assertions.assertTrue(handler.pieceCanMove(PieceType.KING));
         Assertions.assertFalse(handler.isMate());
+    }
+    @Test
+    void isCheck(){
+        String startPosition = "rnbqkb1r/pppB1pp1/4p3/4N2p/4n3/8/PPPP1PPP/RNBQK2R";
+        CheckHandler handler = setUp(startPosition, PieceColor.BLACK);
+        Assertions.assertTrue(handler.isCheck());
+
     }
 
     @Test

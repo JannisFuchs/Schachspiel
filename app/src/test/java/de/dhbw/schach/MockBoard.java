@@ -2,9 +2,11 @@ package de.dhbw.schach;
 
 import de.dhbw.schachspiel.classes.*;
 import de.dhbw.schachspiel.classes.pieces.None;
+import de.dhbw.schachspiel.classes.pieces.PieceFactory;
 import de.dhbw.schachspiel.interfaces.IBoard;
 import de.dhbw.schachspiel.interfaces.IPiece;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class MockBoard implements IBoard
@@ -23,11 +25,7 @@ public class MockBoard implements IBoard
 
     }
 
-    @Override
-    public Field simulateMove(Move move) throws Move.IllegalMoveException
-    {
-        return new Field(-1, -1);
-    }
+
 
     @Override
     public FieldSet getFieldsWithPiece(PieceType type, PieceColor color)
@@ -51,17 +49,15 @@ public class MockBoard implements IBoard
         return set.getSingleItem();
     }
 
-
     @Override
-    public void undoMove()
+    public IBoard copy()
     {
-
-    }
-
-    @Override
-    public void commitMove()
-    {
-
+        HashMap<Field, IPiece> copy = new HashMap<>();
+        for (Map.Entry<Field,IPiece> entries: board.entrySet()){
+            IPiece copiedPiece = PieceFactory.createPieceFromType(entries.getValue().getPieceType(), entries.getValue().getColor());
+            copy.put(entries.getKey(), copiedPiece);
+        }
+        return new MockBoard(copy);
     }
 
 

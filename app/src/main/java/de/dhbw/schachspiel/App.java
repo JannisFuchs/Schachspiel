@@ -5,6 +5,8 @@ package de.dhbw.schachspiel;
 
 import de.dhbw.schachspiel.classes.Game;
 
+import java.util.Scanner;
+
 public class App
 {
 
@@ -16,7 +18,8 @@ public class App
         {
             startPosition = args[0];
         }
-        new Game(startPosition);
+        Scanner s = new Scanner(System.in);
+        new Game(startPosition,s);
 
     }
 }
