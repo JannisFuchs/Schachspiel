@@ -18,8 +18,9 @@ public class Player implements IPlayer
     public Move readMove(Scanner s) throws Move.IllegalMoveException
     {
         String move;
-        System.out.println(pieceColor.name() + " Enter your move : ");
+        System.out.print (pieceColor.name() + " Enter your move : ");
         move = s.nextLine();
+        System.out.println(move);
         return new Move(move, pieceColor);
     }
 

@@ -10,11 +10,10 @@ import java.util.Map;
 
 public class CheckHandler
 {
-    private final IBoard boardCopy;
+    private IBoard boardCopy;
     private final IBoard originalBoard;
     private final BoardHelper helper;
     private final PieceColor color;
-    private final PieceColor enemyColor;
     private final Map<Field, IPiece> defenders;
 
     public CheckHandler(IBoard board, PieceColor color)
@@ -22,12 +21,34 @@ public class CheckHandler
         this.originalBoard = board;
         this.boardCopy = board.copy();
         this.color = color;
-        this.enemyColor = color.getOtherColor();
         helper = new BoardHelper(board);
         defenders = helper.getAllPiecesFromColor(color);
     }
     private List<Move> generateOptions(){
-        return new ArrayList<Move>();
+        List<Move> possibleMoves = new ArrayList<>();
+        for (Map.Entry<Field, IPiece> entry : defenders.entrySet()){
+            Field field = entry.getKey();
+            IPiece piece = entry.getValue();
+            FieldSet possibleTargets = piece.getCandidateFields(field, originalBoard);
+            possibleMoves.addAll(generateMovesForFieldSet(possibleTargets, field, piece));
+        }
+
+        return possibleMoves;
+    }
+
+    private List<Move> generateMovesForFieldSet(FieldSet set, Field startField, IPiece piece)
+    {
+        List<Move> possibleMoves = new ArrayList<>();
+        for (Field target : set.getSet())
+        {
+            if (target.isOccupiedByColor(color, originalBoard) && !(piece instanceof None)){
+                continue;
+            }
+            boolean isCapture = target.isOccupiedByColor(color.getOtherColor(), originalBoard) && !(piece instanceof None);
+            Move move = new Move(startField,target, piece, isCapture);
+            possibleMoves.add(move);
+        }
+        return possibleMoves;
     }
 
     public boolean isCheck()
@@ -37,130 +58,35 @@ public class CheckHandler
         return !helper.getAttacker(currentKingField, otherColor).isEmpty();
     }
 
-    public boolean canCaptureAttacker(Field attackField, PieceColor attackerColor)
-    {
-        FieldSet defenderFields = helper.getAttacker(attackField, attackerColor);
-        for (Field defenderField : defenderFields.getSet())
-        {
-            if (!defenders.containsKey(defenderField))
-            {
-                continue;
-            }
-            Move attack = new Move(defenderField, attackField, defenders.get(defenderField), true, false, false, new None(PieceColor.WHITE));
-            if (isMoveExecutable(attack))
-            {
-                return true;
-            }
-        }
-        return false;
-
-    }
-
-    public boolean isMoveExecutable(Move move)
-    {
-        try
-        {
-            boardCopy.makeMove(move);
-        } catch (Move.IllegalMoveException e)
-        {
-            return false;
-        }
-        boolean isCheck = isCheck();
-
-        return !isCheck;
-    }
-
-    public boolean canBlockAttacker(Field kingField, Field fieldToBlock, IPiece attacker)
-    {
-        if (attacker.getPieceType() == PieceType.KNIGHT)
-        {
-            return false;
-        }
-        FieldSet blockingFields = kingField.getFieldsInBetween(fieldToBlock);
-        for (Map.Entry<Field, IPiece> defender : defenders.entrySet())
-        {
-            if (canMoveToFields(defender.getKey(), blockingFields))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean canMoveToFields(Field start, FieldSet target)
-    {
-        IPiece piece = boardCopy.getPiece(start);
-        for (Field currentTarget : target.getSet())
-        {
-
-            Move move = new Move(start, currentTarget, piece, false, false, false, new None(PieceColor.WHITE));
-            if (isMoveExecutable(move))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean pieceCanMove(PieceType type)
-    {
-
-        FieldSet fieldsOfPiece = boardCopy.getFieldsWithPiece(type, color);
-        for (Field field : fieldsOfPiece.getSet())
-        {
-            IPiece currentPiece = boardCopy.getPiece(field);
-            FieldSet candidateFields = currentPiece.getCandidateFields(field, boardCopy);
-            FieldSet occupiedByOwnColor = candidateFields.getOccupiedByColor(boardCopy, currentPiece.getColor());
-            FieldSet freeFields = candidateFields.difference(occupiedByOwnColor);
-            if (canMoveToFields(field, freeFields))
-            {
-                return true;
-            }
-
-        }
-
-        return false;
-    }
-
-
-    public boolean canOtherPieceDefendKing()
-    {
-
-        Field currentKingField = boardCopy.getKingField(color);
-        FieldSet attacker = helper.getAttacker(currentKingField, enemyColor);
-        if (attacker.size() > 1)
-        {
-            return false;
-        }
-        Field attackField = attacker.getSingleItem();
-        IPiece attackerPiece = boardCopy.getPiece(attackField);
-        if (canBlockAttacker(currentKingField, attackField, attackerPiece))
-        {
-            return true;
-        }
-
-        return canCaptureAttacker(attackField, color);
-    }
-
     public boolean isMate()
     {
         if (!isCheck())
         {
             return false;
         }
+        return testMoves();
+    }
+    private boolean testMoves(){
         List<Move> possibleMoves = generateOptions();
         for (Move move : possibleMoves){
-            boardCopy.makeMove(move);
+            try{
+                boardCopy.makeMove(move);
+            } catch (Move.IllegalMoveException e)
+            {
+                continue;
+            }
             CheckHandler handler = new CheckHandler(boardCopy, color);
             if (!handler.isCheck()){
+                boardCopy = originalBoard.copy();
                 return false;
             }
+            boardCopy = originalBoard.copy();
         }
 
         return true;
     }
 
-    //insufficient material : King has only Bishop or Knight or Bishop and Bishop and Knight and Knight
+    //insufficient material : King has only Bishop or Knight or Bishop and Bishop and Knight and Knight or neither
     private boolean colorHasSufficientMaterial(PieceColor color)
     {
         boolean hasBishop = false;
@@ -262,14 +188,7 @@ public class CheckHandler
         {
             return false;
         }
-        for (PieceType type : PieceType.values())
-        {
-            if (pieceCanMove(type))
-            {
-                return false;
-            }
-        }
-        return true;
+        return testMoves();
 
     }
 

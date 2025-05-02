@@ -1,7 +1,5 @@
 package de.dhbw.schach;
 
-import de.dhbw.schachspiel.classes.Move;
-import de.dhbw.schachspiel.classes.PieceColor;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,8 +36,10 @@ public class PgnConverter
     private String generateMove(String moveString)
     {
         String onlyMoves = moveString.replaceAll(" [0-9]*\\. "," ");
-        onlyMoves =onlyMoves.replaceAll("1. ","");
-        onlyMoves = onlyMoves.replaceAll("1-0","");
+        onlyMoves =onlyMoves.replaceAll("1\\. ","");
+        onlyMoves = onlyMoves.replaceAll(" 1-0","");
+        onlyMoves = onlyMoves.replaceAll(" 0-1","");
+        onlyMoves = onlyMoves.replaceAll(" 1/2-1/2","");
         return onlyMoves.replaceAll(" ","\n");
     }
     public String getMoves(){

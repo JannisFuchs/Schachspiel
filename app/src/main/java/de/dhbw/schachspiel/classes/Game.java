@@ -14,7 +14,7 @@ public class Game
     private final Scanner scanner;
     private final IBoard board;
     private final List<Move> moveList = new ArrayList<>();
-
+    private PieceColor winner = null;
     int currentPlayer;
     IPlayer[] players = {new Player(PieceColor.WHITE), new Player(PieceColor.BLACK)};
 
@@ -45,34 +45,38 @@ public class Game
         }
     }
 
-
-    public void play()
+    /**
+     *
+     * @return true if the game is over
+     */
+    public boolean play()
     {
         final int MAX_PLAYER_COUNT = 2;
         Visualisation output = createVisualisation();
-        for (int i = 0; i < 50; i++)
+        PieceColor currentPieceColor = players[currentPlayer].getColor();
+        CheckHandler handler = new CheckHandler(board, currentPieceColor);
+        handleDrawing(output, handler);
+
+        if (handler.isMate())
         {
-            PieceColor currentPieceColor = players[currentPlayer].getColor();
-            CheckHandler handler = new CheckHandler(board, currentPieceColor);
-            handleDrawing(output, handler);
 
-            if (handler.isMate())
-            {
-                PieceColor enemyColor = players[currentPlayer].getColor().getOtherColor();
-                System.out.println("Checkmate : " + enemyColor + " wins");
-                break;
-            }
-            if (handler.isDraw(moveList))
-            {
-                System.out.println("Draw");
-                break;
-            }
-            handleMove();
-
-            currentPlayer = (currentPlayer + 1) % MAX_PLAYER_COUNT;
+            winner = players[currentPlayer].getColor().getOtherColor();
+            return true;
         }
-    }
+        if (handler.isDraw(moveList))
+        {
 
+            return true;
+        }
+        handleMove();
+
+        currentPlayer = (currentPlayer + 1) % MAX_PLAYER_COUNT;
+        return false;
+    }
+    public PieceColor getWinner()
+    {
+        return winner;
+    }
     public void handleDrawing(Visualisation output, CheckHandler handler)
     {
         if (handler.isCheck())

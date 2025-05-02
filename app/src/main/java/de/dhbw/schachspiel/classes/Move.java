@@ -15,7 +15,7 @@ public class Move
     public final boolean isCheck;
     public final boolean isMate;
     public final boolean isCapture;
-    public final IPiece promotion;
+    public final IPiece promotedPiece;
 
 
     public Move(Field start, Field target, IPiece piece, boolean isCapture, boolean isCheck, boolean isMate, IPiece promotion)
@@ -26,7 +26,16 @@ public class Move
         this.isCapture = isCapture;
         this.isCheck = isCheck;
         this.isMate = isMate;
-        this.promotion = promotion;
+        this.promotedPiece = promotion;
+    }
+    public Move(Field start, Field target, IPiece piece, boolean isCapture)
+    {
+        this(start, target, piece, isCapture, false, false, PieceFactory.createPieceFromType(PieceType.NONE, piece.getColor()));
+    }
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(start, target, piece, isCheck, isMate, isCapture, promotedPiece);
     }
 
     @Override
@@ -47,7 +56,7 @@ public class Move
                 && Objects.equals(start, move.start)
                 && Objects.equals(target, move.target)
                 && Objects.equals(piece, move.piece)
-                && Objects.equals(promotion, move.promotion);
+                && Objects.equals(promotedPiece, move.promotedPiece);
     }
 
     /**
@@ -76,9 +85,10 @@ public class Move
         start = getField(matcher.group(3), matcher.group(2));
         isCapture = isCapture(matcher.group(4));
         target = getField(matcher.group(6), matcher.group(5));
-        promotion = getPromotion(matcher.group(7));
+        promotedPiece = getPromotion(matcher.group(7));
         isCheck = isCheck(matcher.group(8));
         isMate = isMate(matcher.group(8));
+
 
     }
     private IPiece getPiece(String representation, PieceColor c)
@@ -95,14 +105,14 @@ public class Move
         {
             return false;
         }
-        boolean isCapture = stringRepresentation.contains("x");
+        boolean capture = stringRepresentation.contains("x");
         int startCol = start.column();
-        if (isCapture && piece.getPieceType() == PieceType.PAWN && startCol == -1)
+        if (capture && piece.getPieceType() == PieceType.PAWN && startCol == -1)
         {
 
             throw new IllegalMoveException("Illegal notation");
         }
-        return isCapture;
+        return capture;
     }
     private Field  getField(String rowRepresentation, String columnRepresentation){
         int row = -1;
@@ -138,7 +148,7 @@ public class Move
         {
             return false;
         }
-        return stringRepresentation.contains("+");
+        return stringRepresentation.contains("+") || stringRepresentation.contains("#");
 
     }
     private boolean isMate(String stringRepresentation)

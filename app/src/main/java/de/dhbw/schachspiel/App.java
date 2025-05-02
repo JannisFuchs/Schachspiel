@@ -19,7 +19,20 @@ public class App
             startPosition = args[0];
         }
         Scanner s = new Scanner(System.in);
-        new Game(startPosition,s);
+        Game game = new Game(startPosition,s);
+        boolean isOver = false;
+        while (!isOver){
+            isOver = game.play();
+        }
+        if (game.getWinner() == null)
+        {
+            System.out.println("Stalemate");
+        }
+        else
+        {
+            System.out.println(game.getWinner() + " won");
+        }
+
 
     }
 }
