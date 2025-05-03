@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="f5a42d11-bd89-495f-b908-2a867175b719" name="Changes" comment="implemented Rook test, used formatter, started on Check Functionality">
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/FieldSet.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/classes/FieldSet.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$/app">
+          <activation />
+        </task>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Schachspiel" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Schachspiel" type="f1a62948:ProjectNode" />
+                <item name="app" type="2d1252cf:ModuleNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Jannis Fuchs &lt;janifu02@gmail.com&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="SIGN_OFF_COMMIT" value="true" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;JannisFuchs&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:JannisFuchs/Schachspiel.git&quot;,
+    &quot;accountId&quot;: &quot;3a62e4ab-d831-49f2-a946-255041ded95e&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2rXQ9ANWG23UGBOqNUAjHu9BMWh" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.Build Schachspiel.executor": "Run",
+    "Gradle.PawnTest.capture.executor": "Run",
+    "Gradle.PawnTest.executor": "Run",
+    "Gradle.PawnTest.move2Squares.executor": "Run",
+    "Gradle.PawnTest.moveBlocked.executor": "Run",
+    "Gradle.Schachspiel [app:run].executor": "Run",
+    "Gradle.Schachspiel [app:test].executor": "Coverage",
+    "Gradle.Schachspiel [test].executor": "Run",
+    "Gradle.Schachspiel:app [:app:de.dhbw.schachspiel.App.main()].executor": "Run",
+    "JUnit.MoveTest (1).executor": "Run",
+    "JUnit.MoveTest.executor": "Run",
+    "JUnit.MoveTest.normalMove.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "git-widget-placeholder": "master",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/huchsle/Schachspiel/app/src/main/java/de/dhbw/schachspiel",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "/home/huchsle/Schachspiel/app/src/test/com.dhbw.schachspiel/src/Main.java",
+    "settings.editor.selected.configurable": "preferences.sourceCode.Java",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/app/src/main" />
+      <recent name="$PROJECT_DIR$/app/src/test/com.dhbw.schachspiel/src" />
+      <recent name="$PROJECT_DIR$/app/src/main/java/de/dhbw/schachspiel/Classes/pieces" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.Schachspiel [app:test]">
+    <configuration name="MoveTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;de.dhbw.schach.MoveTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="PawnTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;de.dhbw.schach.PawnTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="PawnTest.capture" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;de.dhbw.schach.PawnTest.capture&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="PawnTest.move2Squares" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;de.dhbw.schach.PawnTest.move2Squares&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="PawnTest.moveBlocked" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:test" />
+            <option value="--tests" />
+            <option value="&quot;de.dhbw.schach.PawnTest.moveBlocked&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="Schachspiel [app:run]" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="app:run" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="Schachspiel [app:test]" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="app:test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Gradle.Schachspiel [app:run]" />
+      <item itemvalue="Gradle.Schachspiel [app:test]" />
+      <item itemvalue="Gradle.PawnTest.capture" />
+      <item itemvalue="Gradle.PawnTest.moveBlocked" />
+      <item itemvalue="Gradle.PawnTest.move2Squares" />
+      <item itemvalue="Gradle.PawnTest" />
+      <item itemvalue="Gradle.MoveTest" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.PawnTest" />
+        <item itemvalue="Gradle.PawnTest.moveBlocked" />
+        <item itemvalue="Gradle.PawnTest.capture" />
+        <item itemvalue="Gradle.PawnTest.move2Squares" />
+        <item itemvalue="Gradle.MoveTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.25410.59" />
+        <option value="bundled-js-predefined-d6986cc7102b-6a121458b545-JavaScript-IU-251.25410.59" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f5a42d11-bd89-495f-b908-2a867175b719" name="Changes" comment="" />
+      <created>1736702786498</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1736702786498</updated>
+      <workItem from="1736702788193" duration="1239000" />
+      <workItem from="1737798046569" duration="39000" />
+      <workItem from="1739369506898" duration="8954000" />
+      <workItem from="1739379729902" duration="1618000" />
+      <workItem from="1739381358703" duration="824000" />
+      <workItem from="1739621862763" duration="7671000" />
+      <workItem from="1739635733063" duration="735000" />
+      <workItem from="1739697329091" duration="8852000" />
+      <workItem from="1739721942896" duration="5229000" />
+      <workItem from="1740325448777" duration="616000" />
+      <workItem from="1740824546348" duration="11752000" />
+      <workItem from="1740847691427" duration="184000" />
+      <workItem from="1740849043699" duration="2044000" />
+      <workItem from="1740911975466" duration="13189000" />
+      <workItem from="1741043808074" duration="27000" />
+      <workItem from="1741197642787" duration="3398000" />
+      <workItem from="1741203103799" duration="40000" />
+      <workItem from="1741522120107" duration="12007000" />
+      <workItem from="1741800078557" duration="2663000" />
+      <workItem from="1742223103232" duration="9950000" />
+      <workItem from="1742737828783" duration="16954000" />
+      <workItem from="1742826348110" duration="111000" />
+      <workItem from="1742888369047" duration="3841000" />
+      <workItem from="1742904532243" duration="14318000" />
+      <workItem from="1743107393324" duration="566000" />
+      <workItem from="1743704932325" duration="9000" />
+      <workItem from="1744468906552" duration="33000" />
+      <workItem from="1746302294372" duration="3244000" />
+      <workItem from="1746305549176" duration="3548000" />
+    </task>
+    <task id="LOCAL-00001" summary="basic stuff is working now but no rules are implemented">
+      <option name="closed" value="true" />
+      <created>1739634806596</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1739634806596</updated>
+    </task>
+    <task id="LOCAL-00002" summary="started to implement pawn moves">
+      <option name="closed" value="true" />
+      <created>1739727701199</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1739727701199</updated>
+    </task>
+    <task id="LOCAL-00003" summary="refactor Now every Piece is a record. &#10;Implemented Bishop">
+      <option name="closed" value="true" />
+      <created>1740846140571</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1740846140571</updated>
+    </task>
+    <task id="LOCAL-00004" summary="implemented every Move&#10;changed Readme">
+      <option name="closed" value="true" />
+      <created>1741043828295</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1741043828295</updated>
+    </task>
+    <task id="LOCAL-00005" summary="added Piece enum&#10;Pawn needs refactoring">
+      <option name="closed" value="true" />
+      <created>1741203132436</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1741203132436</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="working colors" />
+    <MESSAGE value="basic stuff is working now but no rules are implemented" />
+    <MESSAGE value="started to implement pawn moves" />
+    <MESSAGE value="refactor Now every Piece is a record. &#10;Implemented Bishop" />
+    <MESSAGE value="implemented every Move&#10;changed Readme" />
+    <MESSAGE value="added Piece enum&#10;Pawn needs refactoring" />
+    <MESSAGE value="fixed colors" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed colors" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Schachspiel$Schachspiel__app_test_.ic" NAME="Schachspiel [app:test] Coverage Results" MODIFIED="1744468915045" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+  </component>
+</project>
