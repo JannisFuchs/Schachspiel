@@ -2,6 +2,7 @@ package de.dhbw.schach;
 
 import de.dhbw.schachspiel.classes.Game;
 import de.dhbw.schachspiel.classes.PieceColor;
+import de.dhbw.schachspiel.classes.logger.LogHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +19,8 @@ class EndToEndTest
         System.out.println(converter.getMoves());
         Scanner testScanner=new Scanner(converter.getMoves());
         String startPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w";
-        Game game = new Game(startPosition,testScanner);
+
+        Game game = new Game(startPosition,testScanner,new LogHandler(true));
         boolean isOver = false;
         while(!isOver){
             isOver = game.play();
@@ -33,7 +35,7 @@ class EndToEndTest
         System.out.println(converter.getMoves());
         Scanner testScanner=new Scanner(converter.getMoves());
         String startPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w";
-        Game game = new Game(startPosition,testScanner);
+        Game game = new Game(startPosition,testScanner,new LogHandler(true));
         boolean isOver = false;
         while(!isOver){
             isOver = game.play();

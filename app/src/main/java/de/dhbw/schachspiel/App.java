@@ -4,35 +4,40 @@
 package de.dhbw.schachspiel;
 
 import de.dhbw.schachspiel.classes.Game;
+import de.dhbw.schachspiel.classes.logger.LogHandler;
+import de.dhbw.schachspiel.classes.logger.LogType;
 
 import java.util.Scanner;
 
 public class App
 {
 
-    public static void main(String[] args)
-    {
-
+    App(String [] args){
         String startPosition = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w";
         if (args.length == 1)
         {
             startPosition = args[0];
         }
         Scanner s = new Scanner(System.in);
-        Game game = new Game(startPosition,s);
+        LogHandler logger = new LogHandler(false);
+
+        Game game = new Game(startPosition,s,logger);
         boolean isOver = false;
         while (!isOver){
             isOver = game.play();
         }
         if (game.getWinner() == null)
         {
-            System.out.println("Stalemate");
+            logger.log("Stalemate", LogType.GAME);
         }
         else
         {
-            System.out.println(game.getWinner() + " won");
+            logger.log(game.getWinner() + " won", LogType.GAME);
         }
-
+    }
+    public static void main(String[] args)
+    {
+        new App(args);
 
     }
 }

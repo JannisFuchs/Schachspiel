@@ -1,7 +1,11 @@
 package de.dhbw.schachspiel.classes;
 
+import de.dhbw.schachspiel.classes.logger.LogHandler;
+import de.dhbw.schachspiel.classes.logger.LogType;
+
 import de.dhbw.schachspiel.classes.pieces.PieceFactory;
 import de.dhbw.schachspiel.interfaces.IBoard;
+
 import de.dhbw.schachspiel.interfaces.IPiece;
 import de.dhbw.schachspiel.interfaces.IPlayer;
 
@@ -13,13 +17,18 @@ public class Game
 {
     private final Scanner scanner;
     private final IBoard board;
+    private final LogHandler logger;
     private final List<Move> moveList = new ArrayList<>();
     private PieceColor winner = null;
     int currentPlayer;
-    IPlayer[] players = {new Player(PieceColor.WHITE), new Player(PieceColor.BLACK)};
+    IPlayer[] players = new IPlayer[2];
 
-    public Game(String startPosition, Scanner scanner)
+    public Game(String startPosition, Scanner scanner, LogHandler logHandler)
     {
+        this.logger = logHandler;
+
+        players[0] =new Player(PieceColor.WHITE,logger);
+        players[1] = new Player(PieceColor.BLACK,logger);
         this.scanner = scanner;
         String[] split = startPosition.split(" ");
         IPiece[][] positionAsPieces = PieceFactory.createBoardFromFEN(split[0]);
@@ -101,7 +110,7 @@ public class Game
                 isValid = testMove(m);
                 if (!isValid)
                 {
-                    System.out.println("This puts the king in check");
+                    logger.log("This puts the king in check", LogType.INFO);
                 }
                 else
                 {
@@ -110,7 +119,7 @@ public class Game
 
             } catch (Move.IllegalMoveException e)
             {
-                System.out.println(e.getMessage());
+                logger.log(e.getMessage(),LogType.ERROR);
             }
         }
     }
@@ -155,6 +164,6 @@ public class Game
         Color whiteSquares = new Color(210, 187, 151, true);
         Color blackSquares = new Color(151, 106, 79, true);
         Color redSquares = new Color(255, 0, 0, true);
-        return new Visualisation(blackPieces, whitePieces, blackSquares, whiteSquares, redSquares);
+        return new Visualisation(logger,blackPieces, whitePieces, blackSquares, whiteSquares, redSquares);
     }
 }
