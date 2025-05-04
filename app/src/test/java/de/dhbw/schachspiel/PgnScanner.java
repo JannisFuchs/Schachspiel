@@ -5,11 +5,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
-public class PgnConverter
+public class PgnScanner
 {
     private final String movesOfGame;
-    public PgnConverter(String filePath) throws IOException
+
+    public PgnScanner(String filePath) throws IOException
     {
         String moveString = getMoveString(filePath);
         movesOfGame = generateMove(moveString);
@@ -24,7 +26,7 @@ public class PgnConverter
 
         while ((line = reader.readLine()) != null)
         {
-            if ((!line.isEmpty())&&line.charAt(0) == '1')
+            if ((!line.isEmpty()) && line.charAt(0) == '1')
             {
                 return line;
             }
@@ -35,14 +37,16 @@ public class PgnConverter
 
     private String generateMove(String moveString)
     {
-        String onlyMoves = moveString.replaceAll(" [0-9]*\\. "," ");
-        onlyMoves =onlyMoves.replaceAll("1\\. ","");
-        onlyMoves = onlyMoves.replaceAll(" 1-0","");
-        onlyMoves = onlyMoves.replaceAll(" 0-1","");
-        onlyMoves = onlyMoves.replaceAll(" 1/2-1/2","");
-        return onlyMoves.replaceAll(" ","\n");
+        String onlyMoves = moveString.replaceAll(" [0-9]*\\. ", " ");
+        onlyMoves = onlyMoves.replaceAll("1\\. ", "");
+        onlyMoves = onlyMoves.replaceAll(" 1-0", "");
+        onlyMoves = onlyMoves.replaceAll(" 0-1", "");
+        onlyMoves = onlyMoves.replaceAll(" 1/2-1/2", "");
+        return onlyMoves.replaceAll(" ", "\n");
     }
-    public String getMoves(){
-     return movesOfGame;
+
+    public Scanner getMoves()
+    {
+        return new Scanner(movesOfGame);
     }
 }
