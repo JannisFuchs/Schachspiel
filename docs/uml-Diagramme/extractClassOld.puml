@@ -1,0 +1,8 @@
+@startuml
+    class Game {
+
+        boolean isInCheck()
+
+    }
+
+@enduml

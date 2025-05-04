@@ -1,0 +1,93 @@
+@startuml
+
+    interface IPiece {
+    ~ char getSymbol()
+    ~ PieceColor getColor()
+    ~ PieceType getPieceType()
+    ~ FieldSet getCandidateFields(Field,IBoard)
+    ~ Field calculateStartField(FieldSet,Move,IBoard)
+    ~ boolean isAbleToAttack(Field,Field,PieceColor,IBoard)
+    }
+
+
+
+
+    class None {
+    - PieceColor c
+    + <<Create>> None(PieceColor)
+    + char getSymbol()
+    + PieceColor getColor()
+    + PieceType getPieceType()
+    + FieldSet getCandidateFields(Field,IBoard)
+    + Field calculateStartField(FieldSet,Move,IBoard)
+    + boolean isAbleToAttack(Field,Field,PieceColor,IBoard)
+    + PieceColor c()
+    }
+
+
+    class PieceFactory {
+    + {static} IPiece[][] createBoardFromFEN(String)
+    - {static} void mergePieceArrayIntoArray(IPiece[],IPiece[])
+    ~ {static} IPiece[] generatePiecesFromChar(char)
+    + {static} IPiece createPieceFromType(PieceType,PieceColor)
+    }
+    class Pawn {
+    - PieceColor c
+    + <<Create>> Pawn(PieceColor)
+    + char getSymbol()
+    + PieceColor getColor()
+    + PieceType getPieceType()
+    + FieldSet getCandidateFields(Field,IBoard)
+    + Field calculateStartField(FieldSet,Move,IBoard)
+    + boolean isAbleToAttack(Field,Field,PieceColor,IBoard)
+    - FieldSet filterBehindSquares(FieldSet,Field,PieceColor)
+    - Field calculateCapture(Move,IBoard,FieldSet)
+    - Field calculateNormalMove(Move,IBoard,FieldSet)
+    - Field validateMove(Field,Move,IBoard)
+    + PieceColor c()
+    }
+
+    class King {
+    - PieceColor c
+    + <<Create>> King(PieceColor)
+    + char getSymbol()
+    + PieceColor getColor()
+    + PieceType getPieceType()
+    + FieldSet getCandidateFields(Field,IBoard)
+    + Field calculateStartField(FieldSet,Move,IBoard)
+    + boolean isAbleToAttack(Field,Field,PieceColor,IBoard)
+    + PieceColor c()
+    }
+
+
+enum PieceType {
++  PAWN
++  KNIGHT
++  ROOK
++  BISHOP
++  QUEEN
++  KING
++  NONE
++ {static} PieceType pieceTypeFromChar(char)
+}
+enum PieceColor {
++  BLACK
++  WHITE
++ PieceColor getOtherColor()
+
+}
+IPiece --* PieceType
+IPiece --* PieceColor
+
+Pawn -up-|> IPiece
+King -up-|> IPiece
+None -up-|> IPiece
+
+PieceFactory ..> Pawn : creates
+PieceFactory ..> King : creates
+PieceFactory ..> None : creates
+
+PieceFactory -right-> IPiece : returns
+
+
+@enduml

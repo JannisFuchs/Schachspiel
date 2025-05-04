@@ -1,0 +1,39 @@
+@startuml
+interface ILogger {
+    ~ void log(String)
+    }
+class ErrorLogger {
+    + void log(String)
+    }
+    enum LogType {
+    +  GAME
+    +  INFO
+    +  ERROR
+    +  TEST
+    }
+    enum FileLogger {
+    +  INSTANCE
+    ~ File logFile
+    ~ <<Create>> FileLogger()
+    + void writeToFile(String)
+    }
+
+    class GameLogger {
+    + void log(String)
+    }
+    class LogHandler {
+    - ILogger gameLogger
+    - ILogger errorLogger
+    - ILogger infoLogger
+    - ILogger testLogger
+    + boolean isTestEnabled
+    + <<Create>> LogHandler(boolean)
+    + void log(String,LogType)
+    }
+ILogger <|.. ErrorLogger
+ErrorLogger --> FileLogger : writes to
+ILogger <|.. GameLogger
+LogHandler --> ErrorLogger : uses
+LogHandler --> GameLogger : uses
+LogHandler --> LogType : uses
+@enduml

@@ -336,11 +336,10 @@ IPiece --* IBoard : contains
 IBoard --* Move : makes
 IPlayer --> Move : reads
 CheckHandler --* IBoard : contains
-FieldSet "1" o-- "*" Field : contains
+FieldSet "1" --o "*" Field : contains
 IBoard "1" <--> "*" Field : uses
 Move "1" *-- "2" Field : contains
 IPiece "*" --> "*" Field : uses
-FieldSet -- IBoard : uses
 IPiece --> FieldSet : creates/uses
 
 
@@ -349,6 +348,7 @@ Game "1"--*"1" Board : contains
 Game "1"--*"2" IPlayer : contains
 Game --* Visualisation : uses to draw
 Game --* CheckHandler
+Game --* IBoard : contains
 
 CheckHandler --* BoardHelper : contains
 

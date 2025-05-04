@@ -25,47 +25,10 @@ class CheckHandler {
   - fiftyMoveRule(moveList: List<Move>): boolean
 }
 
-interface IBoard {
-  + copy(): IBoard
-  + makeMove(move: Move)
-  + getKingField(color: PieceColor): Field
+class Game{
+    testMove()
+    handleMove()
 }
-
-class BoardHelper {
-  + getAttacker(field: Field, color: PieceColor): Set<Field>
-  + getAllPiecesFromColor(color: PieceColor): Map<Field, IPiece>
-}
-
-enum PieceColor {
-  WHITE
-  BLACK
-  + getOtherColor(): PieceColor
-}
-
-class Move {
-  + piece: IPiece
-  + isCapture: boolean
-}
-
-class Field {
-  + isOccupiedByColor(color: PieceColor, board: IBoard): boolean
-}
-
-interface IPiece {
-  + getColor(): PieceColor
-  + getPieceType(): PieceType
-  + getCandidateFields(field: Field, board: IBoard): FieldSet
-}
-
-CheckHandler --> IBoard
-CheckHandler --> BoardHelper
-CheckHandler --> PieceColor
-CheckHandler --> Move
-CheckHandler --> Field
-CheckHandler --> IPiece
-
-Move --> IPiece
-Field --> IPiece
-BoardHelper --> IBoard
+Game --> CheckHandler
 
 @enduml
