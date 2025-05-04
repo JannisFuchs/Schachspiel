@@ -1,4 +1,4 @@
-package de.dhbw.schach;
+package de.dhbw.schachspiel;
 
 import de.dhbw.schachspiel.classes.Game;
 import de.dhbw.schachspiel.classes.PieceColor;

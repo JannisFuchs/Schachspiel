@@ -1,4 +1,4 @@
-package de.dhbw.schach;
+package de.dhbw.schachspiel;
 
 
 import java.io.BufferedReader;

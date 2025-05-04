@@ -1,4 +1,4 @@
-package de.dhbw.schach;
+package de.dhbw.schachspiel;
 
 import de.dhbw.schachspiel.classes.Board;
 import de.dhbw.schachspiel.classes.CheckHandler;
