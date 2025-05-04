@@ -1,0 +1,9 @@
+@startuml
+interface IPiece{
+
+  char getSymbol();
+  Color getColor();
+  PieceType getPieceType();
+  Field calculateStartField(Move move, IBoard board);
+  }
+@enduml
